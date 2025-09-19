@@ -29,9 +29,9 @@ const App = () => {
     <HelmetProvider>
       <Helmet>
         <title>Portfolio</title>
-        <link ref='canonical' href='https://jessyaw.github.io/portfolio/'></link>
+        <link ref='canonical' href='https://jessyaw.github.io/Portfolio/'></link>
       </Helmet>
-      <Router>
+      <Router basename="/Portfolio">
         <Routes>
           <Route path='/' Component={Login} />
           <Route path='/journal' Component={Journal} />
