@@ -23,17 +23,19 @@ import FigmaEmbed from './component/FigmaEmbed';
 import CanvaDesigns from './container/CanvaDesigns';
 import ProjectDetails from './container/ProjectDetails';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
+import Portfolio from './container/Portfolio';
 const App = () => {
   return (
     <HelmetProvider>
       <Helmet>
         <title>Portfolio</title>
-        <link ref='canonical' href='https://jessyangel07.github.io/journal/'></link>
+        <link ref='canonical' href='https://jessyaw.github.io/portfolio/'></link>
       </Helmet>
       <Router>
         <Routes>
           <Route path='/' Component={Login} />
           <Route path='/journal' Component={Journal} />
+          <Route path='/portfolio' Component={Portfolio} />
           <Route path='/details' Component={Details} />
           <Route path='/dashboard' Component={Dashboard} />
           <Route path='/test' Component={Test} />
