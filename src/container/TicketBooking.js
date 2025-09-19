@@ -162,7 +162,7 @@ class TicketBooking extends Component {
     fetchCheckinData = async () => {
         try {
             let list;
-            await fetch('http://localhost:3000/api/checkin')
+            await fetch('https://ticket-booking-omega-sand.vercel.app/api/checkin')
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
@@ -182,7 +182,7 @@ class TicketBooking extends Component {
     fetchManageBooking = async () => {
         try {
             let list;
-            await fetch('http://localhost:3000/api/managebookings')
+            await fetch('https://ticket-booking-omega-sand.vercel.app/api/managebookings')
                 .then(res => res.json())
                 .then(data => {
                     list = data.map(i => {
@@ -207,7 +207,7 @@ class TicketBooking extends Component {
     }
     initializeSeat = async () => {
         try {
-            await fetch('http://localhost:3000/api/test')
+            await fetch('https://ticket-booking-omega-sand.vercel.app/api/test')
                 .then(res => res.json())
                 .then(data => {
                     this.setState({
@@ -223,7 +223,7 @@ class TicketBooking extends Component {
     }
     fetchMealMenu = async () => {
         try {
-            await fetch('http://localhost:3000/api/test')
+            await fetch('https://ticket-booking-omega-sand.vercel.app/api/test')
                 .then(res => res.json())
                 .then(data => {
                     this.setState({
@@ -239,7 +239,7 @@ class TicketBooking extends Component {
     }
     fetchGender = async () => {
         try {
-            await fetch('http://localhost:3000/api/test')
+            await fetch('https://ticket-booking-omega-sand.vercel.app/api/test')
                 .then(res => res.json())
                 .then(data => {
                     this.setState({
@@ -256,7 +256,7 @@ class TicketBooking extends Component {
     fetchPassangerDetails = async () => {
         const data = [];
         try {
-            await fetch('http://localhost:3000/api/test')
+            await fetch('https://ticket-booking-omega-sand.vercel.app/api/test')
                 .then(res => res.json())
                 .then(data => {
                     let passangerData = [];
@@ -345,7 +345,7 @@ class TicketBooking extends Component {
 
     fetchFilghtData = async () => {
         try {
-            await fetch('http://localhost:3000/api/test')
+            await fetch('https://ticket-booking-omega-sand.vercel.app/api/test')
                 .then((res) => res.json())
                 .then((data) => {
 
@@ -507,7 +507,7 @@ class TicketBooking extends Component {
                     departureDate: this.state.selectedFlight.DepartureDate
                 }
 
-                let res = await fetch('http://localhost:3000/api/booking', {
+                let res = await fetch('https://ticket-booking-omega-sand.vercel.app/api/booking', {
                     method: 'POST',
                     headers: { 'Content-Type': 'Application/json' },
                     body: JSON.stringify(data)
@@ -528,7 +528,7 @@ class TicketBooking extends Component {
     fetchRecentBookingData = async () => {
         try {
 
-            await fetch('http://localhost:3000/api/booking')
+            await fetch('https://ticket-booking-omega-sand.vercel.app/api/booking')
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
@@ -944,12 +944,12 @@ class TicketBooking extends Component {
                         frequentFlyerNumber, isActive
                     }
 
-                    const res = await fetch('http://localhost:3000/api/test', {
+                    const res = await fetch('https://ticket-booking-omega-sand.vercel.app/api/test', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(passangerData)
                     })
-                    await fetch('http://localhost:3000/api/seat', {
+                    await fetch('https://ticket-booking-omega-sand.vercel.app/api/seat', {
                         method: 'POST',
                         headers: { 'Content-Type': 'Application/json' },
                         body: JSON.stringify(SeatID)
@@ -995,12 +995,12 @@ class TicketBooking extends Component {
                         SeatID, MealID, emergencyContactNumber,
                         frequentFlyerNumber, isActive
                     }
-                    await fetch('http://localhost:3000/api/test', {
+                    await fetch('https://ticket-booking-omega-sand.vercel.app/api/test', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(passangerData)
                     })
-                    await fetch('http://localhost:3000/api/seat', {
+                    await fetch('https://ticket-booking-omega-sand.vercel.app/api/seat', {
                         method: 'POST',
                         headers: { 'Content-Type': 'Application/json' },
                         body: JSON.stringify(SeatID)
@@ -1280,7 +1280,7 @@ class TicketBooking extends Component {
         // })
 
         try {
-            await fetch('http://localhost:3000/api/checkin', {
+            await fetch('https://ticket-booking-omega-sand.vercel.app/api/checkin', {
                 method: 'POST',
                 headers: { 'Content-Type': 'Application/json' },
                 body: JSON.stringify({ BID: i.BookingID })
@@ -1323,7 +1323,7 @@ class TicketBooking extends Component {
 
     handleCancel = async () => {
         try {
-            await fetch('http://localhost:3000/api/managebookings', {
+            await fetch('https://ticket-booking-omega-sand.vercel.app/api/managebookings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'Application/json' },
                 body: JSON.stringify({ BID: this.state.BID })

@@ -49,7 +49,7 @@ export default class Contact extends Component {
     }
     fetchComments = async () => {
         let first, photo, time;
-        let data = await fetch('https://localhost:7232/GetComment')
+        let data = await fetch('https://www.crm.somee.com/comment/GetComment')
             .then(data => data.json())
             .then(json => {
                 return json?.data?.map(i => {
@@ -205,7 +205,7 @@ export default class Contact extends Component {
                 Time: new Date(),
                 Photo: this.state.baseUrl
             }
-            await fetch('https://localhost:7232/AddComment', {
+            await fetch('https://www.crm.somee.com/comment/AddComment', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
