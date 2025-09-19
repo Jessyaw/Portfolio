@@ -30,7 +30,7 @@ class FigmaDesigns extends Component {
         document.body.style.backgroundColor = '';
     }
     redirectToDashboard = () => {
-        this.props.navigate('/journal')
+        this.props.navigate('/')
     }
     handleMouseOver = (id) => {
         this.setState({

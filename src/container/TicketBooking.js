@@ -426,7 +426,7 @@ class TicketBooking extends Component {
     }
 
     redirectToTaskManager = () => {
-        this.props.navigate('/dashboard');
+        this.props.navigate('/');
 
     }
 

@@ -14,7 +14,7 @@ class CanvaDesigns extends Component {
         }
     }
     handleBack = () => {
-        this.props.navigate('/journal')
+        this.props.navigate('/')
     }
     render() {
         return (

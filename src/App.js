@@ -29,13 +29,13 @@ const App = () => {
     <HelmetProvider>
       <Helmet>
         <title>Portfolio</title>
-        <link ref='canonical' href='https://jessyaw.github.io/Portfolio/'></link>
+        <link rel='canonical' href='https://jessyaw.github.io/Portfolio/'></link>
       </Helmet>
       <Router basename="/Portfolio">
         <Routes>
-          <Route path='/' Component={Login} />
+          <Route path='/' Component={Portfolio} />
+          <Route path='/login' Component={Login} />
           <Route path='/journal' Component={Journal} />
-          <Route path='/portfolio' Component={Portfolio} />
           <Route path='/details' Component={Details} />
           <Route path='/dashboard' Component={Dashboard} />
           <Route path='/test' Component={Test} />

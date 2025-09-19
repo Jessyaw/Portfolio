@@ -154,7 +154,7 @@ class Dashboard extends Component {
     }
 
     redirectToJournal = () => {
-        this.props.navigate('/journal');
+        this.props.navigate('/');
     }
     redirectToProject = (i) => {
         if (i.id == 1) {

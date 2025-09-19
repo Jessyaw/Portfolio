@@ -552,7 +552,7 @@ class TaskManager extends Component {
   }
 
   redirectToDashBoard = () => {
-    this.props.navigate('/dashboard');
+    this.props.navigate('/');
   }
 
   markdate = () => {
