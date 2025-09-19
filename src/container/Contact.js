@@ -48,26 +48,32 @@ export default class Contact extends Component {
 
     }
     fetchComments = async () => {
-        let first, photo, time;
-        let data = await fetch('https://crm-9r2i.onrender.com/comment/GetComment')
-            .then(data => data.json())
-            .then(json => {
-                return json?.data?.map(i => {
-                    if (i?.time) {
-                        time = getTime(i?.time)
-                    }
-                    if (i?.name) {
-                        first = getFirstLetter(i?.name);
-                    }
-                    if (i?.photo && i?.photo !== null) {
-                        photo = `data:image/jpeg;base64,${i?.photo}`
-                    }
-                    return { ...i, firstLetter: first, displayPhoto: photo, commentedTime: time }
+        try {
+
+
+            let first, photo, time;
+            let data = await fetch('https://crm-9r2i.onrender.com/comment/GetComment')
+                .then(data => data.json())
+                .then(json => {
+                    return json?.data?.map(i => {
+                        if (i?.time) {
+                            time = getTime(i?.time)
+                        }
+                        if (i?.name) {
+                            first = getFirstLetter(i?.name);
+                        }
+                        if (i?.photo && i?.photo !== null) {
+                            photo = `data:image/jpeg;base64,${i?.photo}`
+                        }
+                        return { ...i, firstLetter: first, displayPhoto: photo, commentedTime: time }
+                    })
                 })
+            this.setState({
+                commentSection: data?.reverse() || []
             })
-        this.setState({
-            commentSection: data?.reverse() || []
-        })
+        } catch (e) {
+
+        }
     }
     handleFileChange = (e) => {
         const file = e.target.files[0];
