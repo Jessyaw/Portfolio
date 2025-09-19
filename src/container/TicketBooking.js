@@ -1597,8 +1597,8 @@ class TicketBooking extends Component {
                                             {/* recentBooking */}
                                             <div>
                                                 <div style={{ display: 'flex', color: Color.disableColor, margin: '12px' }}>
-                                                    <div className='heading' style={{ flex: 3, color: Color.lightGrey, }} >Recent Bookings</div>
-                                                    {!this.state.seeMore && <div className='heading' style={{ flex: 1, color: Color.lightGrey }} >Seasonal Offers</div>}
+                                                    <div className='heading' style={{ flex: 3, color: Color.lightGrey, fontSize: '25px' }} >Recent Bookings</div>
+                                                    {!this.state.seeMore && <div className='heading' style={{ flex: 1, color: Color.lightGrey, fontSize: '25px' }} >Seasonal Offers</div>}
                                                 </div>
                                                 {this.state.seeMore ?
                                                     <div>
@@ -1666,7 +1666,7 @@ class TicketBooking extends Component {
                                                                     onClick={this.handleSeeMore}
                                                                     className='center'
                                                                     style={{ height: '50px', width: '50px', borderRadius: '25px', backgroundColor: Color.disableColor, cursor: 'pointer' }}>
-                                                                    <div className='heading'>{this.state.recentBookingList.length - 2}+</div>
+                                                                    <div className='heading' style={{ fontSize: '20px' }}>{this.state.recentBookingList.length - 2}+</div>
                                                                 </div>}
                                                         </div>
                                                         <div style={{ flex: 1 }}>
@@ -1681,7 +1681,7 @@ class TicketBooking extends Component {
                                                                     <div className='heading' style={{ color: Color.flightBG, fontSize: '30px' }}>World</div>
                                                                     <div style={{ display: 'flex', gap: '12px ' }}>
                                                                         <div className='heading' style={{ fontSize: '34px', color: Color.red, }}>80%</div>
-                                                                        <div className='heading' style={{ display: 'flex', alignItems: 'flex-end', color: Color.red, }}>Off</div>
+                                                                        <div className='heading' style={{ display: 'flex', alignItems: 'flex-end', color: Color.red, fontSize: '25px' }}>Off</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2096,7 +2096,7 @@ class TicketBooking extends Component {
                                                             <div>
                                                                 <div>
 
-                                                                    <div className='heading'>Passanger Details</div>
+                                                                    <div className='heading' style={{ fontSize: '25px' }}>Passanger Details</div>
                                                                     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '34px', margin: '12px 0px' }}>
 
                                                                         {this.state.passangerData?.map(i =>
