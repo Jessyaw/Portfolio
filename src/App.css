@@ -1,0 +1,640 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+body {
+  background-color: #0a0a1a;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+::selection {
+  background-color: #0c63f5cc;
+  color: white;
+}
+
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body,* {
+  font-family: 'Poppins', sans-serif !important;
+} */
+
+.input {
+  border: none;
+  outline: none;
+  background-color: #0d0131;
+  border-radius: 4px;
+  padding: 12px 25px;
+  margin: 12px 20px;
+  width: 250px;
+  height: 25px;
+  color: #fff;
+}
+
+.middle-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column; /* for small screens */
+  /* margin: 0% auto; */
+  width: 90%;
+  /* max-width: 1200px; */
+  flex: 2;
+  /* overflow-y: auto; */
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+
+  /* gap: 0.5rem; */
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+}
+
+.content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.calendar-popup {
+  position: absolute;
+  top: 0px;
+  left: 90%;
+  transform: translateX(-50%);
+  z-index: 10;
+  max-width: 100px;
+  background-color: rgb(168, 151, 151);
+  padding: 12px;
+  border-radius: 7px;
+}
+
+.calendar-menu {
+  font-size: small;
+  text-align: left;
+}
+.calendar-menu:hover {
+  background-color: rgb(246, 244, 244);
+  border-radius: 2px;
+}
+
+@media (max-width: 480px) {
+  .calendar-popup {
+    top: 79px;
+    max-width: 200px;
+    padding: 3px;
+    font-size: 7px;
+    text-align: left;
+    left: 30px;
+    font-weight: 400;
+  }
+
+  .calendar-menu {
+    background-color: rgb(168, 151, 151);
+    padding: 3px;
+    border-radius: 3px;
+  }
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .cards-container {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 768px) {
+  .middle-card {
+    flex-direction: row;
+    padding: 30px;
+  }
+}
+
+/* Desktop and larger screens */
+@media (min-width: 1024px) {
+  .middle-card {
+    width: 60%;
+  }
+}
+
+/* === Responsive Layout === */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-task-btn,
+  .back-btn {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .calendar-grid {
+    font-size: 0.8rem;
+  }
+
+  .task-item {
+    font-size: 0.9rem;
+  }
+}
+
+/* === Base Layout === */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: yellow;
+}
+
+.username {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.role {
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.back-btn {
+  background-color: black;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.add-task-btn {
+  background-color: #1a0732;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.calendar {
+  margin: 2rem 0;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.top-priorities {
+  margin-top: 2rem;
+}
+
+.task-item {
+  background-color: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  /* Stack items vertically on smaller screens */
+  .flex-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  img {
+    max-width: 80%;
+    height: auto;
+  }
+
+  /* Adjust card sizes */
+  .card {
+    width: 90%; /* Make cards take most of the width */
+    height: auto;
+  }
+
+  /* Adjust text size for readability */
+  .heading {
+    font-size: 24px;
+  }
+
+  .line {
+    height: 1px;
+    width: 96%;
+    margin: 1% 2%;
+    background-color: #0d0131;
+  }
+
+  .task-container {
+    margin: 10px;
+    flex-direction: column;
+  }
+
+  .search-input {
+    width: 100%;
+    padding-left: 40px;
+  }
+
+  .search-icon {
+    left: 20px;
+    top: 180px; /* Adjust this based on your layout */
+  }
+
+  .task-details {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-date,
+  .task-time {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .menu-tab {
+    font-size: 14px;
+  }
+}
+
+.scrollable-menu {
+  background-color: #61dafb !important;
+  border-radius: 7px;
+  margin: "2px 43px 0px 0px";
+  text-align: center;
+  width: 100%;
+  max-width: 200px;
+  overflow-y: auto;
+}
+
+.scrollable-menu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-menu::-webkit-scrollbar-track {
+  background-color: #0c63f5cc;
+  border-radius: 10px;
+}
+.scrollable-menu::-webkit-scrollbar-thumb {
+  background-color: #0c63f5cc;
+  border-radius: 10px;
+}
+
+.scrollable-menu::-webkit-scrollbar-thumb :hover {
+  background-color: #0c63f5cc;
+}
+
+.passanger-input {
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  background-color: #f6f6f6;
+  padding: 18px;
+  transition: box-shadow 0.7s;
+  width: 100%;
+  max-width: 223px;
+}
+.profile-input {
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  background-color: #3e394b;
+  padding: 18px;
+  transition: box-shadow 0.7s;
+
+  min-width: 250px;
+}
+
+.booking-input {
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  background-color: #abab9f37;
+  padding: 16px;
+}
+
+.gender-menu {
+  background-color: #fff;
+  border-radius: 12px;
+  margin: 0px 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.gender-menuOption {
+  padding: 12px 20px;
+  text-align: left;
+}
+
+.gender-menuOption:hover {
+  background-color: #abab9f37;
+  border-radius: 12px;
+}
+
+.year-menu {
+  position: absolute;
+  padding: 0px 4px;
+  border-radius: 7px;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 100%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-top: 12px;
+}
+
+.year-menu::-webkit-scrollbar {
+  width: 3px;
+}
+
+.year-menu::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 4px;
+}
+.year-menu::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.year-menuOption {
+  padding: 7px;
+}
+.year-menuOption:hover {
+  padding: 7px;
+  background-color: #abab9f37;
+  border-radius: 7px;
+}
+
+.seat-menu {
+  background-color: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 7px;
+  padding: 7px;
+}
+
+.seat-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.seat-option {
+  padding: 4px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: bold;
+}
+.seat-option:hover {
+  background-color: black;
+  border-radius: 12px;
+}
+
+.textarea {
+  resize: none;
+  overflow-y: auto;
+  height: 70px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.textarea::-webkit-scrollbar {
+  width: 3px;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 4px;
+}
+.textarea::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.field-error {
+  color: red;
+  font-size: 12px;
+}
+
+.month-menu {
+  flex: 1;
+  padding: 2px;
+  margin: 7px;
+  font-size: 12px;
+  text-align: left;
+  background-color: #fff;
+  border-radius: 7px;
+}
+.month-menu:hover {
+  background-color: #e3f2fd;
+}
+
+.dashboard-profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 25px;
+}
+
+.role-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 25px 0px;
+}
+.project-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 25px 0px;
+}
+
+.experience-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+  width: 100%;
+}
+
+.tool-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+.skills-card {
+  display: flex;
+  flex-direction: column;
+}
+.details-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.figma-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  width: 100%;
+}
+.projectlist-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 25px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .dashboard-profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 25px;
+    margin: 100px 50px 0px;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .role-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 25px;
+    max-width: 300px;
+    margin: 0px 50px;
+  }
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 25px;
+  }
+  .experience-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+
+  .tool-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 0px 50px;
+  }
+  .skills-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .details-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .figma-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .projectlist-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+  }
+}
