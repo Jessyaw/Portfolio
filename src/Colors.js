@@ -32,6 +32,17 @@ export const Color = {
     textSecondary: '#9ca3af',
     textPrimary: '#ffffff',
     hoverBG: '#02061f',
-    darkPurple: '#03021c'
+    darkPurple: '#03021c',
+
+
+    //library
+
+    libraryBG: '#FFC6AC',
+    libraryHover: '#FFF6DC',
+    libraryCard: '#C4C1A4',
+    libraryButton: '#9E9FA5',
+    libraryPrimaryText: '#1A3636',
+    librarySecondary: '#40534C',
+    libraryTheme: '#677D6A',
 
 }

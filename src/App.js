@@ -24,6 +24,8 @@ import CanvaDesigns from './container/CanvaDesigns';
 import ProjectDetails from './container/ProjectDetails';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import Portfolio from './container/Portfolio';
+import LibraryManagementSystem from './container/LibraryManagementSystem';
+import './css/Library.css';
 const App = () => {
   return (
     <HelmetProvider>
@@ -34,6 +36,7 @@ const App = () => {
       <Router basename="/Portfolio">
         <Routes>
           <Route path='/' Component={Portfolio} />
+          <Route path='/libraryManagementSystem' Component={LibraryManagementSystem} />
           <Route path='/login' Component={Login} />
           <Route path='/journal' Component={Journal} />
           <Route path='/details' Component={Details} />
