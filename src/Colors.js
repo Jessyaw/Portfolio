@@ -45,4 +45,10 @@ export const Color = {
     librarySecondary: '#40534C',
     libraryTheme: '#677D6A',
 
+    dashboard: '#ff6105',
+    book: '#13a3b5',
+    user: '#992bff',
+    borrow: '#ff3b4b',
+    chatBot: '#0ba84a',
+
 }
