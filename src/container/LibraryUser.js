@@ -43,16 +43,16 @@ export default class LibraryUser extends Component {
                 {/* <LibraryDashboard size={25} /> */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                     <div className='medium-heading'>Users</div>
-                    <button className='btn-add-book'>
+                    <button className='btn-add-book' style={{ backgroundColor: Color.user, }}>
                         <div className='center'><FaPlus size={20} /></div>
                         <div className='center'>Add User</div>
                     </button>
                 </div>
                 {this.state.isAdd &&
                     <div style={{ flex: 1, display: 'flex', gap: '12px' }}>
-                        <input style={{ backgroundColor: '#992bff55' }} className='input-booking' placeholder='Name' />
-                        <input style={{ backgroundColor: '#992bff55' }} className='input-booking' placeholder='Email' />
-                        <button className='btn-add-book'>
+                        <input className='input-booking' placeholder='Name' />
+                        <input className='input-booking' placeholder='Email' />
+                        <button className='btn-add-book' style={{ backgroundColor: Color.user, }}>
                             <div className='center'>Save</div>
                         </button>
                     </div>
@@ -62,7 +62,7 @@ export default class LibraryUser extends Component {
                         <thead style={{ backgroundColor: Color.user, position: 'sticky', top: 0, zIndex: 1 }}>
                             <tr>
                                 {this.state.row?.map(j =>
-                                    <th key={j.id} style={{ textAlign: 'center', padding: '16px 5px', borderRadius: '4px' }}>{j.header}</th>
+                                    <th key={j.id} style={{ textAlign: 'center', padding: '16px 5px', borderRadius: '4px', color: Color.whiteFont }}>{j.header}</th>
                                 )}
                             </tr>
                         </thead>

@@ -94,9 +94,9 @@ export default class LibraryBooks extends Component {
                 {/* <LibraryDashboard size={25} /> */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                     <div className='medium-heading'>Books</div>
-                    <button className='btn-add-book'>
+                    <button className='btn-add-book' style={{ backgroundColor: Color.book, }}>
                         <div className='center'><FaPlus size={20} /></div>
-                        <div className='center'>Add Book</div>
+                        <div className='center' >Add Book</div>
                     </button>
                 </div>
                 {this.state.isAdd &&
@@ -105,17 +105,17 @@ export default class LibraryBooks extends Component {
                         <input className='input-booking' placeholder='Author' />
                         <input className='input-booking' placeholder='Category' />
                         <input className='input-booking' placeholder='Number of Copies' />
-                        <button className='btn-add-book'>
+                        <button className='btn-add-book' style={{ backgroundColor: Color.book, }}>
                             <div className='center'>Save</div>
                         </button>
                     </div>
                 }
                 <div className='tbl-scroll'>
                     <table style={{ width: '100%' }}>
-                        <thead style={{ backgroundColor: Color.libraryBG, position: 'sticky', top: 0, zIndex: 1 }}>
+                        <thead style={{ backgroundColor: Color.book, position: 'sticky', top: 0, zIndex: 1 }}>
                             <tr>
                                 {this.state.row?.map(j =>
-                                    <th key={j.id} style={{ textAlign: 'center', padding: '16px 5px', borderRadius: '4px' }}>{j.header}</th>
+                                    <th key={j.id} style={{ textAlign: 'center', padding: '16px 5px', borderRadius: '4px', color: Color.whiteFont }}>{j.header}</th>
                                 )}
                             </tr>
                         </thead>
@@ -127,7 +127,7 @@ export default class LibraryBooks extends Component {
                                         <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
                                             j.field
                                                 ? i[j.field] == 'Available'
-                                                    ? <FaCheck size={25} color='#992bff' />
+                                                    ? <FaCheck size={25} color={Color.green} />
                                                     : i[j.field] == 'Not Available'
                                                         ? <CgUnavailable size={25} color='#ff3b4b' />
                                                         : i[j.field]

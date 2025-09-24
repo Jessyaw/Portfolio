@@ -36,6 +36,7 @@ export default class LibraryManagementSystem extends Component {
                 { id: 4, color: Color.borrow, iconFilled: <HiShoppingCart size={25} color='#ff3b4b' />, icon: <MdOutlineShoppingCart size={25} />, menu: 'Borrow/Return', isHover: false, isSelect: false, },
                 { id: 5, color: Color.chatBot, iconFilled: <TbMessageChatbotFilled size={25} color='#0ba84a' />, icon: <TbMessageChatbot size={25} />, menu: 'AI Assistant', isHover: false, isSelect: false, },
             ],
+            chat: 5,
         }
     }
 
@@ -43,7 +44,7 @@ export default class LibraryManagementSystem extends Component {
         this.setState({
             sideMenu: this.state.sideMenu?.map(item => {
                 return {
-                    ...item, isSelect: i.id === item.id
+                    ...item, isSelect: (i.id === item.id) || (i == item.id)
                 }
             }
             )
@@ -57,9 +58,9 @@ export default class LibraryManagementSystem extends Component {
             <div>
                 {/* Header */}
                 <div style={{}}>
-                    <div style={{ display: 'flex', position: 'fixed', right: 0, left: '255px', backgroundColor: Color.whiteFont, zIndex: 1000 }}>
+                    <div style={{ display: 'flex', position: 'fixed', right: 25, left: 25, backgroundColor: Color.whiteFont, zIndex: 1000 }}>
                         <div style={{ display: 'flex', alignItems: 'center', margin: '12px 0px', width: '100%', gap: '12px' }}>
-                            <div className='heading' style={{ display: 'flex', flex: 1, fontSize: '34px', color: Color.flightBG }}>LMS</div>
+                            <div className='heading' style={{ display: 'flex', flex: 1, fontSize: '34px', color: Color.darkPurple }}>LMS</div>
                             <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 3, }}>
                                 <div style={{ position: 'relative', width: '88%', }}>
                                     <BsSearch color={Color.grey} style={{
@@ -95,7 +96,16 @@ export default class LibraryManagementSystem extends Component {
                     {/* Main content */}
                     <div style={{ flex: 5, margin: '100px 25px 0px', boxShadow: '1px 2px 10px rgba(145, 156, 155, 0.47)', borderRadius: '16px', padding: '12px' }}>
                         {this.state.sideMenu?.map(i =>
-                            (i.isSelect && i.id == 1) ? <LibraryDashboard /> : (i.isSelect && i.id == 2) ? <LibraryBooks /> : (i.isSelect && i.id == 3) ? <LibraryUser /> : (i.isSelect && i.id == 4) ? <BorrowOrReturn /> : (i.isSelect && i.id == 5) && <ChatBot />
+                            (i.isSelect && i.id == 1)
+                                ? <LibraryDashboard openChat={() => this.selectMenu(this.state.chat)} />
+                                : (i.isSelect && i.id == 2)
+                                    ? <LibraryBooks />
+                                    : (i.isSelect && i.id == 3)
+                                        ? <LibraryUser />
+                                        : (i.isSelect && i.id == 4)
+                                            ? <BorrowOrReturn />
+                                            : (i.isSelect && i.id == 5)
+                                            && <ChatBot />
                         )}
 
 

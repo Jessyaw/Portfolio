@@ -85,7 +85,7 @@ body {
   border-radius: 7px;
   outline: none;
   padding: 16px;
-  background-color: #fff6dc;
+  background-color: #f6f6f6;
   margin: 0px 4px;
 }
 
@@ -101,11 +101,11 @@ body {
 }
 
 .tbl-scroll::-webkit-scrollbar-thumb {
-  background: #ffc6acc3;
+  background: #f6f6f6;
   border-radius: 4px;
 }
 .tbl-scroll::-webkit-scrollbar-thumb:hover {
-  background: #ffc6ac;
+  background: #03021c52;
 }
 
 /* toggle */
@@ -124,4 +124,16 @@ body {
   border-radius: 5px;
   padding: 7px;
   color: #191818;
+}
+
+/* chat */
+
+.input-chat {
+  border: none;
+  outline: none;
+  padding: 12px;
+  background-color: #f6f6f6;
+  border-radius: 16px;
+  height: 34px;
+  width: 70%;
 }
