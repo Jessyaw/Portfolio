@@ -16,11 +16,11 @@ export default class LibraryDashboard extends Component {
         this.state = {
 
             statCards: [
-                { id: 1, icon: <BiSolidBookAlt size={20} />, card: 'Total Books', count: 12, isHover: false },
-                { id: 2, icon: <FaUser size={20} />, card: 'Total Members', count: 12, isHover: false },
-                { id: 3, icon: <FaBook size={20} />, card: 'Books Borrowed Today', count: 12, isHover: false },
-                { id: 4, icon: <MdAssignmentReturn size={20} />, card: 'Books Returned Today', count: 12, isHover: false },
-                { id: 5, icon: <MdOutlineAccessTimeFilled size={20} />, card: 'Overdue Books', count: 12, isHover: false },
+                { id: 1, key: 'totalBooks', icon: <BiSolidBookAlt size={20} />, card: 'Total Books', count: 12, isHover: false },
+                { id: 2, key: 'totalMembers', icon: <FaUser size={20} />, card: 'Total Members', count: 12, isHover: false },
+                { id: 3, key: 'booksBorrowedToday', icon: <FaBook size={20} />, card: 'Books Borrowed Today', count: 12, isHover: false },
+                { id: 4, key: 'booksReturnedToday', icon: <MdAssignmentReturn size={20} />, card: 'Books Returned Today', count: 12, isHover: false },
+                { id: 5, key: 'overdueBooks', icon: <MdOutlineAccessTimeFilled size={20} />, card: 'Overdue Books', count: 12, isHover: false },
             ],
 
             commonQS: [
@@ -34,12 +34,7 @@ export default class LibraryDashboard extends Component {
             ],
 
             recentlyAdded: [
-                { id: 1, title: "Rahul Sharma", author: "rahul.sharma@example.com", category: 3 },
-                { id: 2, title: "Priya Nair", author: "priya.nair@example.com", category: 1 },
-                { id: 3, title: "Amit Verma", author: "amit.verma@example.com", category: 0 },
-                { id: 4, title: "Sneha Gupta", author: "sneha.gupta@example.com", category: 2 },
-                { id: 5, title: "Karthik R", author: "karthik.r@example.com", category: 4 },
-                { id: 6, title: "Ananya Singh", author: "ananya.singh@example.com", category: 1 },
+
             ],
 
             recentlyAddedRow: [
@@ -50,12 +45,7 @@ export default class LibraryDashboard extends Component {
 
             ],
             recentlyReturned: [
-                { id: 1, memberName: "Rahul Sharma", title: "rahul.sharma@example.com", returnedDate: 3 },
-                { id: 2, memberName: "Priya Nair", title: "priya.nair@example.com", returnedDate: 1 },
-                { id: 3, memberName: "Amit Verma", title: "amit.verma@example.com", returnedDate: 0 },
-                { id: 4, memberName: "Sneha Gupta", title: "sneha.gupta@example.com", returnedDate: 2 },
-                { id: 5, memberName: "Karthik R", title: "karthik.r@example.com", returnedDate: 4 },
-                { id: 6, memberName: "Ananya Singh", title: "ananya.singh@example.com", returnedDate: 1 },
+
             ],
 
             recentlyReturnedRow: [
@@ -66,12 +56,7 @@ export default class LibraryDashboard extends Component {
 
             ],
             overdued: [
-                { id: 1, memberName: "Rahul Sharma", title: "rahul.sharma@example.com", dueDate: 3 },
-                { id: 2, memberName: "Priya Nair", title: "priya.nair@example.com", dueDate: 1 },
-                { id: 3, memberName: "Amit Verma", title: "amit.verma@example.com", dueDate: 0 },
-                { id: 4, memberName: "Sneha Gupta", title: "sneha.gupta@example.com", dueDate: 2 },
-                { id: 5, memberName: "Karthik R", title: "karthik.r@example.com", dueDate: 4 },
-                { id: 6, memberName: "Ananya Singh", title: "ananya.singh@example.com", dueDate: 1 },
+
             ],
 
             overduedRow: [
@@ -81,6 +66,64 @@ export default class LibraryDashboard extends Component {
 
 
             ],
+        }
+    }
+
+    componentDidMount() {
+        this.fetchStatData();
+        this.fetchRecentlyBorrowed();
+        this.fetchRecentlyReturned();
+        this.fetchOverdue();
+    }
+
+    fetchStatData = async () => {
+        try {
+            await fetch('https://localhost:7232/GetStatData').then(res => res.json()).then(json => {
+                console.log(json.data[0]);
+                let stat = json.data[0];
+                this.setState(prevState => ({
+                    statCards: prevState.statCards?.map(i => ({
+                        ...i,
+                        count: stat[i.key] ?? stat.count
+                    }))
+                }))
+            })
+        } catch (e) {
+
+        }
+    }
+    fetchRecentlyBorrowed = async () => {
+        try {
+            await fetch('https://localhost:7232/GetRecentlyBorrowedData').then(res => res.json()).then(json => {
+                console.log(json.data);
+                this.setState({
+                    recentlyAdded: json.data
+                })
+            })
+        } catch (e) {
+
+        }
+    }
+    fetchRecentlyReturned = async () => {
+        try {
+            await fetch('https://localhost:7232/GetRecentlyReturnData').then(res => res.json()).then(json => {
+                this.setState({
+                    recentlyReturned: json.data
+                })
+            })
+        } catch (e) {
+
+        }
+    }
+    fetchOverdue = async () => {
+        try {
+            await fetch('https://localhost:7232/GetOverdueData').then(res => res.json()).then(json => {
+                this.setState({
+                    overdued: json.data
+                })
+            })
+        } catch (e) {
+
         }
     }
 
@@ -139,15 +182,19 @@ export default class LibraryDashboard extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.recentlyAdded?.slice(0, 3).map(i =>
-                                        <tr key={i.id}>
-                                            {this.state.recentlyAddedRow?.map(j =>
-                                                <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
-                                                    i[j.field]
-                                                }</td>
-                                            )}
-                                        </tr>
-                                    )}
+                                    {this.state.recentlyAdded.length > 0 ?
+                                        this.state.recentlyAdded?.slice(0, 3).map(i =>
+                                            <tr key={i.id}>
+                                                {this.state.recentlyAddedRow?.map(j =>
+                                                    <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
+                                                        i[j.field]
+                                                    }</td>
+                                                )}
+                                            </tr>
+                                        )
+                                        :
+                                        <tr>No data</tr>
+                                    }
                                 </tbody>
                             </table>}
                             {i.isOpen && i.id == 2 && < table style={{ width: '100%' }}>
@@ -159,15 +206,19 @@ export default class LibraryDashboard extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.recentlyReturned?.slice(0, 3).map(i =>
-                                        <tr key={i.id}>
-                                            {this.state.recentlyReturnedRow?.map(j =>
-                                                <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
-                                                    i[j.field]
-                                                }</td>
-                                            )}
-                                        </tr>
-                                    )}
+                                    {
+                                        this.state.recentlyReturned.length > 0 ?
+                                            this.state.recentlyReturned?.slice(0, 3).map(i =>
+                                                <tr key={i.id}>
+                                                    {this.state.recentlyReturnedRow?.map(j =>
+                                                        <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
+                                                            i[j.field]
+                                                        }</td>
+                                                    )}
+                                                </tr>
+                                            )
+                                            : <tr>No data</tr>
+                                    }
                                 </tbody>
                             </table>}
                             {i.isOpen && i.id == 3 && < table style={{ width: '100%' }}>
@@ -179,15 +230,18 @@ export default class LibraryDashboard extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.overdued?.slice(0, 3).map(i =>
-                                        <tr key={i.id}>
-                                            {this.state.overduedRow?.map(j =>
-                                                <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
-                                                    i[j.field]
-                                                }</td>
-                                            )}
-                                        </tr>
-                                    )}
+                                    {this.state.overdued.length > 0 ?
+                                        this.state.overdued?.slice(0, 3).map(i =>
+                                            <tr key={i.id}>
+                                                {this.state.overduedRow?.map(j =>
+                                                    <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
+                                                        i[j.field]
+                                                    }</td>
+                                                )}
+                                            </tr>
+                                        ) :
+                                        <tr>no data</tr>
+                                    }
                                 </tbody>
                             </table>}
                         </div>

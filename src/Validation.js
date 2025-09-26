@@ -42,6 +42,15 @@ export const emailValidation = (val) => {
         return false;
     }
 }
+export const userNameValidation = (val) => {
+    let regEx = /^[a-z0-9._]+$/i
+    if (regEx.test(val)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 export const mobileValidation = (val) => {//
     let regEx = /^[6-9][0-9]{9}$/

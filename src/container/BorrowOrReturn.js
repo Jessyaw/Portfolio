@@ -8,6 +8,9 @@ import { BsSearch } from 'react-icons/bs'
 import Profile from '../../src/component/Profile'
 import { CgUnavailable } from 'react-icons/cg';
 import { FaCheck } from 'react-icons/fa';
+import { data } from 'react-router-dom';
+import CustomDropdown from '../component/CustomDropdown';
+import { handleOnKeyNumber } from '../Validation';
 
 
 
@@ -17,40 +20,26 @@ export default class BorrowOrReturn extends Component {
         this.state = {
 
 
-            borrow: [
-                { id: 1, title: 'Dove', borrowedDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Rahul Sharma", },
-                { id: 2, title: 'Dove', borrowedDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Priya Nair", },
-                { id: 3, title: 'Dove', borrowedDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Amit Verma", },
-                { id: 4, title: 'Dove', borrowedDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Sneha Gupta", },
-                { id: 5, title: 'Dove', borrowedDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Karthik R", },
-                { id: 6, title: 'Dove', borrowedDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Ananya Singh", },
-            ],
+            borrow: [],
 
             borrowRow: [
-                { id: 1, field: 'memeberName', header: 'Memeber name' },
+                { id: 1, field: 'memberName', header: 'Memeber name' },
                 { id: 2, field: 'title', header: 'Title' },
-                { id: 3, field: 'quantity', header: 'Quantity' },
+                { id: 3, field: 'bookQuantity', header: 'Quantity' },
                 { id: 4, field: 'borrowedDate', header: 'Borrowed Date' },
                 { id: 5, field: 'dueDate', header: 'Due date' },
-                { id: 6, field: 'status', header: 'status' },
+                { id: 6, field: 'bookStatus', header: 'status' },
             ],
-            return: [
-                { id: 1, title: 'Dove', borrowedDate: '24-Sep-2025', returnDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Rahul Sharma", },
-                { id: 2, title: 'Dove', borrowedDate: '24-Sep-2025', returnDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Priya Nair", },
-                { id: 3, title: 'Dove', borrowedDate: '24-Sep-2025', returnDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Amit Verma", },
-                { id: 4, title: 'Dove', borrowedDate: '24-Sep-2025', returnDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Sneha Gupta", },
-                { id: 5, title: 'Dove', borrowedDate: '24-Sep-2025', returnDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Karthik R", },
-                { id: 6, title: 'Dove', borrowedDate: '24-Sep-2025', returnDate: '24-Sep-2025', dueDate: '24-Sep-2025', quantity: 1, status: 'Borrowed', memeberName: "Ananya Singh", },
-            ],
+            return: [],
 
             returnRow: [
-                { id: 1, field: 'memeberName', header: 'Memeber name' },
+                { id: 1, field: 'memberName', header: 'Memeber name' },
                 { id: 2, field: 'title', header: 'Title' },
-                { id: 3, field: 'quantity', header: 'Quantity' },
+                { id: 3, field: 'bookQuantity', header: 'Quantity' },
                 { id: 4, field: 'borrowedDate', header: 'Borrowed Date' },
                 { id: 5, field: 'dueDate', header: 'Due date' },
                 { id: 5, field: 'returnDate', header: 'Return date' },
-                { id: 6, field: 'status', header: 'status' },
+                { id: 6, field: 'bookStatus', header: 'status' },
 
 
             ],
@@ -58,6 +47,193 @@ export default class BorrowOrReturn extends Component {
             isBorrow: true,
             isReturn: false,
 
+            userData: [],
+            user: null,
+            userError: null,
+            userID: null,
+            books: [],
+            book: null,
+            bookError: null,
+            bookID: null,
+            isOpenUserMenu: false,
+            isOpenBookMenu: false,
+            quantity: null,
+            quantityError: null,
+
+        }
+    }
+    componentDidMount() {
+        this.fetchBorrowData();
+        this.fetchReturnData();
+        this.fetchUser();
+        this.fetchBook();
+    }
+    fetchBook = async () => {
+        try {
+            await fetch('https://localhost:7232/GetBookData').then(res => res.json()).then(json => {
+                this.setState({
+                    books: json.data
+                })
+            })
+        } catch (e) {
+
+        }
+    }
+    fetchUser = async () => {
+        try {
+            await fetch('https://localhost:7232/GetMemberData').then(res => res.json()).then(json => {
+                this.setState({
+                    userData: json.data
+                })
+            })
+        } catch (e) {
+
+        }
+    }
+    fetchBorrowData = async () => {
+        try {
+            await fetch('https://localhost:7232/GetBorrowedData').then(res => res.json()).then(json => {
+                this.setState({
+                    borrow: json.data
+                })
+            })
+        } catch (e) {
+
+        }
+    }
+    fetchReturnData = async () => {
+        try {
+            await fetch('https://localhost:7232/GetReturnData').then(res => res.json()).then(json => {
+                this.setState({
+                    return: json.data
+                })
+            })
+        } catch (e) {
+
+        }
+    }
+    handleUsername = () => {
+        this.setState({
+            isOpenUserMenu: this.state.isOpenUserMenu ? false : true,
+            userError: '',
+
+        })
+    }
+    handleBook = () => {
+        this.setState({
+            isOpenBookMenu: this.state.isOpenBookMenu ? false : true,
+            bookError: '',
+
+        })
+    }
+    handleQuentity = (e) => {
+        this.setState({
+            quantity: e.target.value,
+            quantityError: '',
+        })
+    }
+    handleSelectUser = (i) => {
+        this.setState({
+            user: i.memberName,
+            userID: i.ID,
+            userError: '',
+            isOpenUserMenu: false,
+        })
+    }
+    handleSelectBook = (i) => {
+        this.setState({
+            book: i.title,
+            bookID: i.ID,
+            bookError: '',
+            isOpenBookMenu: false,
+        })
+    }
+
+    handleSave = async () => {
+        let isValid = false;
+        if (this.state.user) {
+            this.setState({
+                userError: '',
+            })
+            isValid = true;
+        }
+        else {
+            this.setState({
+                userError: 'Field should not be empty',
+            })
+            isValid = false;
+        }
+        if (this.state.book) {
+            this.setState({
+                bookError: '',
+            })
+            isValid = true;
+        }
+        else {
+            this.setState({
+                bookError: '',
+            })
+            isValid = true;
+        }
+        if (this.state.quantity) {
+            if (this.state.quantity <= 1000) {
+                this.setState({
+                    quantityError: '',
+                })
+                isValid = true;
+            }
+            else {
+                this.setState({
+                    quantityError: 'Reduce the quentity of book',
+                })
+                isValid = false;
+            }
+        }
+        else {
+            this.setState({
+                quantityError: 'Field should not be empty',
+            })
+            isValid = false;
+        }
+        if (isValid) {
+            if (this.state.isBorrow) {
+                let data = {
+                    userID: this.state.userID,
+                    bookID: this.state.bookID,
+                    bookQuantity: this.state.quantity,
+                    borrowedDate: "2025-09-25",
+                    dueDate: "2025-09-25",
+                    returnDate: "",
+                }
+                await fetch('https://localhost:7232/AddUpdateBorrowReturnDetails', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'Application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(res => res.json()).then(json => {
+
+                })
+            }
+            else {
+                let data = {
+                    userID: this.state.userID,
+                    bookID: this.state.bookID,
+                    bookQuantity: this.state.quantity,
+                    borrowedDate: "",
+                    dueDate: "2025-09-25",
+                    returnDate: "2025-09-25",
+                }
+                await fetch('https://localhost:7232/AddUpdateBorrowReturnDetails', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'Application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(res => res.json()).then(json => {
+
+                })
+            }
         }
     }
     render() {
@@ -86,10 +262,33 @@ export default class BorrowOrReturn extends Component {
                 {this.state.isAdd &&
                     <div style={{ flex: 1, display: 'flex', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', gap: '12px' }}>
-                            <input className='input-booking' placeholder='Name' />
-                            <input className='input-booking' placeholder='Book Title' />
-                            <input className='input-booking' placeholder='Quentity' />
-                            <button className='btn-add-book' style={{ backgroundColor: Color.borrow }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', position: 'relative' }}>
+                                <input value={this.state.user} onClick={this.handleUsername} style={{ border: this.state.userError ? '1px solid red' : '' }} className='input-booking' placeholder='Member' />
+                                {this.state.userError && <span className='span-err'>{this.state.userError}</span>}
+                                {this.state.isOpenUserMenu &&
+                                    <div style={{ position: 'absolute', top: '52px', zIndex: 1000 }}>
+                                        <CustomDropdown
+                                            option={this.state.userData}
+                                            onSelect={(i) => this.handleSelectUser(i)}
+                                        />
+                                    </div>}
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', position: 'relative' }}>
+                                <input value={this.state.book} onClick={this.handleBook} style={{ border: this.state.bookError ? '1px solid red' : '' }} className='input-booking' placeholder='Book Title' />
+                                {this.state.bookError && <span className='span-err'>{this.state.bookError}</span>}
+                                {this.state.isOpenBookMenu &&
+                                    <div style={{ position: 'absolute', top: '52px', zIndex: 1000 }}>
+                                        <CustomDropdown
+                                            option={this.state.books}
+                                            onSelect={(i) => this.handleSelectBook(i)}
+                                        />
+                                    </div>}
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                                <input value={this.state.quantity} onKeyDown={handleOnKeyNumber} onChange={this.handleQuentity} style={{ border: this.state.quantityError ? '1px solid red' : '' }} className='input-booking' placeholder='Number of Copies' />
+                                {this.state.quantityError && <span className='span-err'>{this.state.quantityError}</span>}
+                            </div>
+                            <button className='btn-add-book' style={{ backgroundColor: Color.borrow }} onClick={this.handleSave}>
                                 <div className='center' >{this.state.isBorrow ? 'Borrow' : 'Return'}</div>
                             </button>
                         </div>
