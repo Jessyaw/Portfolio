@@ -771,6 +771,7 @@ class TaskManager extends Component {
             item={this.state.itemToBedelete}
             onDelete={(v, id) => { this.deleteTask(v, id) }}
             ID={this.state.deleteID}
+            message={'Do you want delete this task?'}
           />
         </div>}
 

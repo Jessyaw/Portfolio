@@ -272,7 +272,7 @@ class Project extends Component {
                                 <div className='design-cards' style={{ gap: '12px' }}>
 
                                     {this.state.isFigma && this.state.figma?.map(i =>
-                                        <div className='col project-list-card' style={{ gap: '12px' }}>
+                                        <div className='col project-list-card' style={{ gap: '12px', justifyContent: 'space-between' }}>
                                             <div className='center'><img src={i.src} width={'100%'} style={{ borderRadius: '7px' }} /></div>
                                             <div className='row' style={{ justifyContent: 'space-between' }}>
                                                 <div className='row' style={{ gap: '7px', cursor: 'pointer' }}>

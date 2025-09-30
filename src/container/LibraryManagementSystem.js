@@ -24,6 +24,8 @@ import LibraryUser from './LibraryUser';
 import BorrowOrReturn from './BorrowOrReturn';
 import LibraryDashboard from './LibraryDashboard';
 import ChatBot from './ChatBot';
+import { PiHamburgerFill } from 'react-icons/pi';
+import { PiHamburgerLight } from 'react-icons/pi';
 
 export default class LibraryManagementSystem extends Component {
     constructor(props) {
@@ -37,6 +39,8 @@ export default class LibraryManagementSystem extends Component {
                 { id: 5, color: Color.chatBot, iconFilled: <TbMessageChatbotFilled size={25} color='#0ba84a' />, icon: <TbMessageChatbot size={25} />, menu: 'AI Assistant', isHover: false, isSelect: false, },
             ],
             chat: 5,
+            isOpenSideBar: false,
+            screenWidth: window.innerWidth,
         }
     }
 
@@ -44,23 +48,42 @@ export default class LibraryManagementSystem extends Component {
         this.setState({
             sideMenu: this.state.sideMenu?.map(item => {
                 return {
-                    ...item, isSelect: (i.id === item.id) || (i == item.id)
+                    ...item, isSelect: (typeof i === 'object' ? i.id : i) === item.id
+
                 }
             }
-            )
+            ),
+            isOpenSideBar: false,
+        })
+    }
+    openSideBar = () => {
+        this.setState({
+            isOpenSideBar: this.state.isOpenSideBar ? false : true,
         })
     }
 
-    render() {
+    componentDidMount() {
+        this.updateWindowDimensions();
 
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+    updateWindowDimensions = () => {
+        this.setState({ screenWidth: window.innerWidth });
+    }
+
+    render() {
+        console.log(window.innerWidth);
         return (
 
             <div>
                 {/* Header */}
                 <div style={{}}>
-                    <div style={{ display: 'flex', position: 'fixed', right: 25, left: 25, backgroundColor: Color.whiteFont, zIndex: 1000 }}>
+                    <div style={{ display: 'flex', position: 'fixed', right: 25, left: 250, backgroundColor: Color.whiteFont, zIndex: 1000 }}>
                         <div style={{ display: 'flex', alignItems: 'center', margin: '12px 0px', width: '100%', gap: '12px' }}>
-                            <div className='heading' style={{ display: 'flex', flex: 1, fontSize: '34px', color: Color.darkPurple }}>LMS</div>
+                            <div className='heading' onClick={this.openSideBar} style={{ display: 'flex', flex: 1, fontSize: '34px', color: Color.darkPurple }}>LMS</div>
                             <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 3, }}>
                                 <div style={{ position: 'relative', width: '88%', }}>
                                     <BsSearch color={Color.grey} style={{
@@ -80,18 +103,45 @@ export default class LibraryManagementSystem extends Component {
                         </div>
                     </div>
                 </div>
+                {this.state.screenWidth <= 892 &&
+                    <div
+                        onClick={() => this.setState({ isOpenSideBar: !this.state.isOpenSideBar })}
+                        style={{
+                            position: 'fixed',
+                            top: 10,
+                            left: 10,
+                            zIndex: 200,
+                            cursor: 'pointer',
+                            color: 'white',
+                            padding: '8px',
+                            borderRadius: '5px',
+                        }}
+                    >
+                        <div className='side-menu-icon' style={{}}>
+                            {this.state.isOpenSideBar ? <PiHamburgerFill color={Color.darkPurple} size={25} /> : <PiHamburgerLight color={Color.darkPurple} size={25} />}
+                        </div>
+                    </div>}
+
+
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     {/* Side bar */}
-                    <div style={{ flex: 1 }}>
-                        <div className='side-menu-container'>
+                    {(this.state.screenWidth > 892 || this.state.isOpenSideBar) && <div >
+                        <div className='side-menu-container' style={{
+                            flex: this.state.screenWidth > 892 ? 1 : 'none',
+                            position: this.state.screenWidth <= 892 ? 'fixed' : 'relative',
+                            top: 0,
+                            left: 0,
+                            height: this.state.screenWidth <= 892 ? '100vh' : 'auto',
+                            zIndex: 1000,
+                        }}>
                             {this.state.sideMenu?.map(i =>
-                                <div className='side-menu-items' onClick={() => this.selectMenu(i)}>
+                                <div key={i.id} className='side-menu-items' onClick={() => this.selectMenu(i)}>
                                     <div className={`center ${i.isSelect ? 'side-menu-icon' : ''}`} style={{ padding: '5px' }}>{i.isSelect ? i.iconFilled : i.icon}</div>
                                     <div className='center' style={{ color: i.isSelect ? i.color : Color.libraryPrimaryText }}>{i.menu}</div>
                                 </div>
                             )}
                         </div>
-                    </div>
+                    </div>}
 
                     {/* Main content */}
                     <div style={{ flex: 5, margin: '100px 25px 0px', boxShadow: '1px 2px 10px rgba(145, 156, 155, 0.47)', borderRadius: '16px', padding: '12px' }}>

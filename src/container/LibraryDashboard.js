@@ -8,6 +8,7 @@ import { FaBook } from "react-icons/fa";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { BiSolidBookAlt } from 'react-icons/bi';
 import { TbMessageChatbotFilled } from 'react-icons/tb';
+import { TableSkeleton } from '../component/TableSkeleton';
 
 
 export default class LibraryDashboard extends Component {
@@ -66,6 +67,7 @@ export default class LibraryDashboard extends Component {
 
 
             ],
+            isLoading: true,
         }
     }
 
@@ -77,6 +79,7 @@ export default class LibraryDashboard extends Component {
     }
 
     fetchStatData = async () => {
+        this.setState({ isLoading: true, })
         try {
             await fetch('https://localhost:7232/GetStatData').then(res => res.json()).then(json => {
                 console.log(json.data[0]);
@@ -90,6 +93,8 @@ export default class LibraryDashboard extends Component {
             })
         } catch (e) {
 
+        } finally {
+            this.setState({ isLoading: false })
         }
     }
     fetchRecentlyBorrowed = async () => {
@@ -102,6 +107,8 @@ export default class LibraryDashboard extends Component {
             })
         } catch (e) {
 
+        } finally {
+            this.setState({ isLoading: false })
         }
     }
     fetchRecentlyReturned = async () => {
@@ -113,6 +120,8 @@ export default class LibraryDashboard extends Component {
             })
         } catch (e) {
 
+        } finally {
+            this.setState({ isLoading: false })
         }
     }
     fetchOverdue = async () => {
@@ -181,12 +190,12 @@ export default class LibraryDashboard extends Component {
                                         )}
                                     </tr>
                                 </thead>
-                                <tbody>
+                                {this.state.isLoading ? (<TableSkeleton rows={3} cols={this.state.recentlyAddedRow?.length} />) : (<tbody>
                                     {this.state.recentlyAdded.length > 0 ?
                                         this.state.recentlyAdded?.slice(0, 3).map(i =>
                                             <tr key={i.id}>
                                                 {this.state.recentlyAddedRow?.map(j =>
-                                                    <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
+                                                    <td data-label={j.header} key={j.id}>{
                                                         i[j.field]
                                                     }</td>
                                                 )}
@@ -195,7 +204,7 @@ export default class LibraryDashboard extends Component {
                                         :
                                         <tr>No data</tr>
                                     }
-                                </tbody>
+                                </tbody>)}
                             </table>}
                             {i.isOpen && i.id == 2 && < table style={{ width: '100%' }}>
                                 <thead style={{ backgroundColor: Color.darkPurple, position: 'sticky', top: 0, zIndex: 1 }}>
@@ -205,13 +214,13 @@ export default class LibraryDashboard extends Component {
                                         )}
                                     </tr>
                                 </thead>
-                                <tbody>
+                                {this.state.isLoading ? (<TableSkeleton rows={3} cols={this.state.recentlyReturnedRow?.length} />) : (<tbody>
                                     {
                                         this.state.recentlyReturned.length > 0 ?
                                             this.state.recentlyReturned?.slice(0, 3).map(i =>
                                                 <tr key={i.id}>
                                                     {this.state.recentlyReturnedRow?.map(j =>
-                                                        <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
+                                                        <td data-label={j.header} key={j.id}>{
                                                             i[j.field]
                                                         }</td>
                                                     )}
@@ -219,7 +228,7 @@ export default class LibraryDashboard extends Component {
                                             )
                                             : <tr>No data</tr>
                                     }
-                                </tbody>
+                                </tbody>)}
                             </table>}
                             {i.isOpen && i.id == 3 && < table style={{ width: '100%' }}>
                                 <thead style={{ backgroundColor: Color.darkPurple, position: 'sticky', top: 0, zIndex: 1 }}>
@@ -229,12 +238,12 @@ export default class LibraryDashboard extends Component {
                                         )}
                                     </tr>
                                 </thead>
-                                <tbody>
+                                {this.state.isLoading ? (<TableSkeleton rows={3} cols={this.state.overduedRow?.length} />) : (<tbody>
                                     {this.state.overdued.length > 0 ?
                                         this.state.overdued?.slice(0, 3).map(i =>
                                             <tr key={i.id}>
                                                 {this.state.overduedRow?.map(j =>
-                                                    <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
+                                                    <td data-label={j.header} key={j.id}>{
                                                         i[j.field]
                                                     }</td>
                                                 )}
@@ -242,7 +251,7 @@ export default class LibraryDashboard extends Component {
                                         ) :
                                         <tr>no data</tr>
                                     }
-                                </tbody>
+                                </tbody>)}
                             </table>}
                         </div>
 
@@ -251,8 +260,8 @@ export default class LibraryDashboard extends Component {
 
 
                 {/* chat bot */}
-                <div onClick={this.props.openChat} style={{ display: 'flex', justifyContent: 'space-between', cursor: 'pointer' }}>
-                    <div style={{ display: 'flex', gap: '12px' }}>
+                <div onClick={this.props.openChat} className='chat-query'>
+                    <div className='chat-query'>
                         {this.state.commonQS?.map(i =>
                             <div style={{ backgroundColor: Color.dashboard, padding: '10px', borderRadius: '12px', color: Color.whiteFont, fontSize: '0.9rem', fontWeight: '500' }}>{i.qs}</div>
                         )}

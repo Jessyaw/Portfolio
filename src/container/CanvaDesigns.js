@@ -16,6 +16,13 @@ class CanvaDesigns extends Component {
     handleBack = () => {
         this.props.navigate('/')
     }
+
+    componentDidMount() {
+        document.body.style.background = 'linear-gradient(70deg, #111827, #030346)';
+    }
+    componentWillUnmount() {
+        document.body.style.background = "";
+    }
     render() {
         return (
             <div style={{}}>

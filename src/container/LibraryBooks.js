@@ -8,7 +8,9 @@ import { CgUnavailable } from 'react-icons/cg';
 import { FaCheck } from 'react-icons/fa';
 import { handleOnKeyAlpha, handleOnKeyNumber } from '../Validation';
 import { SiTruenas } from 'react-icons/si';
-
+import DeletePopup from '../component/DeletePopup';
+import Toaster from '../component/Toaster';
+import { TableSkeleton } from '../component/TableSkeleton';
 
 
 export default class LibraryBooks extends Component {
@@ -37,6 +39,13 @@ export default class LibraryBooks extends Component {
             isOpenCategory: false,
             categoryID: null,
             isUpdate: false,
+            isDelete: false,
+            itemToBedelete: '',
+            deleteID: null,
+            successMessage: '',
+            failureMessage: '',
+            isLoading: true,
+
         }
     }
 
@@ -45,6 +54,7 @@ export default class LibraryBooks extends Component {
         this.fetchCategory();
     }
     fetchBook = async () => {
+        this.setState({ isLoading: true, })
         try {
             await fetch('https://localhost:7232/GetBookData').then(res => res.json()).then(json => {
                 this.setState({
@@ -53,6 +63,9 @@ export default class LibraryBooks extends Component {
             })
         } catch (e) {
 
+        }
+        finally {
+            this.setState({ isLoading: false, })
         }
     }
     fetchCategory = async () => {
@@ -163,6 +176,7 @@ export default class LibraryBooks extends Component {
         }
 
         if (isValid) {
+            this.setState({ isLoading: true, })
             let data = {
                 title: this.state.title,
                 author: this.state.author,
@@ -184,6 +198,16 @@ export default class LibraryBooks extends Component {
                 body: JSON.stringify(data)
             }).then(res => res.json()).then(json => {
                 console.log(json.message);
+                if (json.status == 'S') {
+                    this.setState({
+                        successMessage: json.message
+                    })
+                }
+                else {
+                    this.setState({
+                        failureMessage: json.message
+                    })
+                }
             })
             this.setState({
                 isAdd: false
@@ -206,14 +230,56 @@ export default class LibraryBooks extends Component {
     }
     deleteBook = async (i) => {
         this.setState({
-            title: i.title,
-            author: i.author,
-            categoryID: i.categoryID,
-            quantity: i.copiesAvailable,
-            bookCategory: i.category,
-            isAdd: true
+            isDelete: true,
+            itemToBedelete: i.title,
+            deleteID: i.id,
         })
+    }
 
+    closeMenu = () => {
+        this.setState({
+            isDelete: false,
+            itemToBedelete: '',
+            deleteID: '',
+        })
+    }
+    deleteTask = async (i) => {
+
+        let deleteID = {
+            id: this.state.deleteID
+        }
+        try {
+            await fetch('https://localhost:7232/DeleteBook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(deleteID)
+            }).then(res => res.json()).then(json => {
+
+                if (json.status == 'S') {
+                    console.log(json.status, json.message)
+                    this.setState({
+                        successMessage: json.message
+                    })
+                    setTimeout(() => this.setState({ successMessage: '' }), 3000);
+                }
+                else {
+                    console.log(json.status, json.message)
+                    this.setState({
+                        failureMessage: json.message
+                    })
+                    setTimeout(() => this.setState({ failureMessage: '' }), 3000);
+                }
+
+                this.setState({
+                    isDelete: false,
+                })
+                this.fetchBook();
+            })
+        } catch (e) {
+
+        }
     }
     render() {
         return (
@@ -230,8 +296,27 @@ export default class LibraryBooks extends Component {
                         <div className='center' >Add Book</div>
                     </button>}
                 </div>
+                {(this.state.successMessage && this.state.successMessage !== '') ||
+                    (this.state.failureMessage && this.state.failureMessage !== '') ? (
+                    <div style={{ display: 'flex', position: 'fixed', bottom: 0, right: 0 }}>
+                        <Toaster
+                            fail={this.state.failureMessage}
+                            success={this.state.successMessage}
+                        />
+                    </div>
+                ) : null}
+
+                {this.state.isDelete && <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', zIndex: 100 }}>
+                    <DeletePopup
+                        onClose={this.closeMenu}
+                        item={this.state.itemToBedelete}
+                        onDelete={(v, id) => { this.deleteTask(v, id) }}
+                        ID={this.state.deleteID}
+                        message={'Do you want delete this Book?'}
+                    />
+                </div>}
                 {this.state.isAdd &&
-                    <div style={{ flex: 1, display: 'flex', gap: '12px' }}>
+                    <div className='input-container'>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
                             <input maxLength={50} value={this.state.title} onChange={this.handleTitle} style={{ border: this.state.titleError ? '1px solid red' : '' }} className='input-booking' placeholder='Title' />
                             {this.state.titleError && <span className='span-err'>{this.state.titleError}</span>}
@@ -255,8 +340,8 @@ export default class LibraryBooks extends Component {
                             <input value={this.state.quantity} onKeyDown={handleOnKeyNumber} onChange={this.handleQuentity} style={{ border: this.state.quantityError ? '1px solid red' : '' }} className='input-booking' placeholder='Number of Copies' />
                             {this.state.quantityError && <span className='span-err'>{this.state.quantityError}</span>}
                         </div>
-                        <button className='btn-add-book' onClick={this.handleSave} style={{ backgroundColor: Color.book, height: '49px' }}>
-                            <div className='center'>Save</div>
+                        <button className='btn-add-book center' onClick={this.handleSave} style={{ backgroundColor: Color.book, height: '49px' }}>
+                            <div>Save</div>
                         </button>
                     </div>
                 }
@@ -269,12 +354,12 @@ export default class LibraryBooks extends Component {
                                 )}
                             </tr>
                         </thead>
-                        <tbody>
+                        {this.state.isLoading ? (<TableSkeleton rows={5} cols={this.state.row?.length} />) : (<tbody>
 
                             {this.state.bookDetails?.map(i =>
                                 <tr key={i.id}>
                                     {this.state.row?.map(j =>
-                                        <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
+                                        <td key={j.id} data-label={j.header}>{
                                             j.field
                                                 ? j.header == 'Availability' ? i[j.field]
                                                     ? <FaCheck size={25} color={Color.green} />
@@ -295,7 +380,7 @@ export default class LibraryBooks extends Component {
                                 </tr>
                             )}
 
-                        </tbody>
+                        </tbody>)}
                     </table>
                 </div>
             </div>

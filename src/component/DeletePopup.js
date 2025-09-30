@@ -13,7 +13,7 @@ export default function DeletePopup(props) {
         <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#000e0e61' }}>
             <div onClick={(e) => { e.preventDefault() }} style={{ backgroundColor: Color.whiteFont, padding: '12px', borderRadius: '12px' }}>
                 <div style={{ margin: '7px 12px 20px' }}>
-                    <div style={{ padding: '0px 25px 0px 0px', color: Color.grey, margin: '0px 0px 7px 0px', fontSize: '12px' }}>Do you want delete this task?</div>
+                    <div style={{ padding: '0px 25px 0px 0px', color: Color.grey, margin: '0px 0px 7px 0px', fontSize: '12px' }}>{props.message}</div>
                     <div style={{ padding: '0px 25px 0px 0px', fontWeight: 'bold', fontSize: '16px' }}>{props.item}</div>
 
                 </div>

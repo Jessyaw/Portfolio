@@ -11,7 +11,8 @@ import { FaCheck } from 'react-icons/fa';
 import { data } from 'react-router-dom';
 import CustomDropdown from '../component/CustomDropdown';
 import { handleOnKeyNumber } from '../Validation';
-
+import Toaster from '../component/Toaster';
+import { TableSkeleton } from '../component/TableSkeleton';
 
 
 export default class BorrowOrReturn extends Component {
@@ -59,7 +60,9 @@ export default class BorrowOrReturn extends Component {
             isOpenBookMenu: false,
             quantity: null,
             quantityError: null,
-
+            successStatus: '',
+            failStatus: '',
+            loading: true,
         }
     }
     componentDidMount() {
@@ -69,6 +72,7 @@ export default class BorrowOrReturn extends Component {
         this.fetchBook();
     }
     fetchBook = async () => {
+
         try {
             await fetch('https://localhost:7232/GetBookData').then(res => res.json()).then(json => {
                 this.setState({
@@ -76,7 +80,7 @@ export default class BorrowOrReturn extends Component {
                 })
             })
         } catch (e) {
-
+            console.error(e);
         }
     }
     fetchUser = async () => {
@@ -87,10 +91,11 @@ export default class BorrowOrReturn extends Component {
                 })
             })
         } catch (e) {
-
+            console.error(e);
         }
     }
     fetchBorrowData = async () => {
+        this.setState({ loading: true });
         try {
             await fetch('https://localhost:7232/GetBorrowedData').then(res => res.json()).then(json => {
                 this.setState({
@@ -98,10 +103,14 @@ export default class BorrowOrReturn extends Component {
                 })
             })
         } catch (e) {
-
+            console.error(e);
+        }
+        finally {
+            this.setState({ loading: false });
         }
     }
     fetchReturnData = async () => {
+        this.setState({ loading: true });
         try {
             await fetch('https://localhost:7232/GetReturnData').then(res => res.json()).then(json => {
                 this.setState({
@@ -109,7 +118,10 @@ export default class BorrowOrReturn extends Component {
                 })
             })
         } catch (e) {
-
+            console.error(e);
+        }
+        finally {
+            this.setState({ loading: false });
         }
     }
     handleUsername = () => {
@@ -135,7 +147,7 @@ export default class BorrowOrReturn extends Component {
     handleSelectUser = (i) => {
         this.setState({
             user: i.memberName,
-            userID: i.ID,
+            userID: i.id,
             userError: '',
             isOpenUserMenu: false,
         })
@@ -143,7 +155,7 @@ export default class BorrowOrReturn extends Component {
     handleSelectBook = (i) => {
         this.setState({
             book: i.title,
-            bookID: i.ID,
+            bookID: i.id,
             bookError: '',
             isOpenBookMenu: false,
         })
@@ -196,15 +208,22 @@ export default class BorrowOrReturn extends Component {
             isValid = false;
         }
         if (isValid) {
+            this.setState({ loading: true });
             if (this.state.isBorrow) {
+                let today = new Date();
+                let borrowedDate = this.formatDate(today);
+                let nextWeek = new Date();
+                nextWeek.setDate(today.getDate() + 7);
+                let dueDate = this.formatDate(nextWeek);
                 let data = {
                     userID: this.state.userID,
                     bookID: this.state.bookID,
                     bookQuantity: this.state.quantity,
-                    borrowedDate: "2025-09-25",
-                    dueDate: "2025-09-25",
+                    borrowedDate: borrowedDate,
+                    dueDate: dueDate,
                     returnDate: "",
                 }
+                console.log(data)
                 await fetch('https://localhost:7232/AddUpdateBorrowReturnDetails', {
                     method: 'POST',
                     headers: {
@@ -212,18 +231,37 @@ export default class BorrowOrReturn extends Component {
                     },
                     body: JSON.stringify(data)
                 }).then(res => res.json()).then(json => {
+                    this.setState({
+                        loading: false
+                    })
+                    if (json?.status == 'S') {
+                        this.setState({
+                            successStatus: json?.message,
+                        })
+                        setTimeout(() => this.setState({ successStatus: '' }), 3000);
+                    }
+                    else {
+                        this.setState({
+                            failStatus: json?.message
+                        })
+                        setTimeout(() => this.setState({ failStatus: '' }), 3000);
 
+                    }
+                    this.fetchBorrowData();
                 })
             }
             else {
+                let today = new Date();
+                let returnDate = this.formatDate(today);
                 let data = {
                     userID: this.state.userID,
                     bookID: this.state.bookID,
                     bookQuantity: this.state.quantity,
                     borrowedDate: "",
-                    dueDate: "2025-09-25",
-                    returnDate: "2025-09-25",
+                    dueDate: "",
+                    returnDate: returnDate,
                 }
+
                 await fetch('https://localhost:7232/AddUpdateBorrowReturnDetails', {
                     method: 'POST',
                     headers: {
@@ -231,12 +269,37 @@ export default class BorrowOrReturn extends Component {
                     },
                     body: JSON.stringify(data)
                 }).then(res => res.json()).then(json => {
+                    this.setState({
+                        loading: false
+                    })
+                    if (json?.status == 'S') {
+                        this.setState({
+                            successStatus: json?.message
+                        })
+                        setTimeout(() => this.setState({ successStatus: '' }), 3000);
+                    }
+                    else {
+                        this.setState({
+                            failStatus: json?.message
+                        })
+                        setTimeout(() => this.setState({ failStatus: '' }), 3000);
 
+                    }
+                    this.fetchReturnData();
                 })
             }
         }
     }
+
+    formatDate = (date) => {
+        let year = date.getFullYear();
+        let month = String(date.getMonth() + 1).padStart(2, '0');
+        let day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+
+    }
     render() {
+
         return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', }}>
                 {/* <LibraryDashboard size={25} /> */}
@@ -259,64 +322,74 @@ export default class BorrowOrReturn extends Component {
                         </div>
                     </div>
                 </div>
+                {(this.state.successStatus && this.state.successStatus != '') || (this.state.failStatus && this.state.failStatus != '') ?
+                    (< div style={{ display: 'flex', position: 'fixed', bottom: 0, right: 0 }}>
+                        <Toaster
+                            fail={this.state.failStatus}
+                            success={this.state.successStatus}
+                        /></div>)
+                    : null}
                 {this.state.isAdd &&
-                    <div style={{ flex: 1, display: 'flex', justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', gap: '12px' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', position: 'relative' }}>
-                                <input value={this.state.user} onClick={this.handleUsername} style={{ border: this.state.userError ? '1px solid red' : '' }} className='input-booking' placeholder='Member' />
-                                {this.state.userError && <span className='span-err'>{this.state.userError}</span>}
-                                {this.state.isOpenUserMenu &&
-                                    <div style={{ position: 'absolute', top: '52px', zIndex: 1000 }}>
-                                        <CustomDropdown
-                                            option={this.state.userData}
-                                            onSelect={(i) => this.handleSelectUser(i)}
-                                        />
-                                    </div>}
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', position: 'relative' }}>
-                                <input value={this.state.book} onClick={this.handleBook} style={{ border: this.state.bookError ? '1px solid red' : '' }} className='input-booking' placeholder='Book Title' />
-                                {this.state.bookError && <span className='span-err'>{this.state.bookError}</span>}
-                                {this.state.isOpenBookMenu &&
-                                    <div style={{ position: 'absolute', top: '52px', zIndex: 1000 }}>
-                                        <CustomDropdown
-                                            option={this.state.books}
-                                            onSelect={(i) => this.handleSelectBook(i)}
-                                        />
-                                    </div>}
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
-                                <input value={this.state.quantity} onKeyDown={handleOnKeyNumber} onChange={this.handleQuentity} style={{ border: this.state.quantityError ? '1px solid red' : '' }} className='input-booking' placeholder='Number of Copies' />
-                                {this.state.quantityError && <span className='span-err'>{this.state.quantityError}</span>}
-                            </div>
-                            <button className='btn-add-book' style={{ backgroundColor: Color.borrow }} onClick={this.handleSave}>
-                                <div className='center' >{this.state.isBorrow ? 'Borrow' : 'Return'}</div>
-                            </button>
+                    <div className='input-container'>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', position: 'relative' }}>
+                            <input value={this.state.user} onClick={this.handleUsername} style={{ border: this.state.userError ? '1px solid red' : '' }} className='input-booking' placeholder='Member' />
+                            {this.state.userError && <span className='span-err'>{this.state.userError}</span>}
+                            {this.state.isOpenUserMenu &&
+                                <div style={{ position: 'absolute', top: '52px', zIndex: 1000 }}>
+                                    <CustomDropdown
+                                        option={this.state.userData}
+                                        onSelect={(i) => this.handleSelectUser(i)}
+                                    />
+                                </div>}
                         </div>
-
-
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', position: 'relative' }}>
+                            <input value={this.state.book} onClick={this.handleBook} style={{ border: this.state.bookError ? '1px solid red' : '' }} className='input-booking' placeholder='Book Title' />
+                            {this.state.bookError && <span className='span-err'>{this.state.bookError}</span>}
+                            {this.state.isOpenBookMenu &&
+                                <div style={{ position: 'absolute', top: '52px', zIndex: 1000 }}>
+                                    <CustomDropdown
+                                        option={this.state.books}
+                                        onSelect={(i) => this.handleSelectBook(i)}
+                                    />
+                                </div>}
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                            <input value={this.state.quantity} onKeyDown={handleOnKeyNumber} onChange={this.handleQuentity} style={{ border: this.state.quantityError ? '1px solid red' : '' }} className='input-booking' placeholder='Number of Copies' />
+                            {this.state.quantityError && <span className='span-err'>{this.state.quantityError}</span>}
+                        </div>
+                        <button className='btn-add-book center' style={{ backgroundColor: Color.borrow }} onClick={this.handleSave}>
+                            <div>{this.state.isBorrow ? 'Borrow' : 'Return'}</div>
+                        </button>
                     </div>
                 }
                 <div className='tbl-scroll'>
-                    {this.state.isBorrow ? <table style={{ width: '100%' }}>
-                        <thead style={{ backgroundColor: Color.borrow, position: 'sticky', top: 0, zIndex: 1 }}>
-                            <tr>
-                                {this.state.borrowRow?.map(j =>
-                                    <th key={j.id} style={{ textAlign: 'center', padding: '16px 5px', borderRadius: '4px', color: Color.whiteFont }}>{j.header}</th>
-                                )}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.borrow?.map(i =>
-                                <tr key={i.id}>
+                    {this.state.isBorrow ? (
+                        <table style={{ width: '100%' }}>
+                            <thead style={{ backgroundColor: Color.borrow, position: 'sticky', top: 0, zIndex: 1 }}>
+                                <tr>
                                     {this.state.borrowRow?.map(j =>
-                                        <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
-                                            i[j.field]
-                                        }</td>
+                                        <th key={j.id} style={{ textAlign: 'center', padding: '16px 5px', borderRadius: '4px', color: Color.whiteFont }}>{j.header}</th>
                                     )}
                                 </tr>
+                            </thead>
+                            {this.state.loading ? (
+                                <TableSkeleton rows={5} cols={this.state.borrowRow?.length} />
+                            ) : (
+                                <tbody>
+                                    {this.state.borrow?.map(i =>
+                                        <tr key={i.id}>
+                                            {this.state.borrowRow?.map(j =>
+                                                <td data-label={j.header} key={j.id}>
+                                                    {i[j.field]}
+                                                </td>
+                                            )}
+                                        </tr>
+                                    )}
+                                </tbody>
                             )}
-                        </tbody>
-                    </table> :
+                        </table>
+                    ) : (
                         <table style={{ width: '100%' }}>
                             <thead style={{ backgroundColor: Color.borrow, position: 'sticky', top: 0, zIndex: 1 }}>
                                 <tr>
@@ -325,20 +398,25 @@ export default class BorrowOrReturn extends Component {
                                     )}
                                 </tr>
                             </thead>
-                            <tbody>
-                                {this.state.return?.map(i =>
-                                    <tr key={i.id}>
-                                        {this.state.returnRow?.map(j =>
-                                            <td style={{ padding: '16px 5px', textAlign: 'center', }} key={j.id}>{
-                                                i[j.field]
-                                            }</td>
-                                        )}
-                                    </tr>
-                                )}
-                            </tbody>
+                            {this.state.loading ? (
+                                <TableSkeleton rows={5} cols={this.state.returnRow?.length} />
+                            ) : (
+                                <tbody>
+                                    {this.state.return?.map(i =>
+                                        <tr key={i.id}>
+                                            {this.state.returnRow?.map(j =>
+                                                <td data-label={j.header} key={j.id}>
+                                                    {i[j.field]}
+                                                </td>
+                                            )}
+                                        </tr>
+                                    )}
+                                </tbody>
+                            )}
                         </table>
-                    }
+                    )}
                 </div>
+
             </div>
         )
     }
