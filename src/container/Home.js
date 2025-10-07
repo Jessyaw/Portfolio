@@ -1,13 +1,11 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { Color } from '../Colors'
 import { Constant } from '../Constant'
-import dev from '../../src/image/svg/Developer.svg'
 import { ImFolderOpen } from 'react-icons/im';
 import { AiFillContacts } from 'react-icons/ai';
 import { FiInstagram } from 'react-icons/fi';
 import { FiLinkedin } from 'react-icons/fi';
 import { FiYoutube } from 'react-icons/fi';
-import animation from '../../src/image/web/Coding.webm'
 import Lottie from 'lottie-react';
 import animationData from '../../src/image/json/Coding.json'
 export default class Home extends Component {

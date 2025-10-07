@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { db } from '../dexie/DB'
 import WithRouter from '../navigate/WithRouter'
 import NavHeader from '../component/NavHeader'

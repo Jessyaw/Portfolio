@@ -95,20 +95,20 @@ function NavHeader(props) {
                 </div>
 
             }
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', backgroundColor: Color.theme,position:'fixed',top:0,left:0,right:0 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', backgroundColor: Color.theme, position: 'fixed', top: 0, left: 0, right: 0 }}>
                 <div
-                    //onClick={openMenu}
-                    style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', margin: '0px 2%',color:Color.whiteFont }}>
-                    <FaBars/>
+
+                    style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', margin: '0px 2%', color: Color.whiteFont }}>
+                    <FaBars />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div style={{ padding: '12px', cursor: 'pointer',color:Color.whiteFont }} onClick={redirectToJournal}>Home </div>
-                    <div style={{ padding: '12px', cursor: 'pointer',color:Color.whiteFont }} onClick={redirectToForm}>Page</div>
-                    <div style={{ padding: '12px', cursor: 'pointer',color:Color.whiteFont }} onClick={redirectToJournalsList}>Journal</div>
-                  
-                    <div style={{ padding: '12px', cursor: 'pointer',color:Color.whiteFont }} onClick={redirectToDictionary}>My Dictionary</div>
-                    <div style={{ padding: '12px', cursor: 'pointer',color:Color.whiteFont }} onClick={redirectToResume}>View CV</div>
-                    <div style={{ padding: '12px', cursor: 'pointer',color:Color.whiteFont }} onClick={redirectToTaskmate}>Task Mate</div>
+                    <div style={{ padding: '12px', cursor: 'pointer', color: Color.whiteFont }} onClick={redirectToJournal}>Home </div>
+                    <div style={{ padding: '12px', cursor: 'pointer', color: Color.whiteFont }} onClick={redirectToForm}>Page</div>
+                    <div style={{ padding: '12px', cursor: 'pointer', color: Color.whiteFont }} onClick={redirectToJournalsList}>Journal</div>
+
+                    <div style={{ padding: '12px', cursor: 'pointer', color: Color.whiteFont }} onClick={redirectToDictionary}>My Dictionary</div>
+                    <div style={{ padding: '12px', cursor: 'pointer', color: Color.whiteFont }} onClick={redirectToResume}>View CV</div>
+                    <div style={{ padding: '12px', cursor: 'pointer', color: Color.whiteFont }} onClick={redirectToTaskmate}>Task Mate</div>
 
                 </div>
             </div>

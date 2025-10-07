@@ -23,9 +23,7 @@ export default class Contact extends Component {
             isDesign: false,
             isTech: false,
             fileName: '',
-            commentSection: [
-
-            ],
+            commentSection: [],
             name: '',
             nameError: '',
             mail: '',

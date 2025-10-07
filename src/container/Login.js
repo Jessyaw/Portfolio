@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import dev from '../image/jpg/dev.jpg'
 import login from '../image/jpg/login.jpeg'
 import WithRouter from '../navigate/WithRouter'
-import { Color } from '../Colors'
 import { auth, provider, signInWithPopup, signOut } from '../firebase/FireBase'
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
@@ -39,7 +37,6 @@ class Login extends Component {
     handleGoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, provider);
-            console.log(result, 'res')
             this.setState({
                 user: result.user,
             })
@@ -162,7 +159,6 @@ class Login extends Component {
                         width: "900px",
                         backgroundColor: "#0d0131",
                         borderRadius: "20px",
-                        // boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.2)",
                         overflow: "hidden",
                         height: '610px'
                     }}
@@ -264,54 +260,6 @@ class Login extends Component {
             </div>
 
 
-            //  <div className='center' >
-
-            //                 <div style={{ backgroundColor: 'red', display: 'flex', justifyContent: 'space-around', alignItems: 'center', height: '500px', width: '80%', margin: '34px 49px', borderRadius: '25px', boxShadow: '2px 12px 16px #80008077' }}>
-
-            //                     <div style={{ width: '50%',padding:'12px' }}>
-            //                         <img src={login}  style={{objectFit:'cover',width:'100%', height:'100%'}} />
-            //                     </div>
-            //                     <div style={{ width: '50%' }}>
-
-
-            //                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '25px', padding: '23px' }}>
-            //                             Sign In
-            //                         </div>
-            //                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            //                             <input placeholder='Email' style={{ boxShadow: '2px 12px 16px #80008077', border: 'none', outline: 'none', width: '70%', padding: '12px 20px', margin: '12px 23px', borderRadius: '12px', height: '25px' }} />
-            //                         </div>
-            //                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            //                             <input placeholder='Password' style={{ boxShadow: '2px 12px 16px #80008077', border: 'none', outline: 'none', width: '70%', padding: '12px 20px', margin: '12px 23px', borderRadius: '12px', height: '25px' }} />
-            //                         </div>
-            //                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '25px 0px' }}>
-
-
-            //                             <button style={{ border: 'none', borderRadius: '7px', background: Color.theme, padding: '12px 20px', color: '#000', width: '79%' }}>Login</button>
-            //                         </div>
-
-            //                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', margin: '25px 0px' }}>
-            //                             <div style={{ height: '2px', width: '43%', background: 'yellow' }} />
-            //                             <div>
-            //                                 or
-            //                             </div>
-            //                             <div style={{ height: '2px', width: '43%', background: 'yellow' }} />
-            //                         </div>
-            //                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '12px 0px' }}>
-            //                             Create an account?
-            //                             <div style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }} onClick={this.redirectToSignUp}>   SignUp</div>
-            //                         </div>
-
-            //                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '25px 0px', color: 'grey', cursor: 'pointer' }}
-            //                             onClick={this.redirectToDashboard}
-            //                         >
-            //                             Skip for now
-            //                         </div>
-            //                     </div>
-
-
-
-            //                 </div>
-            //             </div>
 
         )
     }

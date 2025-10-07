@@ -1,14 +1,5 @@
-import React, { Component } from 'react'
-import { FaPlus } from 'react-icons/fa';
+import { Component } from 'react'
 import { Color } from '../Colors';
-import { AiFillEdit } from 'react-icons/ai';
-import { AiFillDelete } from 'react-icons/ai';
-import { BsSearch } from 'react-icons/bs'
-
-import Profile from '../../src/component/Profile'
-import { CgUnavailable } from 'react-icons/cg';
-import { FaCheck } from 'react-icons/fa';
-import { data } from 'react-router-dom';
 import CustomDropdown from '../component/CustomDropdown';
 import { handleOnKeyNumber } from '../Validation';
 import Toaster from '../component/Toaster';
@@ -19,10 +10,7 @@ export default class BorrowOrReturn extends Component {
     constructor(props) {
         super(props)
         this.state = {
-
-
             borrow: [],
-
             borrowRow: [
                 { id: 1, field: 'memberName', header: 'Memeber name' },
                 { id: 2, field: 'title', header: 'Title' },
@@ -32,7 +20,6 @@ export default class BorrowOrReturn extends Component {
                 { id: 6, field: 'bookStatus', header: 'status' },
             ],
             return: [],
-
             returnRow: [
                 { id: 1, field: 'memberName', header: 'Memeber name' },
                 { id: 2, field: 'title', header: 'Title' },
@@ -41,13 +28,10 @@ export default class BorrowOrReturn extends Component {
                 { id: 5, field: 'dueDate', header: 'Due date' },
                 { id: 5, field: 'returnDate', header: 'Return date' },
                 { id: 6, field: 'bookStatus', header: 'status' },
-
-
             ],
             isAdd: true,
             isBorrow: true,
             isReturn: false,
-
             userData: [],
             user: null,
             userError: null,
@@ -223,7 +207,6 @@ export default class BorrowOrReturn extends Component {
                     dueDate: dueDate,
                     returnDate: "",
                 }
-                console.log(data)
                 await fetch('https://localhost:7232/AddUpdateBorrowReturnDetails', {
                     method: 'POST',
                     headers: {
@@ -299,7 +282,6 @@ export default class BorrowOrReturn extends Component {
 
     }
     render() {
-
         return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', }}>
                 {/* <LibraryDashboard size={25} /> */}

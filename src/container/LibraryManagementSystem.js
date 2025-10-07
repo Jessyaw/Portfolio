@@ -32,15 +32,18 @@ export default class LibraryManagementSystem extends Component {
         super(props)
         this.state = {
             sideMenu: [
-                { id: 1, color: Color.dashboard, iconFilled: <BiSolidDashboard size={25} color='#ff6105' />, icon: <LuLayoutDashboard size={25} />, menu: 'Dashboard', isHover: false, isSelect: true, },
-                { id: 2, color: Color.book, iconFilled: <BiSolidBookAlt size={25} color='#13a3b5' />, icon: <BiBookAlt size={25} />, menu: 'Books', isHover: false, isSelect: false, },
-                { id: 3, color: Color.user, iconFilled: <FaUser size={25} color='#992bff' />, icon: <FaRegUser size={25} />, menu: 'Users', isHover: false, isSelect: false, },
-                { id: 4, color: Color.borrow, iconFilled: <HiShoppingCart size={25} color='#ff3b4b' />, icon: <MdOutlineShoppingCart size={25} />, menu: 'Borrow/Return', isHover: false, isSelect: false, },
-                { id: 5, color: Color.chatBot, iconFilled: <TbMessageChatbotFilled size={25} color='#0ba84a' />, icon: <TbMessageChatbot size={25} />, menu: 'AI Assistant', isHover: false, isSelect: false, },
+                { id: 1, color: Color.dashboard, iconFilled: <BiSolidDashboard size={25} color={Color.dashboard} />, icon: <LuLayoutDashboard size={25} />, menu: 'Dashboard', isHover: false, isSelect: true, },
+                { id: 2, color: Color.book, iconFilled: <BiSolidBookAlt size={25} color={Color.book} />, icon: <BiBookAlt size={25} />, menu: 'Books', isHover: false, isSelect: false, },
+                { id: 3, color: Color.user, iconFilled: <FaUser size={25} color={Color.user} />, icon: <FaRegUser size={25} />, menu: 'Users', isHover: false, isSelect: false, },
+                { id: 4, color: Color.borrow, iconFilled: <HiShoppingCart size={25} color={Color.borrow} />, icon: <MdOutlineShoppingCart size={25} />, menu: 'Borrow/Return', isHover: false, isSelect: false, },
+                { id: 5, color: Color.chatBot, iconFilled: <TbMessageChatbotFilled size={25} color={Color.chatBot} />, icon: <TbMessageChatbot size={25} />, menu: 'AI Assistant', isHover: false, isSelect: false, },
             ],
             chat: 5,
             isOpenSideBar: false,
             screenWidth: window.innerWidth,
+            searchValue: '',
+            isSearch: false,
+            prompt: ''
         }
     }
 
@@ -49,10 +52,19 @@ export default class LibraryManagementSystem extends Component {
             sideMenu: this.state.sideMenu?.map(item => {
                 return {
                     ...item, isSelect: (typeof i === 'object' ? i.id : i) === item.id
-
                 }
-            }
-            ),
+            }),
+            isOpenSideBar: false,
+        })
+    }
+    handlePrompt = (i, v) => {
+        this.setState({
+            prompt: v,
+            sideMenu: this.state.sideMenu?.map(item => {
+                return {
+                    ...item, isSelect: (typeof i === 'object' ? i.id : i) === item.id
+                }
+            }),
             isOpenSideBar: false,
         })
     }
@@ -74,32 +86,48 @@ export default class LibraryManagementSystem extends Component {
         this.setState({ screenWidth: window.innerWidth });
     }
 
+    handleTopSearch = (e) => {
+        this.setState({
+            searchValue: e.target.value,
+            isSearch: true
+        })
+    }
+
     render() {
-        console.log(window.innerWidth);
         return (
 
             <div>
                 {/* Header */}
                 <div style={{}}>
-                    <div style={{ display: 'flex', position: 'fixed', right: 25, left: 250, backgroundColor: Color.whiteFont, zIndex: 1000 }}>
+                    <div style={{ display: 'flex', position: 'fixed', right: 20, left: 250, backgroundColor: Color.whiteFont, zIndex: 1000, }}>
                         <div style={{ display: 'flex', alignItems: 'center', margin: '12px 0px', width: '100%', gap: '12px' }}>
-                            <div className='heading' onClick={this.openSideBar} style={{ display: 'flex', flex: 1, fontSize: '34px', color: Color.darkPurple }}>LMS</div>
-                            <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 3, }}>
-                                <div style={{ position: 'relative', width: '88%', }}>
-                                    <BsSearch color={Color.grey} style={{
-                                        position: 'absolute',
-                                        top: '50%',
-                                        left: '16px',
-                                        transform: 'translateY(-50%)',
-                                        pointerEvents: 'none', // Allows click to pass through to input
-                                    }} />
+                            <div className={`${this.state.screenWidth <= 892 ? 'small-heading' : 'heading'}`}
+                                onClick={this.openSideBar} style={{ fontSize: '34px', color: Color.darkPurple }}>LMS</div>
+                            <div style={{ width: '100%', }}>
+                                <div style={{ position: 'relative', }} >
+                                    <BsSearch color={Color.darkPurple}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            left: '16px',
+                                            transform: 'translateY(-50%)',
+                                            pointerEvents: 'none',
+                                        }} />
                                     <input
+                                        value={this.state.searchValue}
                                         onChange={(e) => this.handleTopSearch(e)}
                                         placeholder='Search something...'
-                                        style={{ border: 'none', borderRadius: '7px', width: '88%', background: Color.lineColor, padding: '20px 0px 20px 43px', margin: '0px', outline: 'none' }} />
+                                        onMouseEnter={() => { this.setState({ isSearch: true }) }}
+                                        onMouseLeave={() => { this.setState({ isSearch: false }) }}
+                                        style={{
+                                            border: 'none', borderRadius: '12px', width: '43%',
+                                            border: '0.7px solid #0545451f',
+                                            boxShadow: this.state.isSearch ? '1px 2px 12px #5e525247' : '',
+                                            padding: '20px 0px 20px 52px', margin: '0px', outline: 'none'
+                                        }} />
                                 </div>
                             </div>
-                            <div><Profile /></div>
+
                         </div>
                     </div>
                 </div>
@@ -147,7 +175,10 @@ export default class LibraryManagementSystem extends Component {
                     <div style={{ flex: 5, margin: '100px 25px 0px', boxShadow: '1px 2px 10px rgba(145, 156, 155, 0.47)', borderRadius: '16px', padding: '12px' }}>
                         {this.state.sideMenu?.map(i =>
                             (i.isSelect && i.id == 1)
-                                ? <LibraryDashboard openChat={() => this.selectMenu(this.state.chat)} />
+                                ? <LibraryDashboard
+                                    openChat={() => this.selectMenu(this.state.chat)}
+                                    addPrompt={(v) => this.handlePrompt(this.state.chat, v)}
+                                />
                                 : (i.isSelect && i.id == 2)
                                     ? <LibraryBooks />
                                     : (i.isSelect && i.id == 3)
@@ -155,7 +186,8 @@ export default class LibraryManagementSystem extends Component {
                                         : (i.isSelect && i.id == 4)
                                             ? <BorrowOrReturn />
                                             : (i.isSelect && i.id == 5)
-                                            && <ChatBot />
+                                            && <ChatBot prompt={this.state.prompt}
+                                            />
                         )}
 
 

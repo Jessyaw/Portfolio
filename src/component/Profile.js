@@ -1,4 +1,3 @@
-import React from 'react'
 import { Color } from '../Colors'
 
 export default function Profile(props) {

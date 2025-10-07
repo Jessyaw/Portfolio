@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import WithRouter from '../navigate/WithRouter'
 import { Color } from '../Colors'
-import { BsSearch } from 'react-icons/bs'
 import Profile from '../component/Profile'
 import SearchBar from '../component/SearchBar'
 import { RiDashboard2Line } from 'react-icons/ri'
@@ -9,11 +8,10 @@ import { GiLeadPipe } from 'react-icons/gi'
 import { LuContactRound } from 'react-icons/lu'
 import { LiaSave } from 'react-icons/lia'
 import { FaTasks } from 'react-icons/fa'
-import { BiBold, BiCalendar } from 'react-icons/bi'
+import { BiCalendar } from 'react-icons/bi'
 import { MdReport } from 'react-icons/md'
 import { CiSettings } from 'react-icons/ci'
 import { BiLogOut } from 'react-icons/bi'
-import { BiLeftArrow } from 'react-icons/bi'
 
 class CRM extends Component {
     constructor(props) {

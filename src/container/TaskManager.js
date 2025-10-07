@@ -1,29 +1,18 @@
-import React, { Component, createRef } from 'react'
+import { Component, createRef } from 'react'
 import { db } from '../dexie/DB'
 import { Color } from '../Colors'
-import { IoAddSharp } from 'react-icons/io5'
-import { MdSettings } from 'react-icons/md'
 import { BsSearch } from 'react-icons/bs'
 import { BiNotification } from 'react-icons/bi'
 import { MdEmail } from 'react-icons/md'
 import { BiLeftArrow } from 'react-icons/bi'
 import WithRouter from '../navigate/WithRouter'
-import { BiUpArrow } from 'react-icons/bi'
-import { BiArrowFromBottom } from 'react-icons/bi'
 import DropDownMenu from '../component/DropDownMenu'
-import { BiCloset } from 'react-icons/bi'
-import { CgRemove, CgRemoveR, CgRedo } from 'react-icons/cg'
+import { CgRemoveR } from 'react-icons/cg'
 import DeletePopup from '../component/DeletePopup'
 import { BiSolidPencil } from 'react-icons/bi'
-import { MdToday } from 'react-icons/md'
-import { MdOutlineCheckBoxOutlineBlank } from 'react-icons/md'
-import { MdAccessTime } from 'react-icons/md'
-import { MdPriorityHigh } from 'react-icons/md'
-import { MdCalendarToday } from 'react-icons/md'
 import { MdDeleteSweep } from 'react-icons/md'
-import { MdBarChart } from 'react-icons/md'
 import { decryption, encryption } from '../dexie/EncodeDecode'
-import { generateRandonID } from '../Common'
+import { Days, LeftMenuList, Dates, Months, Years, Hours, Mins, Summary, TaskMenu } from '../ConstantData'
 
 
 class TaskManager extends Component {
@@ -34,11 +23,7 @@ class TaskManager extends Component {
     this.state = {
       taskList: [],
       taskListClone: [],
-      menu: [
-        { id: 1, menu: 'All', isHover: false, isSelect: true },
-        { id: 2, menu: 'Completed', isHover: false, isSelect: false },
-        { id: 3, menu: 'Pending', isHover: false, isSelect: false },
-      ],
+      menu: TaskMenu,
       isMenuOpen: true,
       task: '',
       updateID: null,
@@ -50,29 +35,11 @@ class TaskManager extends Component {
       completedTaskClone: [],
       pendingTask: [],
       pendingTaskClone: [],
-      leftMenuList: [
-        { id: 1, data: [], icon: <MdToday size={25} />, list: "Today's Tasks", isSelected: false, isHover: false },
-        { id: 2, data: [], icon: <MdOutlineCheckBoxOutlineBlank size={25} />, list: "Undone Tasks", isSelected: false, isHover: false },
-        { id: 3, data: [], icon: <MdAccessTime size={25} />, list: "Overdue Tasks", isSelected: false, isHover: false },
-        { id: 4, data: [], icon: <MdPriorityHigh size={25} />, list: "Priority", isSelected: false, isHover: false },
-        { id: 5, data: [], icon: <MdCalendarToday size={25} />, list: "Calendar View Link", isSelected: false, isHover: false },
-        { id: 6, data: [], icon: <MdDeleteSweep size={25} />, list: "Remove Completed Task", isSelected: false, isHover: false },
-        { id: 7, data: [], icon: <MdBarChart size={25} />, list: "Task Stats Summary", isSelected: false, isHover: false },
-      ],
+      leftMenuList: LeftMenuList,
       isAdd: false,
       isUpdate: false,
-      days: [
-        { id: 1, day: 'Sun', isMarked: false },
-        { id: 2, day: 'Mon', isMarked: false },
-        { id: 3, day: 'Tue', isMarked: false },
-        { id: 4, day: 'Wed', isMarked: false },
-        { id: 5, day: 'Thu', isMarked: false },
-        { id: 6, day: 'Fri', isMarked: false },
-        { id: 7, day: 'Sat', isMarked: false },
-      ],
+      days: Days,
       height: window.innerHeight,
-
-
       priorityList: [],
       isPriorityList: true,
       todaysTasks: [],
@@ -82,122 +49,19 @@ class TaskManager extends Component {
       isUndonetasks: false,
       isOverDueTasks: false,
       isTaskMenuOpen: false,
-      dates: [
-        { id: 1, menu: 1, isSelected: false, isHover: false },
-        { id: 2, menu: 2, isSelected: false, isHover: false },
-        { id: 3, menu: 3, isSelected: false, isHover: false },
-        { id: 4, menu: 4, isSelected: false, isHover: false },
-        { id: 5, menu: 5, isSelected: false, isHover: false },
-        { id: 6, menu: 6, isSelected: false, isHover: false },
-        { id: 7, menu: 7, isSelected: false, isHover: false },
-        { id: 8, menu: 8, isSelected: false, isHover: false },
-        { id: 9, menu: 9, isSelected: false, isHover: false },
-        { id: 10, menu: 10, isSelected: false, isHover: false },
-        { id: 11, menu: 11, isSelected: false, isHover: false },
-        { id: 12, menu: 12, isSelected: false, isHover: false },
-        { id: 13, menu: 13, isSelected: false, isHover: false },
-        { id: 14, menu: 14, isSelected: false, isHover: false },
-        { id: 15, menu: 15, isSelected: false, isHover: false },
-        { id: 16, menu: 16, isSelected: false, isHover: false },
-        { id: 17, menu: 17, isSelected: false, isHover: false },
-        { id: 18, menu: 18, isSelected: false, isHover: false },
-        { id: 19, menu: 19, isSelected: false, isHover: false },
-        { id: 20, menu: 20, isSelected: false, isHover: false },
-        { id: 21, menu: 21, isSelected: false, isHover: false },
-        { id: 22, menu: 22, isSelected: false, isHover: false },
-        { id: 23, menu: 23, isSelected: false, isHover: false },
-        { id: 24, menu: 24, isSelected: false, isHover: false },
-        { id: 25, menu: 25, isSelected: false, isHover: false },
-        { id: 26, menu: 26, isSelected: false, isHover: false },
-        { id: 27, menu: 27, isSelected: false, isHover: false },
-        { id: 28, menu: 28, isSelected: false, isHover: false },
-        { id: 29, menu: 29, isSelected: false, isHover: false },
-        { id: 30, menu: 30, isSelected: false, isHover: false },
-        { id: 31, menu: 31, isSelected: false, isHover: false },
-      ],
-      months: [
-        { id: 1, menu: 'Jan', isSelected: false, isHover: false },
-        { id: 2, menu: 'Feb', isSelected: false, isHover: false },
-        { id: 3, menu: 'Mar', isSelected: false, isHover: false },
-        { id: 4, menu: 'Apr', isSelected: false, isHover: false },
-        { id: 5, menu: 'May', isSelected: false, isHover: false },
-        { id: 6, menu: 'Jun', isSelected: false, isHover: false },
-        { id: 7, menu: 'July', isSelected: false, isHover: false },
-        { id: 8, menu: 'Aug', isSelected: false, isHover: false },
-        { id: 9, menu: 'Sep', isSelected: false, isHover: false },
-        { id: 10, menu: 'Oct', isSelected: false, isHover: false },
-        { id: 11, menu: 'Nov', isSelected: false, isHover: false },
-        { id: 12, menu: 'Dec', isSelected: false, isHover: false },
-      ],
-      years: [
-        { id: 1, menu: 2025, isSelected: false, isHover: false },
-        { id: 2, menu: 2026, isSelected: false, isHover: false },
-        { id: 3, menu: 2027, isSelected: false, isHover: false },
-        { id: 4, menu: 2028, isSelected: false, isHover: false },
-        { id: 5, menu: 2029, isSelected: false, isHover: false },
-        { id: 6, menu: 2030, isSelected: false, isHover: false },
-        { id: 7, menu: 2031, isSelected: false, isHover: false },
-        { id: 8, menu: 2032, isSelected: false, isHover: false },
-        { id: 9, menu: 2033, isSelected: false, isHover: false },
-        { id: 10, menu: 2034, isSelected: false, isHover: false },
-      ],
-      hours: [
-        { id: 1, menu: 1, isSelected: false, isHover: false },
-        { id: 2, menu: 2, isSelected: false, isHover: false },
-        { id: 3, menu: 3, isSelected: false, isHover: false },
-        { id: 4, menu: 4, isSelected: false, isHover: false },
-        { id: 5, menu: 5, isSelected: false, isHover: false },
-        { id: 6, menu: 6, isSelected: false, isHover: false },
-        { id: 7, menu: 7, isSelected: false, isHover: false },
-        { id: 8, menu: 8, isSelected: false, isHover: false },
-        { id: 9, menu: 9, isSelected: false, isHover: false },
-        { id: 10, menu: 10, isSelected: false, isHover: false },
-        { id: 11, menu: 11, isSelected: false, isHover: false },
-        { id: 12, menu: 12, isSelected: false, isHover: false },
-        { id: 13, menu: 13, isSelected: false, isHover: false },
-        { id: 14, menu: 14, isSelected: false, isHover: false },
-        { id: 15, menu: 15, isSelected: false, isHover: false },
-        { id: 16, menu: 16, isSelected: false, isHover: false },
-        { id: 17, menu: 17, isSelected: false, isHover: false },
-        { id: 18, menu: 18, isSelected: false, isHover: false },
-        { id: 19, menu: 19, isSelected: false, isHover: false },
-        { id: 20, menu: 20, isSelected: false, isHover: false },
-        { id: 21, menu: 21, isSelected: false, isHover: false },
-        { id: 22, menu: 22, isSelected: false, isHover: false },
-        { id: 23, menu: 23, isSelected: false, isHover: false },
-        { id: 24, menu: 24, isSelected: false, isHover: false },
-      ],
-      mins: [
-        { id: 1, menu: 5, isSelected: false, isHover: false },
-        { id: 2, menu: 10, isSelected: false, isHover: false },
-        { id: 3, menu: 15, isSelected: false, isHover: false },
-        { id: 4, menu: 20, isSelected: false, isHover: false },
-        { id: 5, menu: 25, isSelected: false, isHover: false },
-        { id: 6, menu: 30, isSelected: false, isHover: false },
-        { id: 7, menu: 35, isSelected: false, isHover: false },
-        { id: 8, menu: 40, isSelected: false, isHover: false },
-        { id: 9, menu: 45, isSelected: false, isHover: false },
-        { id: 10, menu: 50, isSelected: false, isHover: false },
-        { id: 11, menu: 55, isSelected: false, isHover: false },
-        { id: 12, menu: 60, isSelected: false, isHover: false },
-      ],
-      summary: [
-        { id: 1, menu: 'Total Tasks', count: 0, isHover: false },
-        { id: 2, menu: 'UnDone Tasks', count: 0, isHover: false },
-        { id: 3, menu: 'Priority Tasks', count: 0, isHover: false },
-        { id: 4, menu: 'Completed Tasks', count: 0, isHover: false },
-        { id: 5, menu: 'OverDue Tasks', count: 0, isHover: false },
-      ],
+      dates: Dates,
+      months: Months,
+      years: Years,
+      hours: Hours,
+      mins: Mins,
+      summary: Summary,
       isDateMenu: false,
       isMonthMenu: false,
       isYearMenu: false,
       isHoursMenu: false,
       isMinuteMenu: false,
       isAM: true,
-
-
       isSummary: false,
-
       currentDate: Date().slice(8, 10),
       currentMonth: monthName[today.getMonth()],
       currentYear: today.getFullYear(),
@@ -222,7 +86,6 @@ class TaskManager extends Component {
     this.summaryRef = createRef();
   }
   componentDidMount() {
-    //this.clearDataBase();
     this.fetchData();
     this.markdate();
     this.updateWindowDimensions();
@@ -286,7 +149,7 @@ class TaskManager extends Component {
     var all = [];
 
     tasks?.map(i => {
-      let currDate = new Date(i.date);//
+      let currDate = new Date(i.date);
       let newDay = new Date(today);
       let sameDate = (currDate.getFullYear() == newDay.getFullYear() &&
         currDate.getMonth() == newDay.getMonth() && currDate.getDate == newDay.getMonth());
@@ -495,7 +358,6 @@ class TaskManager extends Component {
       itemToBedelete: i.task,
       deleteID: i.id
     })
-    //await db.task.update(i, { isActive: false })
   }
   deleteTask = async (v, i) => {
     try {
@@ -677,7 +539,6 @@ class TaskManager extends Component {
   }
   render() {
     const today = new Date().getDate();
-    //document.body.style.backgroundColor = "#FFF"
     document.body.style.fontFamily = ""
     const daysInMonth = this.getDaysINMonth(new Date().getMonth(), this.state.currentYear)
     const startDay = this.getStartDay(new Date().getMonth(), this.state.currentYear)
@@ -722,8 +583,8 @@ class TaskManager extends Component {
             zIndex: 100,
             transition: 'width 0.3s ease',
             overflowX: 'hidden',
-            display: 'flex',              // <-- ADD THIS
-            flexDirection: 'column',     // <-- ADD THIS
+            display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'space-between',
           }}
         >
@@ -755,7 +616,6 @@ class TaskManager extends Component {
                 option={this.state.summary}
                 Row={1}
                 isSummary={true}
-              //onSelect={this.handleDateValue}
               />}
           </div>
           <div
@@ -805,7 +665,7 @@ class TaskManager extends Component {
                     top: '50%',
                     left: '16px',
                     transform: 'translateY(-50%)',
-                    pointerEvents: 'none', // Allows click to pass through to input
+                    pointerEvents: 'none',
                   }} />
                   <input
                     onChange={this.handleSearch}
@@ -977,7 +837,6 @@ class TaskManager extends Component {
                     style={{
                       border: this.state.taskError ? '1px solid red' : '1px solid #FFF',
                       boxShadow: '#b7b7a75c 7px 7px 34px',
-                      //border: 'none',
                       outline: 'none', padding: '16px', borderRadius: '12px', width: '90%'
                     }}
                     placeholder='Task' />
@@ -990,7 +849,6 @@ class TaskManager extends Component {
                       contentEditable={false}
                       style={{
                         cursor: 'pointer',
-                        //border: '1px solid grey', 
                         boxShadow: '#75756e5c 7px 7px 34px',
                         border: 'none',
                         outline: 'none', padding: '12px', borderRadius: '12px', width: '43%',
@@ -1015,7 +873,6 @@ class TaskManager extends Component {
                     <input contentEditable={false} style={{
                       cursor: 'pointer',
                       textAlign: 'center',
-                      // border: '1px solid grey',
                       boxShadow: '#75756e5c 7px 7px 34px',
                       border: 'none',
                       outline: 'none', padding: '12px', borderRadius: '12px', width: '43%'
@@ -1037,7 +894,6 @@ class TaskManager extends Component {
                     <input contentEditable={false} style={{
                       cursor: 'pointer',
                       textAlign: 'center',
-                      // border: '1px solid grey', 
                       boxShadow: '#75756e5c 7px 7px 34px',
                       border: 'none',
                       outline: 'none', padding: '12px', borderRadius: '12px', width: '43%'
@@ -1062,7 +918,6 @@ class TaskManager extends Component {
                     <input contentEditable={false} style={{
                       cursor: 'pointer',
                       textAlign: 'center',
-                      // border: '1px solid grey', 
                       boxShadow: '#75756e5c 7px 7px 34px',
                       border: 'none',
                       outline: 'none', padding: '12px', borderRadius: '12px', width: '43%'
@@ -1085,7 +940,6 @@ class TaskManager extends Component {
                     <input style={{
                       cursor: 'pointer',
                       textAlign: 'center',
-                      //border: '1px solid grey', 
                       boxShadow: '#75756e5c 7px 7px 34px',
                       border: 'none',
                       outline: 'none', padding: '12px', borderRadius: '12px', width: '43%'
@@ -1107,7 +961,6 @@ class TaskManager extends Component {
                     <div style={{ margin: '12px' }}>Zone</div><input contentEditable={false} style={{
                       cursor: 'pointer',
                       textAlign: 'center',
-                      //border: '1px solid grey',
                       boxShadow: '#75756e5c 7px 7px 34px',
                       border: 'none',
                       outline: 'none', padding: '12px', borderRadius: '12px', width: '43%'
@@ -1158,11 +1011,7 @@ class TaskManager extends Component {
                       </div>)
                   })}
                 </div>
-                {/* <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'yellow', borderRadius: '7px', padding: '12px 4%', margin: '12px 1%', position: 'fixed', bottom: 0, right: 0 }}>
 
-                  <div style={{ margin: '2px 12px 0px 0px' }}> <BiUpArrow /></div>
-                  <div>Show priorities</div>
-                </div> */}
                 <div style={{ fontWeight: 'bold', margin: '12px', color: Color.theme, fontSize: '25px' }}>Top Priorities</div>
                 {this.state.priorityList.length > 0 && this.state.priorityList.slice(0, 3).map(i =>
                   <div style={{ display: 'flex', width: '88%', alignItems: '', backgroundColor: Color.whiteFont, boxShadow: '2px 12px 16px rgba(183, 163, 183, 0.47)', margin: '12px', padding: '12px', borderRadius: '7px' }}>

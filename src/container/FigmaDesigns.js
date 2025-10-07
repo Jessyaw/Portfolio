@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import WithRouter from '../navigate/WithRouter'
 import { Color } from '../Colors'
-import FoodAppUI from '../../src/image/jpg/FoodAppUI.png'
-import { BiLeftArrow } from 'react-icons/bi'
 import { ReactComponent as FlightUI } from '../../src/image/svg/Full screen.svg'
 import { ReactComponent as FoodUI } from '../../src/image/svg/FoodUI.svg'
 import { ReactComponent as CRM } from '../../src/image/svg/CRM.svg'
 import { ReactComponent as TODO } from "../image/svg/TODO.svg"
 
-import FigmaEmbed from '../component/FigmaEmbed'
 
 class FigmaDesigns extends Component {
     constructor(props) {
@@ -24,7 +21,6 @@ class FigmaDesigns extends Component {
     }
 
     componentDidMount() {
-        // document.body.style.backgroundColor = '#FFF';
     }
     componentWillUnmount() {
         document.body.style.backgroundColor = '';
@@ -62,17 +58,7 @@ class FigmaDesigns extends Component {
                     <div className='heading' style={{ color: Color.whiteFont }}>
                         UI/UX Design
                     </div>
-                    {/* <div
-                        onClick={this.redirectToDashboard}
-                        style={{
-                            cursor: 'pointer', display: 'flex', justifyContent: 'space-between',
-                            alignItems: 'center', backgroundColor: Color.theme, margin: '7px', padding: '7px',
-                            borderRadius: '7px', color: Color.whiteFont
-                        }}>
-                        <div style={{ margin: '0px 12px 0px 0px' }}><BiLeftArrow /></div>
-                        <div> Back</div>
 
-                    </div> */}
                 </div>
                 <div className='figma-card'>
                     {this.state.designCards?.map(({ id, isHover, design, component: Comp }) =>
@@ -85,7 +71,6 @@ class FigmaDesigns extends Component {
                                 alignItems: 'center', gap: '12px',
                                 backgroundColor: Color.theme, margin: '12px', borderRadius: '12px',
                                 cursor: 'pointer',
-                                // boxShadow: '1px 2px 10px rgba(148, 143, 143, 0.45)',
                                 height: '340px'
                             }}>
                             <Comp height='auto' width='90%' style={{ padding: '12px' }} />

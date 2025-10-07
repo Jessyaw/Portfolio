@@ -3,14 +3,11 @@ import { FaPlus } from 'react-icons/fa';
 import { Color } from '../Colors';
 import { AiFillEdit } from 'react-icons/ai';
 import { AiFillDelete } from 'react-icons/ai';
-import { BsSearch } from 'react-icons/bs'
-import Profile from '../../src/component/Profile'
-import { CgUnavailable } from 'react-icons/cg';
-import { FaCheck } from 'react-icons/fa';
 import { emailValidation, userNameValidation } from '../Validation';
 import DeletePopup from '../component/DeletePopup'
 import Toaster from '../component/Toaster';
 import { TableSkeleton } from '../component/TableSkeleton';
+import { ApiUrl } from '../Api';
 
 
 
@@ -47,7 +44,7 @@ export default class LibraryUser extends Component {
     fetchUser = async () => {
         this.setState({ isLoading: true })
         try {
-            await fetch('https://localhost:7232/GetMemberData').then(res => res.json()).then(json => {
+            await fetch(`${ApiUrl.url}/Library/GetMemberData`).then(res => res.json()).then(json => {
                 this.setState({
                     userData: json.data || []
                 })
@@ -124,7 +121,7 @@ export default class LibraryUser extends Component {
     }
     addUpdate = async (data) => {
         try {
-            let response = await fetch('https://localhost:7232/AddMember', {
+            let response = await fetch(`${ApiUrl.url}/Library/AddMember`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -133,8 +130,6 @@ export default class LibraryUser extends Component {
             });
 
             let json = await response.json();
-            console.log("API response:", json, data);
-
             this.setState({
                 apiResponse: json,
                 isAdd: false
@@ -147,7 +142,6 @@ export default class LibraryUser extends Component {
     }
 
     updateUser = (i) => {
-        console.log(i)
         this.setState({
             isAdd: true,
             isUpdate: true,
@@ -176,7 +170,7 @@ export default class LibraryUser extends Component {
             MemberName: this.state.name
         }
         try {
-            await fetch('https://localhost:7232/DeleteUser', {
+            await fetch(`${ApiUrl.url}/Library/DeleteUser`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

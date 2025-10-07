@@ -1,12 +1,9 @@
-import React, { Component, createRef } from 'react'
+import { Component, createRef } from 'react'
 import { Color } from '../Colors'
-import dev from '../../src/image/svg/Developer.svg'
-import { Constant } from '../Constant';
 import Home from './Home';
 import About from './About';
 import Project from './Project';
 import Contact from './Contact';
-import ProjectDetails from './ProjectDetails';
 
 
 export default class Portfolio extends Component {

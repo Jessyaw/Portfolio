@@ -1,4 +1,3 @@
-import React from 'react'
 import { BsSearch } from 'react-icons/bs'
 import { Color } from '../Colors'
 
@@ -15,7 +14,7 @@ export default function SearchBar() {
                         top: '50%',
                         left: '16px',
                         transform: 'translateY(-50%)',
-                        pointerEvents: 'none', // Allows click to pass through to input
+                        pointerEvents: 'none',
                     }} />
                 <input
                     onChange={(e) => handleTopSearch(e)}

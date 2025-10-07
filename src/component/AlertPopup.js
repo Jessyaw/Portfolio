@@ -1,4 +1,3 @@
-import React from 'react'
 import { Color } from '../Colors'
 import { MdOutlineClose } from 'react-icons/md';
 

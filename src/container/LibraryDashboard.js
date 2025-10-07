@@ -9,6 +9,7 @@ import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { BiSolidBookAlt } from 'react-icons/bi';
 import { TbMessageChatbotFilled } from 'react-icons/tb';
 import { TableSkeleton } from '../component/TableSkeleton';
+import { ApiUrl } from '../Api';
 
 
 export default class LibraryDashboard extends Component {
@@ -27,6 +28,7 @@ export default class LibraryDashboard extends Component {
             commonQS: [
                 { id: 1, qs: 'Show me overdue books this week', isSelect: false },
                 { id: 2, qs: 'Who borrowed the most books this month?', isSelect: false },
+                { id: 3, qs: 'List all available books by category', isSelect: false }
             ],
             list: [
                 { id: 1, icon: <FaBook size={20} />, menu: 'Recently borrowed', isOpen: true, isHover: false },
@@ -81,8 +83,7 @@ export default class LibraryDashboard extends Component {
     fetchStatData = async () => {
         this.setState({ isLoading: true, })
         try {
-            await fetch('https://localhost:7232/GetStatData').then(res => res.json()).then(json => {
-                console.log(json.data[0]);
+            await fetch(`${ApiUrl.url}/Library/GetStatData`).then(res => res.json()).then(json => {
                 let stat = json.data[0];
                 this.setState(prevState => ({
                     statCards: prevState.statCards?.map(i => ({
@@ -99,8 +100,7 @@ export default class LibraryDashboard extends Component {
     }
     fetchRecentlyBorrowed = async () => {
         try {
-            await fetch('https://localhost:7232/GetRecentlyBorrowedData').then(res => res.json()).then(json => {
-                console.log(json.data);
+            await fetch(`${ApiUrl.url}/Library/GetRecentlyBorrowedData`).then(res => res.json()).then(json => {
                 this.setState({
                     recentlyAdded: json.data
                 })
@@ -113,7 +113,7 @@ export default class LibraryDashboard extends Component {
     }
     fetchRecentlyReturned = async () => {
         try {
-            await fetch('https://localhost:7232/GetRecentlyReturnData').then(res => res.json()).then(json => {
+            await fetch(`${ApiUrl.url}/Library/GetRecentlyReturnData`).then(res => res.json()).then(json => {
                 this.setState({
                     recentlyReturned: json.data
                 })
@@ -126,7 +126,7 @@ export default class LibraryDashboard extends Component {
     }
     fetchOverdue = async () => {
         try {
-            await fetch('https://localhost:7232/GetOverdueData').then(res => res.json()).then(json => {
+            await fetch(`${ApiUrl.url}/Library/GetOverdueData`).then(res => res.json()).then(json => {
                 this.setState({
                     overdued: json.data
                 })
@@ -195,7 +195,7 @@ export default class LibraryDashboard extends Component {
                                         this.state.recentlyAdded?.slice(0, 3).map(i =>
                                             <tr key={i.id}>
                                                 {this.state.recentlyAddedRow?.map(j =>
-                                                    <td data-label={j.header} key={j.id}>{
+                                                    <td data-label={j.header} key={j.id} style={{ textAlign: 'center', padding: '12px 0px' }}>{
                                                         i[j.field]
                                                     }</td>
                                                 )}
@@ -220,7 +220,7 @@ export default class LibraryDashboard extends Component {
                                             this.state.recentlyReturned?.slice(0, 3).map(i =>
                                                 <tr key={i.id}>
                                                     {this.state.recentlyReturnedRow?.map(j =>
-                                                        <td data-label={j.header} key={j.id}>{
+                                                        <td data-label={j.header} key={j.id} style={{ textAlign: 'center', padding: '12px 0px' }}>{
                                                             i[j.field]
                                                         }</td>
                                                     )}
@@ -243,7 +243,7 @@ export default class LibraryDashboard extends Component {
                                         this.state.overdued?.slice(0, 3).map(i =>
                                             <tr key={i.id}>
                                                 {this.state.overduedRow?.map(j =>
-                                                    <td data-label={j.header} key={j.id}>{
+                                                    <td data-label={j.header} key={j.id} style={{ textAlign: 'center', padding: '12px 0px' }}>{
                                                         i[j.field]
                                                     }</td>
                                                 )}
@@ -260,17 +260,25 @@ export default class LibraryDashboard extends Component {
 
 
                 {/* chat bot */}
-                <div onClick={this.props.openChat} className='chat-query'>
+                <div className='chat-query'>
                     <div className='chat-query'>
                         {this.state.commonQS?.map(i =>
-                            <div style={{ backgroundColor: Color.dashboard, padding: '10px', borderRadius: '12px', color: Color.whiteFont, fontSize: '0.9rem', fontWeight: '500' }}>{i.qs}</div>
+                            <div
+                                onClick={() => this.props.addPrompt(i.qs)}
+                                style={{
+                                    backgroundColor: Color.dashboard,
+                                    padding: '10px', borderRadius: '12px', color: Color.whiteFont, fontSize: '0.9rem', fontWeight: '500'
+                                }}>{i.qs}</div>
                         )}
                     </div>
-                    <div className='center' style={{
-                        cursor: 'pointer', backgroundColor: Color.whiteFont,
-                        padding: '10px', borderRadius: '7px', color: Color.dashboard,
-                        boxShadow: '1px 2px 10px #a4acac64', display: 'flex', gap: '12px'
-                    }}>
+                    <div
+                        className='center'
+                        onClick={() => this.props.openChat()}
+                        style={{
+                            cursor: 'pointer', backgroundColor: Color.whiteFont,
+                            padding: '10px', borderRadius: '7px', color: Color.dashboard,
+                            boxShadow: '1px 2px 10px #a4acac64', display: 'flex', gap: '12px'
+                        }}>
                         <div>Ask chat</div>
                         <TbMessageChatbotFilled size={25} />
                     </div>

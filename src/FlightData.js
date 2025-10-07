@@ -17,13 +17,7 @@ export const seedInitialFlightDetails = async () => {
             { id: 6, flightID: 'AK-127', date: today, isBooked: false, airLine: 'Akasa Air', from: 'Tuti (TCR)', to: 'Chennai (MAA)', departure: '06:45 AM', arrival: '08:15 AM', duration: '1h 30m', stops: 'Non-stop', baggage: '20kg Check-in + 7kg Cabin', class: 'Economy', price: 'INR 4,150' },
             { id: 7, flightID: 'BA-138', date: today, isBooked: false, airLine: 'British Airways', from: 'Tirunelveli (TCR)', to: 'America (JFK)', departure: '03:00 PM', arrival: '08:00 AM', duration: '21h 30m', stops: '1 Stop (London)', baggage: '2 x 23kg Check-in + 10kg Cabin', class: 'Economy', price: 'INR 82,000' }
         ]
-        // if (Array.isArray(data)) {
-        //     let bulkdata = await Promise.all(data.map(async (i) => {
-        //         return await encryption(i);
-        //     }))
 
-        //     await db.availableFlights.bulkAdd([{ id: 1, data: bulkdata }]);
-        // }
     }
     else {
         //await db.availableFlights.clear();

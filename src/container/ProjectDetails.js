@@ -46,8 +46,12 @@ class ProjectDetails extends Component {
 
             this.props.navigate('/ticketBooking')
 
-        } else {
-            // this.props.navigate('/crm')
+        } else if (this.state.project == 'LMS') {
+
+            this.props.navigate('/libraryManagementSystem')
+
+        }
+        else {
         }
     }
     render() {

@@ -3,7 +3,6 @@ import { Color } from '../Colors'
 
 export default function Toaster(props) {
     useEffect(() => {
-        console.log(props.fail, props.success, 'constatsd props')
     }, [])
     return (
         <div

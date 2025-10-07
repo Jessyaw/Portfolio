@@ -7,10 +7,10 @@ import CustomDropdown from '../component/CustomDropdown';
 import { CgUnavailable } from 'react-icons/cg';
 import { FaCheck } from 'react-icons/fa';
 import { handleOnKeyAlpha, handleOnKeyNumber } from '../Validation';
-import { SiTruenas } from 'react-icons/si';
 import DeletePopup from '../component/DeletePopup';
 import Toaster from '../component/Toaster';
 import { TableSkeleton } from '../component/TableSkeleton';
+import { ApiUrl } from '../Api';
 
 
 export default class LibraryBooks extends Component {
@@ -56,7 +56,7 @@ export default class LibraryBooks extends Component {
     fetchBook = async () => {
         this.setState({ isLoading: true, })
         try {
-            await fetch('https://localhost:7232/GetBookData').then(res => res.json()).then(json => {
+            await fetch(`${ApiUrl.url}/Library/GetBookData`).then(res => res.json()).then(json => {
                 this.setState({
                     bookDetails: json.data
                 })
@@ -70,7 +70,7 @@ export default class LibraryBooks extends Component {
     }
     fetchCategory = async () => {
         try {
-            await fetch('https://localhost:7232/GetCategory').then(res => res.json()).then(json => {
+            await fetch(`${ApiUrl.url}/Library/GetCategory`).then(res => res.json()).then(json => {
                 this.setState({
                     category: json.data
                 })
@@ -190,14 +190,13 @@ export default class LibraryBooks extends Component {
     }
     addUpdate = async (data) => {
         try {
-            await fetch('https://localhost:7232/AddBook', {
+            await fetch(`${ApiUrl.url}/Library/AddBook`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'Application/json'
                 },
                 body: JSON.stringify(data)
             }).then(res => res.json()).then(json => {
-                console.log(json.message);
                 if (json.status == 'S') {
                     this.setState({
                         successMessage: json.message
@@ -249,7 +248,7 @@ export default class LibraryBooks extends Component {
             id: this.state.deleteID
         }
         try {
-            await fetch('https://localhost:7232/DeleteBook', {
+            await fetch(`${ApiUrl.url}/Library/DeleteBook`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -258,14 +257,12 @@ export default class LibraryBooks extends Component {
             }).then(res => res.json()).then(json => {
 
                 if (json.status == 'S') {
-                    console.log(json.status, json.message)
                     this.setState({
                         successMessage: json.message
                     })
                     setTimeout(() => this.setState({ successMessage: '' }), 3000);
                 }
                 else {
-                    console.log(json.status, json.message)
                     this.setState({
                         failureMessage: json.message
                     })

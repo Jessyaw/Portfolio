@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { ReactComponent as Canva } from '../../src/image/svg/FlightDesign.svg'
 import WithRouter from '../navigate/WithRouter'
 import { Color } from '../Colors'
 import { CanvaData } from '../CanvaData'

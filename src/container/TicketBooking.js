@@ -17,21 +17,9 @@ import { FaRegCalendar } from 'react-icons/fa6'
 import { IoIosArrowForward } from 'react-icons/io'
 import { HiSwitchHorizontal } from 'react-icons/hi'
 import { FaChevronRight } from 'react-icons/fa'
-import { InitializeLeftMenu } from '../TicketBookingJson'
-import { FaPlaneDeparture } from 'react-icons/fa6'
-import { FaRegFolderOpen } from 'react-icons/fa6'
-import { FaClipboardCheck } from 'react-icons/fa6'
-import { FaUserAlt } from 'react-icons/fa'
-import { FaAddressBook } from 'react-icons/fa6'
-import { FaPlane } from 'react-icons/fa6'
-import travel from '../../src/image/jpg/travel.jpg'
-import flight from '../../src/image/jpg/flight.jpg'
-import { initializeSeat } from '../Seats';
 import { decryption, encryption } from '../dexie/EncodeDecode'
-import { data } from 'react-router-dom'
 import AlertPopup from '../component/AlertPopup'
 import { Constant } from '../Constant'
-
 
 class TicketBooking extends Component {
     constructor(props) {
@@ -137,8 +125,6 @@ class TicketBooking extends Component {
             isUpdated: false,
             isCancelBooking: false,
             BID: null,
-
-
         }
     }
     async componentDidMount() {
@@ -147,7 +133,6 @@ class TicketBooking extends Component {
         await this.fetchFilghtData();
         await this.fetchRecentBookingData();
         await this.fetchPassangerDetails();
-        // // InitializeLeftMenu();
         this.fetchLeftMenu();
         this.initializeSeat();
         this.fetchMealMenu();
@@ -275,21 +260,7 @@ class TicketBooking extends Component {
         catch (e) {
 
         }
-        // Promise.all(await db.passangerDetails?.toArray().then(async result => {
-        //     result.map(async i => {
-        //         let decode = await decryption(i?.data);
-        //         data.push(decode);
-        //         let manageData = [];
-        //         data?.forEach(i => {
-        //             if (i?.isActive) {
-        //                 manageData.push(i);
 
-        //             }
-        //         })
-        //         manageData.reverse()
-
-        //     })
-        // }))
     }
     fetchSeatData = async () => {
         try {
@@ -315,29 +286,8 @@ class TicketBooking extends Component {
         this.setState({
             leftMenu: LeftMenu,
         })
-        const iconMap = {
-            FaPlaneDeparture: FaPlaneDeparture,
-            FaRegFolderOpen: FaRegFolderOpen,
-            FaClipboardCheck: FaClipboardCheck,
-            FaUserAlt: FaUserAlt,
-            FaAddressBook: FaAddressBook,
-            FaPlane: FaPlane,
-        }
-        let list = [];
-        // await db.leftMenu.toArray()?.then(result => {
-        //     Promise.all(result[0].data?.map(async (i) => {
-        //         let data = await decryption(i);
-        //         list.push(data);
-        //         const update = list?.map(item => ({
-        //             ...item,
-        //             icon: iconMap[item.icon] ? iconMap[item.icon] : null
-        //         }))
-        //         this.setState({
-        //             leftMenu: LeftMenu,
-        //         })
 
-        //     }))
-        // });
+
 
 
 
@@ -360,19 +310,9 @@ class TicketBooking extends Component {
         } catch (e) {
         }
 
-        seedInitialFlightDetails();
 
-        // let flightData = await db.availableFlights.toArray();
-        // let flightDecode = [];
-        // Promise.all(flightData[0].data.map(async (i) => {
-        //     let data = await decryption(i);
-        //     flightDecode.push(data)
-        // }))
-        // this.setState({
-        //     countries: countries,
-        //     flightDetails: flightDecode,
-        //     flightDetailsClone: flightDecode,
-        // })
+
+
 
 
 
@@ -773,8 +713,6 @@ class TicketBooking extends Component {
 
         }
 
-        // await db.seats.update(val.id, { isAvailable: false })
-        // this.fetchSeatData();
     }
     handleOpenSeatsMenu = () => {
         this.setState({
@@ -1025,66 +963,7 @@ class TicketBooking extends Component {
             this.fetchFilghtData();
             this.fetchPassangerDetails();
         }
-
-
     }
-
-    // addPassangerDetails = async (flightID,
-    //     bookingID,
-    //     isCheckedIn,
-    //     firstName,
-    //     middleName,
-    //     lastName, specialAssistence, address,
-    //     gender, DOB, selectedCountry, contactNumber, emailAddress,
-    //     SelectedSeat, selectedMeal, emergencyContactNumber,
-    //     frequentFlyerNumber, isActive) => {
-
-    //     try {
-    //         bookingID = generateRandonID();
-    //         this.setState({
-    //             isPassangerAvailable: true,
-    //             bookingID,
-    //         }, () => { this.handleBooking() })
-
-    //         let encode = await encryption({
-    //             flightID,
-    //             bookingID,
-    //             isCheckedIn,
-    //             firstName,
-    //             middleName,
-    //             lastName, specialAssistence, address,
-    //             gender, DOB, selectedCountry, contactNumber, emailAddress,
-    //             SelectedSeat, selectedMeal, emergencyContactNumber,
-    //             frequentFlyerNumber, isActive
-    //         })
-    //         let book = await encryption(bookingID);
-    //         await db.passangerDetails.add({ bID: book, data: encode })
-    //     } catch (error) {
-    //         if (error.name === 'ConstraintError') {
-    //             bookingID = generateRandonID();
-    //             this.addPassangerDetails(flightID,
-    //                 bookingID,
-    //                 isCheckedIn,
-    //                 firstName,
-    //                 middleName,
-    //                 lastName, specialAssistence, address,
-    //                 gender, DOB, selectedCountry, contactNumber, emailAddress,
-    //                 SelectedSeat, selectedMeal, emergencyContactNumber,
-    //                 frequentFlyerNumber, isActive)
-    //         }
-    //     } window.alert('Added Successfully!!')
-    //     this.setState({
-    //         flightID: null,
-    //         isFlightDetails: false,
-    //         isUpdateContacts: true,
-    //         isPassangerDetails: false,
-    //         isCheckIn: false,
-    //         isManageBookings: false,
-    //         isBookTickets: false,
-    //     }, () => this.handleClear())
-
-    // }
-
     handleManageBooking = (e) => {
         this.setState({
             manageBookingID: e.target.value,
@@ -1151,17 +1030,10 @@ class TicketBooking extends Component {
         let data = clone?.filter(i =>
 
             i?.BookingID?.toLowerCase().includes(bookingID?.toLowerCase())
-            //   && i?.passangerDetails.emailAddress.toLowerCase().includes(this.state.ManageMobile.toLowerCase())
-            //  || i?.passangerDetails.contactNumber.toLowerCase().includes(this.state.ManageMobile.toLowerCase())
         )
 
         if (data[0]) {
-            //     let flightData = await db.availableFlights.get({ flightID: data[0]?.flightID })
 
-            //     const combined = [{
-            //         ...data[0],
-            //         ...flightData
-            //     }]
             let filter = [];
             filter.push(data[0])
             this.setState({
@@ -1185,11 +1057,7 @@ class TicketBooking extends Component {
 
 
         if (data) {
-            // let flightData = await db.availableFlights.get({ flightID: data[0]?.flightID })
-            // const combined = [{
-            //     ...data[0],
-            //     ...flightData
-            // }]
+
             this.setState({
                 checkInList: data
             })
@@ -1269,15 +1137,7 @@ class TicketBooking extends Component {
 
     handleConfirmCheckIn = async (i) => {
 
-        // const record = await db.passangerDetails.where('bookingID').equals(i?.bookingID)?.toArray();
-        // await db.passangerDetails.where('bookingID').equals(i?.bookingID).modify({ isCheckedIn: true }).then(updated => {
-        //     if (updated) {
-        //         this.fetchFilghtData();
-        //         this.handleFilterCheckIn(i?.bookingID);
-        //     }
-        //     else {
-        //     }
-        // })
+
 
         try {
             await fetch('https://ticket-booking-omega-sand.vercel.app/api/checkin', {
@@ -1342,13 +1202,7 @@ class TicketBooking extends Component {
         } catch (e) {
         }
 
-        //  const record = await db.passangerDetails.where('bookingID').equals(i?.bookingID).toArray();
 
-        // await db.passangerDetails.where('bookingID').equals(this.state.manageBookingID).modify({ isActive: false }).then(res => {
-        //     let data = db.passangerDetails?.toArray();
-        //     let decode = decryption(data);
-        //     this.updateManageBooking();
-        // }).then(() => { this.handleFilterMangeBooking(this.state.manageBookingID) });
 
     }
     updateManageBooking = async () => {
@@ -1503,9 +1357,7 @@ class TicketBooking extends Component {
                                         <div style={{ display: 'flex', gap: '34px', flexDirection: 'column' }}>
                                             {/* Form */}
                                             <div style={{
-                                                // backgroundImage: `url(${flight})`,
-                                                //backgroundPosition: 'center',
-                                                //backgroundSize: 'cover',
+
                                                 backgroundColor: Color.FlightTheme,
                                                 borderRadius: '25px', height: '250px', margin: '0px 12px'
                                             }}>

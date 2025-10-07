@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { Color } from '../Colors'
 import { Constant } from '../Constant'
 import HTML from "../image/svg/HTML.svg"
@@ -6,8 +6,6 @@ import CSS from "../image/svg/CSS.svg"
 import JS from "../image/svg/JS.svg"
 import SQL from "../image/svg/SQL.svg"
 import C from "../image/svg/C.svg"
-import { DiTechcrunch } from 'react-icons/di';
-import { CgIfDesign } from 'react-icons/cg';
 import ToDo from '../../src/image/svg/TODO.svg'
 import Ticket from '../../src/image/svg/FlightDesign.svg'
 import FoodUI from '../../src/image/svg/FoodUI.svg'
@@ -21,7 +19,6 @@ import Canva from "../image/svg/Canva.svg"
 import ReactJS from "../image/svg/React.svg"
 import CSharp from "../image/svg/CSharp.svg"
 import WithRouter from '../navigate/WithRouter'
-import { GrTechnology } from 'react-icons/gr'
 import { BiLoader } from 'react-icons/bi'
 import oddbods from '../../src/image/svg/Oddbods.svg'
 import { CanvaData } from '../CanvaData'
@@ -45,6 +42,7 @@ class Project extends Component {
                 { id: 1, redirectTo: '/taskManager', isSelect: false, status: 'Open Link', src: ToDo, title: 'TO DO', icon: <BiLinkExternal />, des: Constant.todoDes, isHighlight: true },
                 { id: 2, redirectTo: '/ticketBooking', isSelect: false, status: 'Open Link', src: Ticket, title: 'Flight Ticket Booking', icon: <BiLinkExternal />, des: Constant.ticketDes, isHighlight: false },
                 { id: 3, redirectTo: '', isSelect: false, status: 'On Process', src: Crm, title: 'CRM', icon: <BiLoader />, des: Constant.onProcess, isHighlight: false },
+                { id: 4, redirectTo: '/libraryManagementSystem', isSelect: false, status: 'Open Link', src: Crm, title: 'Library Management System', icon: <BiLinkExternal />, des: Constant.lmsDes, isHighlight: false },
             ],
             figma: [
                 { id: 1, isHover: false, src: Ticket, design: 'Flight Ticket Booking UI/UX', redirectTo: 'https://www.figma.com/design/cY5bWg8DOoQy3rWjH25hlR/Splash-Oddbods?node-id=33-2&t=R86MeVo3aLXS5xrB-1' },
@@ -179,6 +177,29 @@ class Project extends Component {
                     src: Crm,
                     status: 'On Process',
                 }
+            ],
+            lms = [
+                {
+                    project: 'LMS',
+                    des: Constant.lmsDes,
+                    tech: [
+                        { id: 1, tech: 'ReactJS', isHighlight: false },
+                        { id: 2, tech: 'HTML', isHighlight: false },
+                        { id: 3, tech: 'CSS', isHighlight: false },
+                        { id: 4, tech: 'Javascript', isHighlight: false },
+                        { id: 5, tech: 'C# Web API', isHighlight: false },
+                        { id: 6, tech: 'SSMS', isHighlight: false },
+                    ],
+                    keywords: [
+                        { id: 1, key: "Book catalog management with structured records" },
+                        { id: 2, key: "User profiles with borrowing and return history" },
+                        { id: 3, key: "Efficient tracking of book availability and due dates" },
+                        { id: 4, key: "AI assistant for quick search and library support" }
+                    ],
+
+                    src: Crm,
+                    status: 'Completed',
+                }
             ]
         if (i.id == 1) {
             this.props.navigate('/projectDetails', { state: { data: todo } });
@@ -186,8 +207,11 @@ class Project extends Component {
         else if (i.id == 2) {
             this.props.navigate('/projectDetails', { state: { data: ticket } });
         }
-        else {
+        else if (i.id == 3) {
             this.props.navigate('/projectDetails', { state: { data: crm } });
+        }
+        else {
+            this.props.navigate('/projectDetails', { state: { data: lms } });
         }
 
     }

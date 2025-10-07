@@ -28,5 +28,6 @@ export const Constant = {
     todoDes: 'A simple to-do list application that allows users to add, edit, and delete tasks. It helps in organizing daily activities and keeping track of completed and pending work',
     ticketDes: 'A simple flight ticket booking application where users can search for flights and reserve tickets. It provides an easy interface to manage bookings and view travel details',
     crmDes: 'A simple Customer Relationship Management (CRM) system to manage client details and interactions. It helps track leads, organize customer data, and improve overall business management',
+    lmsDes: 'A Library Management System to manage books, users, and borrowing/return records. It helps track book availability, organize user data, and includes an AI assistant for quick search and support',
     onProcess: 'A Customer Relationship Management (CRM) system is under development to manage clients and track interactions. The project focuses on streamlining customer data handling and improving business workflows',
 }

@@ -32,7 +32,7 @@ export const Color = {
     textSecondary: '#9ca3af',
     textPrimary: '#ffffff',
     hoverBG: '#02061f',
-    darkPurple: '#03021c',
+    darkPurple: '#37353E',
 
 
     //library
@@ -46,9 +46,10 @@ export const Color = {
     libraryTheme: '#677D6A',
 
     dashboard: '#ff6105',
-    book: '#13a3b5',
-    user: '#992bff',
-    borrow: '#ff3b4b',
+    book: '#7f1373',
+    user: '#d20d5d',
+    borrow: '#0008C1',
     chatBot: '#0ba84a',
+    input: '#DAD3BE',
 
 }

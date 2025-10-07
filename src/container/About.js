@@ -9,8 +9,6 @@ import { DiOpenshift } from 'react-icons/di';
 import { FaFigma } from "react-icons/fa";
 import resume from '../../src/pdf/JessyAngelW_Resume.pdf'
 
-
-
 export default class About extends Component {
     constructor(props) {
         super(props)

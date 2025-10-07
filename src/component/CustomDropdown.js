@@ -1,11 +1,9 @@
-import React, { useEffect, useState, forwardRef } from 'react'
-import { Color } from '../Colors';
+import { useEffect, useState, forwardRef } from 'react'
 
 const CustomDropdown = forwardRef((props, ref) => {
     const [menuOption, setMenuOption] = useState([]);
     useEffect(() => {
         setMenuOption(props.option);
-        console.log(props.option.length, 'length')
     }, [props.option])
 
     const handleSelect = (i) => {
