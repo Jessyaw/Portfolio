@@ -202,6 +202,10 @@ export default class LibraryUser extends Component {
         }
     }
     render() {
+        const userData = this.state.userData?.filter(user =>
+            user?.memberName.toLowerCase().includes(this.props.search) ||
+            user?.emailID.toLowerCase().includes(this.props.search)
+        )
         return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', }}>
                 {/* <LibraryDashboard size={25} /> */}
@@ -263,7 +267,7 @@ export default class LibraryUser extends Component {
                         </thead>
                         {this.state.isLoading ? (<TableSkeleton rows={5} cols={this.state.row?.length} />) :
                             (<tbody>
-                                {this.state.userData?.map(i =>
+                                {userData?.map(i =>
                                     <tr key={i.id}>
                                         {this.state.row?.map(j =>
                                             <td data-label={j.header} key={j.id}>{

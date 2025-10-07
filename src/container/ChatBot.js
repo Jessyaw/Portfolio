@@ -82,7 +82,7 @@ export default class ChatBot extends Component {
                                     <thead>
                                         <tr>
                                             {Object.keys(reply[0]).map((col, i) => (
-                                                <th key={i} style={{ backgroundColor: '#27252569', textAlign: 'center', padding: '4px' }}>{col}</th>
+                                                <th key={i} style={{ backgroundColor: '#27252569', textAlign: 'center', padding: '7px' }}>{col}</th>
                                             ))}
                                         </tr>
                                     </thead>
@@ -90,7 +90,7 @@ export default class ChatBot extends Component {
                                         {reply.map((row, i) => (
                                             <tr key={i}>
                                                 {Object.values(row).map((val, j) => (
-                                                    <td key={j} style={{ textAlign: 'center', padding: '4px' }}>{val}</td>
+                                                    <td key={j} style={{ textAlign: 'center', padding: '7px' }}>{val}</td>
                                                 ))}
                                             </tr>
                                         ))}

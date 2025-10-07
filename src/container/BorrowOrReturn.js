@@ -4,6 +4,7 @@ import CustomDropdown from '../component/CustomDropdown';
 import { handleOnKeyNumber } from '../Validation';
 import Toaster from '../component/Toaster';
 import { TableSkeleton } from '../component/TableSkeleton';
+import { ApiUrl } from '../Api';
 
 
 export default class BorrowOrReturn extends Component {
@@ -58,7 +59,7 @@ export default class BorrowOrReturn extends Component {
     fetchBook = async () => {
 
         try {
-            await fetch('https://localhost:7232/GetBookData').then(res => res.json()).then(json => {
+            await fetch(`${ApiUrl.url}/Library/GetBookData`).then(res => res.json()).then(json => {
                 this.setState({
                     books: json.data
                 })
@@ -69,7 +70,7 @@ export default class BorrowOrReturn extends Component {
     }
     fetchUser = async () => {
         try {
-            await fetch('https://localhost:7232/GetMemberData').then(res => res.json()).then(json => {
+            await fetch(`${ApiUrl.url}/Library/GetMemberData`).then(res => res.json()).then(json => {
                 this.setState({
                     userData: json.data
                 })
@@ -81,7 +82,7 @@ export default class BorrowOrReturn extends Component {
     fetchBorrowData = async () => {
         this.setState({ loading: true });
         try {
-            await fetch('https://localhost:7232/GetBorrowedData').then(res => res.json()).then(json => {
+            await fetch(`${ApiUrl.url}/Library/GetBorrowedData`).then(res => res.json()).then(json => {
                 this.setState({
                     borrow: json.data
                 })
@@ -96,7 +97,7 @@ export default class BorrowOrReturn extends Component {
     fetchReturnData = async () => {
         this.setState({ loading: true });
         try {
-            await fetch('https://localhost:7232/GetReturnData').then(res => res.json()).then(json => {
+            await fetch(`${ApiUrl.url}/Library/GetReturnData`).then(res => res.json()).then(json => {
                 this.setState({
                     return: json.data
                 })
@@ -207,7 +208,7 @@ export default class BorrowOrReturn extends Component {
                     dueDate: dueDate,
                     returnDate: "",
                 }
-                await fetch('https://localhost:7232/AddUpdateBorrowReturnDetails', {
+                await fetch(`${ApiUrl.url}/Library/AddUpdateBorrowReturnDetails`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'Application/json'
@@ -245,7 +246,7 @@ export default class BorrowOrReturn extends Component {
                     returnDate: returnDate,
                 }
 
-                await fetch('https://localhost:7232/AddUpdateBorrowReturnDetails', {
+                await fetch(`${ApiUrl.url}/Library/AddUpdateBorrowReturnDetails`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'Application/json'
@@ -278,10 +279,20 @@ export default class BorrowOrReturn extends Component {
         let year = date.getFullYear();
         let month = String(date.getMonth() + 1).padStart(2, '0');
         let day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        return `${year} - ${month} - ${day}`;
 
     }
     render() {
+        const borrow = this.state.borrow?.filter(b =>
+            b?.title.toLowerCase().includes(this.props.search) ||
+            b?.memberName.toLowerCase().includes(this.props.search) ||
+            b?.bookStatus.toLowerCase().includes(this.props.search)
+        )
+        const returned = this.state.return?.filter(b =>
+            b?.title.toLowerCase().includes(this.props.search) ||
+            b?.memberName.toLowerCase().includes(this.props.search) ||
+            b?.bookStatus.toLowerCase().includes(this.props.search)
+        )
         return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', }}>
                 {/* <LibraryDashboard size={25} /> */}
@@ -359,7 +370,7 @@ export default class BorrowOrReturn extends Component {
                                 <TableSkeleton rows={5} cols={this.state.borrowRow?.length} />
                             ) : (
                                 <tbody>
-                                    {this.state.borrow?.map(i =>
+                                    {borrow?.map(i =>
                                         <tr key={i.id}>
                                             {this.state.borrowRow?.map(j =>
                                                 <td data-label={j.header} key={j.id}>
@@ -384,7 +395,7 @@ export default class BorrowOrReturn extends Component {
                                 <TableSkeleton rows={5} cols={this.state.returnRow?.length} />
                             ) : (
                                 <tbody>
-                                    {this.state.return?.map(i =>
+                                    {returned?.map(i =>
                                         <tr key={i.id}>
                                             {this.state.returnRow?.map(j =>
                                                 <td data-label={j.header} key={j.id}>

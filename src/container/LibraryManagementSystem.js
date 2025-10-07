@@ -99,8 +99,8 @@ export default class LibraryManagementSystem extends Component {
             <div>
                 {/* Header */}
                 <div style={{}}>
-                    <div style={{ display: 'flex', position: 'fixed', right: 20, left: 250, backgroundColor: Color.whiteFont, zIndex: 1000, }}>
-                        <div style={{ display: 'flex', alignItems: 'center', margin: '12px 0px', width: '100%', gap: '12px' }}>
+                    <div style={{ display: 'flex', position: 'fixed', right: 20, left: this.state.screenWidth <= 892 ? 70 : 230, backgroundColor: '', zIndex: 1000, }}>
+                        <div style={{ display: 'flex', alignItems: 'center', margin: '7px 0px', width: this.state.screenWidth <= 892 ? '79%' : '100%', gap: '12px' }}>
                             <div className={`${this.state.screenWidth <= 892 ? 'small-heading' : 'heading'}`}
                                 onClick={this.openSideBar} style={{ fontSize: '34px', color: Color.darkPurple }}>LMS</div>
                             <div style={{ width: '100%', }}>
@@ -120,7 +120,7 @@ export default class LibraryManagementSystem extends Component {
                                         onMouseEnter={() => { this.setState({ isSearch: true }) }}
                                         onMouseLeave={() => { this.setState({ isSearch: false }) }}
                                         style={{
-                                            border: 'none', borderRadius: '12px', width: '43%',
+                                            border: 'none', borderRadius: '12px', width: this.state.screenWidth <= 892 ? '100%' : '43%',
                                             border: '0.7px solid #0545451f',
                                             boxShadow: this.state.isSearch ? '1px 2px 12px #5e525247' : '',
                                             padding: '20px 0px 20px 52px', margin: '0px', outline: 'none'
@@ -180,11 +180,11 @@ export default class LibraryManagementSystem extends Component {
                                     addPrompt={(v) => this.handlePrompt(this.state.chat, v)}
                                 />
                                 : (i.isSelect && i.id == 2)
-                                    ? <LibraryBooks />
+                                    ? <LibraryBooks search={this.state.searchValue} />
                                     : (i.isSelect && i.id == 3)
-                                        ? <LibraryUser />
+                                        ? <LibraryUser search={this.state.searchValue} />
                                         : (i.isSelect && i.id == 4)
-                                            ? <BorrowOrReturn />
+                                            ? <BorrowOrReturn search={this.state.searchValue} />
                                             : (i.isSelect && i.id == 5)
                                             && <ChatBot prompt={this.state.prompt}
                                             />

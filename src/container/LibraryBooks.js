@@ -18,6 +18,7 @@ export default class LibraryBooks extends Component {
         super(props)
         this.state = {
             bookDetails: [],
+
             row: [
                 { id: 1, field: 'title', header: 'Title' },
                 { id: 2, field: 'author', header: 'Author' },
@@ -46,6 +47,7 @@ export default class LibraryBooks extends Component {
             failureMessage: '',
             isLoading: true,
 
+
         }
     }
 
@@ -53,12 +55,22 @@ export default class LibraryBooks extends Component {
         this.fetchBook();
         this.fetchCategory();
     }
+    handleSearch = () => {
+        if (this.state.searchValue == '') return;
+        let data = this.state.bookDetailsClone?.filter(i =>
+            i?.title.toLowerCase().includes(this.state.searchValue)
+        )
+        this.setState({
+            bookDetailsClone: data
+        })
+    }
     fetchBook = async () => {
         this.setState({ isLoading: true, })
         try {
             await fetch(`${ApiUrl.url}/Library/GetBookData`).then(res => res.json()).then(json => {
                 this.setState({
-                    bookDetails: json.data
+                    bookDetails: json.data,
+
                 })
             })
         } catch (e) {
@@ -279,6 +291,12 @@ export default class LibraryBooks extends Component {
         }
     }
     render() {
+
+        const bookDetails = this.state.bookDetails?.filter(book =>
+            book?.title.toLowerCase().includes(this.props.search) ||
+            book?.author.toLowerCase().includes(this.props.search) ||
+            book?.category.toLowerCase().includes(this.props.search)
+        )
         return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
                 {/* <LibraryDashboard size={25} /> */}
@@ -353,7 +371,7 @@ export default class LibraryBooks extends Component {
                         </thead>
                         {this.state.isLoading ? (<TableSkeleton rows={5} cols={this.state.row?.length} />) : (<tbody>
 
-                            {this.state.bookDetails?.map(i =>
+                            {bookDetails?.map(i =>
                                 <tr key={i.id}>
                                     {this.state.row?.map(j =>
                                         <td key={j.id} data-label={j.header}>{
