@@ -25,6 +25,7 @@ import { CanvaData } from '../CanvaData'
 import { DiYii } from 'react-icons/di'
 import { FaTools } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
+import LMS from "../image/svg/LMS.svg"
 
 
 
@@ -42,7 +43,7 @@ class Project extends Component {
                 { id: 1, redirectTo: '/taskManager', isSelect: false, status: 'Open Link', src: ToDo, title: 'TO DO', icon: <BiLinkExternal />, des: Constant.todoDes, isHighlight: true },
                 { id: 2, redirectTo: '/ticketBooking', isSelect: false, status: 'Open Link', src: Ticket, title: 'Flight Ticket Booking', icon: <BiLinkExternal />, des: Constant.ticketDes, isHighlight: false },
                 { id: 3, redirectTo: '', isSelect: false, status: 'On Process', src: Crm, title: 'CRM', icon: <BiLoader />, des: Constant.onProcess, isHighlight: false },
-                { id: 4, redirectTo: '/libraryManagementSystem', isSelect: false, status: 'Open Link', src: Crm, title: 'Library Management System', icon: <BiLinkExternal />, des: Constant.lmsDes, isHighlight: false },
+                { id: 4, redirectTo: '/libraryManagementSystem', isSelect: false, status: 'Open Link', src: LMS, title: 'Library Management System', icon: <BiLinkExternal />, des: Constant.lmsDes, isHighlight: false },
             ],
             figma: [
                 { id: 1, isHover: false, src: Ticket, design: 'Flight Ticket Booking UI/UX', redirectTo: 'https://www.figma.com/design/cY5bWg8DOoQy3rWjH25hlR/Splash-Oddbods?node-id=33-2&t=R86MeVo3aLXS5xrB-1' },
@@ -197,7 +198,7 @@ class Project extends Component {
                         { id: 4, key: "AI assistant for quick search and library support" }
                     ],
 
-                    src: Crm,
+                    src: LMS,
                     status: 'Completed',
                 }
             ]
