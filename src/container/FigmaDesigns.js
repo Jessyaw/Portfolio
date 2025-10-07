@@ -1,24 +1,27 @@
 import React, { Component } from 'react'
 import WithRouter from '../navigate/WithRouter'
 import { Color } from '../Colors'
-import { ReactComponent as FlightUI } from '../../src/image/svg/Full screen.svg'
-import { ReactComponent as FoodUI } from '../../src/image/svg/FoodUI.svg'
-import { ReactComponent as CRM } from '../../src/image/svg/CRM.svg'
-import { ReactComponent as TODO } from "../image/svg/TODO.svg"
+// import { ReactComponent as FlightUI } from '../../src/image/svg/FlightDesign.svg'
+// import { ReactComponent as FoodUI } from '../../src/image/png/FoodUI.png'
+// import { ReactComponent as CRM } from '../../src/image/svg/CRM.svg'
+// import { ReactComponent as TODO } from "../image/svg/TODO.svg"
 
 
 class FigmaDesigns extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            designCards: [
-                { id: 1, isHover: false, component: FoodUI, design: 'Food App UI/UX', redirectTo: 'https://www.figma.com/design/Lc4GAtpwcHlf2nJnTFS17o/Food?node-id=24-2&m=dev&t=IdLwjOoEXimMRXHk-1' },
-                { id: 2, isHover: false, component: FlightUI, design: 'Flight Ticket Booking UI/UX', redirectTo: '//Somelink' },
-                { id: 3, isHover: false, component: CRM, design: 'CRM UI/UX', redirectTo: '//Somelink' },
-                { id: 4, isHover: false, component: TODO, design: 'TODO UI/UX', redirectTo: '//Somelink' },
-            ],
+            // designCards: [
+            //     { id: 1, isHover: false, component: FoodUI, design: 'Food App UI/UX', redirectTo: 'https://www.figma.com/design/Lc4GAtpwcHlf2nJnTFS17o/Food?node-id=24-2&m=dev&t=IdLwjOoEXimMRXHk-1' },
+            //     { id: 2, isHover: false, component: FlightUI, design: 'Flight Ticket Booking UI/UX', redirectTo: '//Somelink' },
+            //     { id: 3, isHover: false, component: CRM, design: 'CRM UI/UX', redirectTo: '//Somelink' },
+            //     { id: 4, isHover: false, component: TODO, design: 'TODO UI/UX', redirectTo: '//Somelink' },
+            // ],
         }
     }
+
+
+
 
     componentDidMount() {
     }
@@ -60,7 +63,7 @@ class FigmaDesigns extends Component {
                     </div>
 
                 </div>
-                <div className='figma-card'>
+                {/* <div className='figma-card'>
                     {this.state.designCards?.map(({ id, isHover, design, component: Comp }) =>
                         <div
                             onMouseOver={() => this.handleMouseOver(id)}
@@ -83,7 +86,7 @@ class FigmaDesigns extends Component {
                                 }}>{design}</div>
                         </div>)}
 
-                </div>
+                </div> */}
             </div>
         )
     }

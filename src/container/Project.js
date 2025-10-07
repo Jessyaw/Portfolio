@@ -8,7 +8,7 @@ import SQL from "../image/svg/SQL.svg"
 import C from "../image/svg/C.svg"
 import ToDo from '../../src/image/svg/TODO.svg'
 import Ticket from '../../src/image/svg/FlightDesign.svg'
-import FoodUI from '../../src/image/svg/FoodUI.svg'
+import FoodUI from '../../src/image/png/FoodUI.png'
 import Crm from '../../src/image/svg/CRM.svg'
 import { BiLinkExternal } from 'react-icons/bi';
 import { BiRightArrow } from 'react-icons/bi';
@@ -20,7 +20,8 @@ import ReactJS from "../image/svg/React.svg"
 import CSharp from "../image/svg/CSharp.svg"
 import WithRouter from '../navigate/WithRouter'
 import { BiLoader } from 'react-icons/bi'
-import oddbods from '../../src/image/svg/Oddbods.svg'
+import oddbods from '../../src/image/png/Oddbods.png'
+// import oddbods from '../../src/image/svg/Oddbods.svg'
 import { CanvaData } from '../CanvaData'
 import { DiYii } from 'react-icons/di'
 import { FaTools } from "react-icons/fa";
