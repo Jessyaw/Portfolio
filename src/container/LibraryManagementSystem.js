@@ -45,6 +45,7 @@ export default class LibraryManagementSystem extends Component {
             isSearch: false,
             prompt: ''
         }
+        this.sideBarRef = React.createRef();
     }
 
     selectMenu = (i) => {
@@ -78,9 +79,18 @@ export default class LibraryManagementSystem extends Component {
         this.updateWindowDimensions();
 
         window.addEventListener('resize', this.updateWindowDimensions);
+        window.addEventListener('mousedown', this.closeSideBar);
     }
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWindowDimensions);
+        window.removeEventListener('mousedown', this.closeSideBar);
+    }
+    closeSideBar = (e) => {
+        if (this.state.isOpenSideBar && this.sideBarRef.current && !this.sideBarRef.current.contains(e.target)) {
+            this.setState({
+                isOpenSideBar: false
+            })
+        }
     }
     updateWindowDimensions = () => {
         this.setState({ screenWidth: window.innerWidth });
@@ -98,7 +108,7 @@ export default class LibraryManagementSystem extends Component {
 
             <div>
                 {/* Header */}
-                <div style={{}}>
+                <div style={{ backgroundColor: Color.whiteFont, display: 'flex', height: '79px', position: 'fixed', left: 0, right: 0 }}>
                     <div style={{ display: 'flex', position: 'fixed', right: 20, left: this.state.screenWidth <= 892 ? 70 : 230, backgroundColor: '', zIndex: 1000, }}>
                         <div style={{ display: 'flex', alignItems: 'center', margin: '7px 0px', width: this.state.screenWidth <= 892 ? '79%' : '100%', gap: '12px' }}>
                             <div className={`${this.state.screenWidth <= 892 ? 'small-heading' : 'heading'}`}
@@ -154,16 +164,20 @@ export default class LibraryManagementSystem extends Component {
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     {/* Side bar */}
                     {(this.state.screenWidth > 892 || this.state.isOpenSideBar) && <div >
-                        <div className='side-menu-container' style={{
-                            flex: this.state.screenWidth > 892 ? 1 : 'none',
-                            position: this.state.screenWidth <= 892 ? 'fixed' : 'relative',
-                            top: 0,
-                            left: 0,
-                            height: this.state.screenWidth <= 892 ? '100vh' : 'auto',
-                            zIndex: 1000,
-                        }}>
+                        <div
+                            ref={this.sideBarRef}
+                            className='side-menu-container' style={{
+                                flex: this.state.screenWidth > 892 ? 1 : 'none',
+                                position: this.state.screenWidth <= 892 ? 'fixed' : 'relative',
+                                top: 0,
+                                left: 0,
+                                height: this.state.screenWidth <= 892 ? '100vh' : 'auto',
+                                zIndex: 1000,
+                            }}>
                             {this.state.sideMenu?.map(i =>
-                                <div key={i.id} className='side-menu-items' onClick={() => this.selectMenu(i)}>
+                                <div key={i.id} className='side-menu-items'
+
+                                    onClick={() => this.selectMenu(i)}>
                                     <div className={`center ${i.isSelect ? 'side-menu-icon' : ''}`} style={{ padding: '5px' }}>{i.isSelect ? i.iconFilled : i.icon}</div>
                                     <div className='center' style={{ color: i.isSelect ? i.color : Color.libraryPrimaryText }}>{i.menu}</div>
                                 </div>

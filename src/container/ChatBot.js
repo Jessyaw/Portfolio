@@ -158,7 +158,7 @@ export default class ChatBot extends Component {
 
     render() {
         return (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative', flex: 1 }}>
+            <div className='chat-container' style={{ display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative', flex: 1 }}>
                 <div className='small-heading'>Chat</div>
                 <div
                     style={{ height: '430px', padding: '0px 12px 0px 0px' }}
@@ -185,6 +185,7 @@ export default class ChatBot extends Component {
                                             display: 'inline-block',
                                             maxWidth: '70%',
                                             wordWrap: 'break-word',
+                                            overflowX: 'auto'
                                         }}
                                     >
                                         {m.isLoading ? (
