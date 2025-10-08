@@ -36,7 +36,7 @@ export default class LibraryManagementSystem extends Component {
                 { id: 2, color: Color.book, iconFilled: <BiSolidBookAlt size={25} color={Color.book} />, icon: <BiBookAlt size={25} />, menu: 'Books', isHover: false, isSelect: false, },
                 { id: 3, color: Color.user, iconFilled: <FaUser size={25} color={Color.user} />, icon: <FaRegUser size={25} />, menu: 'Users', isHover: false, isSelect: false, },
                 { id: 4, color: Color.borrow, iconFilled: <HiShoppingCart size={25} color={Color.borrow} />, icon: <MdOutlineShoppingCart size={25} />, menu: 'Borrow/Return', isHover: false, isSelect: false, },
-                { id: 5, color: Color.chatBot, iconFilled: <TbMessageChatbotFilled size={25} color={Color.chatBot} />, icon: <TbMessageChatbot size={25} />, menu: 'AI Assistant', isHover: false, isSelect: false, },
+                { id: 5, color: Color.chatBot, iconFilled: <TbMessageChatbotFilled size={25} color={Color.chatBot} />, icon: <TbMessageChatbot size={25} />, menu: 'Bibliobot', isHover: false, isSelect: false, },
             ],
             chat: 5,
             isOpenSideBar: false,
@@ -186,7 +186,7 @@ export default class LibraryManagementSystem extends Component {
                     </div>}
 
                     {/* Main content */}
-                    <div style={{ flex: 5, margin: '100px 25px 0px', boxShadow: '1px 2px 10px rgba(145, 156, 155, 0.47)', borderRadius: '16px', padding: '12px' }}>
+                    <div style={{ flex: 5, width: '79%', margin: '100px 25px 0px', boxShadow: '1px 2px 10px rgba(145, 156, 155, 0.47)', borderRadius: '16px', padding: '12px' }}>
                         {this.state.sideMenu?.map(i =>
                             (i.isSelect && i.id == 1)
                                 ? <LibraryDashboard

@@ -156,10 +156,16 @@ export default class ChatBot extends Component {
 
     }
 
+    handleKeyPress = (e) => {
+        if (e.code == 'Enter') {
+            this.handleSend();
+        }
+    }
+
     render() {
         return (
             <div className='chat-container' style={{ display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative', flex: 1 }}>
-                <div className='small-heading'>Chat</div>
+                <div className='small-heading'>Chat with Bibliobot</div>
                 <div
                     style={{ height: '430px', padding: '0px 12px 0px 0px' }}
                     className='scroll'
@@ -217,6 +223,7 @@ export default class ChatBot extends Component {
                         onChange={this.handlePrompt}
                         className='input-chat scroll'
                         placeholder='Ask anything...'
+                        onKeyDown={(e) => this.handleKeyPress(e)}
                         onMouseEnter={() => { this.setState({ isClick: true }) }}
                         onMouseLeave={() => { this.setState({ isClick: false }) }}
                         style={{

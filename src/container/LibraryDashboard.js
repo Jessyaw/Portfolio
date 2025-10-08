@@ -53,8 +53,8 @@ export default class LibraryDashboard extends Component {
 
             recentlyReturnedRow: [
                 { id: 1, field: 'memberName', header: 'Memeber name' },
-                { id: 2, field: 'title', header: 'Title' },
-                { id: 3, field: 'returnedDate', header: 'Returned date' },
+                { id: 2, field: 'author', header: 'Author' },
+                { id: 3, field: 'returnDate', header: 'Returned date' },
 
 
             ],
