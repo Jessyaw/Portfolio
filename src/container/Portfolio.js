@@ -35,6 +35,9 @@ export default class Portfolio extends Component {
         };
     }
     componentDidMount() {
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+        }, 100)
         document.body.style.backgroundColor = Color.bgDark;
         window.addEventListener("scroll", this.handleScroll);
         window.addEventListener("scroll", this.revealOnScroll);

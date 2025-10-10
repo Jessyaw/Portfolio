@@ -108,7 +108,7 @@ export default class LibraryManagementSystem extends Component {
 
             <div>
                 {/* Header */}
-                <div style={{ backgroundColor: Color.whiteFont, display: 'flex', height: '79px', position: 'fixed', left: 0, right: 0 }}>
+                <div style={{ backgroundColor: Color.whiteFont, display: 'flex', height: '79px', position: 'fixed', left: 0, right: 0, zIndex: 1 }}>
                     <div style={{ display: 'flex', position: 'fixed', right: 20, left: this.state.screenWidth <= 892 ? 70 : 230, backgroundColor: '', zIndex: 1000, }}>
                         <div style={{ display: 'flex', alignItems: 'center', margin: '7px 0px', width: this.state.screenWidth <= 892 ? '79%' : '100%', gap: '12px' }}>
                             <div className={`${this.state.screenWidth <= 892 ? 'small-heading' : 'heading'}`}

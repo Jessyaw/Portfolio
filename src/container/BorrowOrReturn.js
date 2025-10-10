@@ -51,6 +51,7 @@ export default class BorrowOrReturn extends Component {
         }
     }
     componentDidMount() {
+        window.scrollTo(0, 0);
         this.fetchBorrowData();
         this.fetchReturnData();
         this.fetchUser();
