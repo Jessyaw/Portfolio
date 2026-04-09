@@ -20,6 +20,7 @@ export const Constant = {
     im: "",
     jess: 'Jessy Angel',
     dCV: 'Download CV',
+    journal: 'Journal',
     des: 'Building Scalable, efficient, and user-friendly applications',
     proDes: 'Apps built with scalability, performance, and real-world problem solving',
     designDes: 'Creative design works made with Canva and Figma',
@@ -30,4 +31,24 @@ export const Constant = {
     crmDes: 'A simple Customer Relationship Management (CRM) system to manage client details and interactions. It helps track leads, organize customer data, and improve overall business management',
     lmsDes: 'A Library Management System to manage books, users, and borrowing/return records. It helps track book availability, organize user data, and includes an AI assistant for quick search and support',
     onProcess: 'A Customer Relationship Management (CRM) system is under development to manage clients and track interactions. The project focuses on streamlining customer data handling and improving business workflows',
+
+
+    //journals
+
+    story1: `Have you ever felt “not enough” when you look at others—just like Lucy?
+        In this story, Lucy wants to look beautiful like her sister Susan.She finds a spell in a magic book, tears out the page that promises beauty, and keeps reading it whenever she feels insecure.But when Aslan appears, He helps her realize the truth: her value is not in her appearance but in who she is.
+    Many of us are like Lucy.We compare ourselves and feel less.But our worth is not measured by someone else’s talent or beauty.Our value comes from how God created us.In His eyes, we are more than enough.`,
+
+    //email-sent 
+
+    accountCreated: 'Account created successfully!!',
+    emailSent: 'A verification email has been sent to your email address',
+    verify: 'Please check your inbox to verify email...',
+
+
+    //verify
+
+    verifying: 'Verifying please wait...',
+    required: 'This field is required',
+
 }

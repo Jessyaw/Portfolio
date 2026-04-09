@@ -40,11 +40,21 @@ const DatePicker = forwardRef((props, ref) => {
         const startDay = getStartDay(new Date().getMonth(), new Date().getFullYear())
 
 
-        var days = Array.from({ length: daysInMonth }, (i, ind) => ({
-            day: ind + 1,
-            isHover: false,
-            isSelect: false,
-        }))
+        var days = Array.from({ length: daysInMonth }, (i, ind) => {
+            const day = ind + 1;
+            const date = new Date(Year, Month, day);
+
+            const isDisabled =
+                (props.minDate && date < props.minDate) ||
+                (props.maxDate && date > props.maxDate);
+
+            return {
+                day: day,
+                isHover: false,
+                isSelect: false,
+                isDisabled: isDisabled
+            };
+        });
 
         for (let i = 0; i < startDay; i++) {
             days.unshift({ empty: true });
@@ -81,11 +91,21 @@ const DatePicker = forwardRef((props, ref) => {
         const daysInMonth = getDaysINMonth(month, year)
         const startDay = getStartDay(month, year)
 
-        var days = Array.from({ length: daysInMonth }, (i, ind) => ({
-            day: ind + 1,
-            isHover: false,
-            isSelect: false,
-        }))
+        var days = Array.from({ length: daysInMonth }, (i, ind) => {
+            const day = ind + 1;
+            const date = new Date(year, month, day);
+
+            const isDisabled =
+                (props.minDate && date < props.minDate) ||
+                (props.maxDate && date > props.maxDate);
+
+            return {
+                day: day,
+                isHover: false,
+                isSelect: false,
+                isDisabled: isDisabled
+            };
+        });
 
         for (let i = 0; i < startDay; i++) {
             days.unshift({ empty: true });
@@ -93,6 +113,8 @@ const DatePicker = forwardRef((props, ref) => {
         setDays(days)
     }
     const handleClickDay = (item) => {
+        if (item.isDisabled) return;
+
         const day = days.map(i => ({
             ...i, isSelect: i.day == item.day
         }))
@@ -160,7 +182,7 @@ const DatePicker = forwardRef((props, ref) => {
                         </div>
                         <div
                             onClick={openMonthMenu}
-                            style={{ fontWeight: '500', fontSize: '16px', cursor: 'pointer', backgroundColor: Color.FlightTredheme, padding: '7px', borderRadius: '7px', color: Color.theme }}>
+                            style={{ fontWeight: '500', fontSize: '16px', cursor: 'pointer', backgroundColor: Color.FlightTheme, padding: '7px', borderRadius: '7px', color: Color.theme }}>
                             <div> {currentMonth}</div>
 
                         </div>
@@ -211,14 +233,22 @@ const DatePicker = forwardRef((props, ref) => {
                         onMouseOver={() => handleHoverDay(i)}
                         onMouseLeave={() => handleMouseLeaveDay(i)}
                         style={{
-                            color: i.day == new Date().getDate() ? Color.green : i.isSelect ? Color.whiteFont : Color.blackFont,
-                            cursor: 'pointer',
-                            backgroundColor: i.isSelect ? Color.blackFont : i.isHover ? Color.FlightTheme : Color.whiteFont,
-                            padding: '1px', borderRadius: '3px',
+                            color: i.isDisabled ? '#ccc' :
+                                i.day == new Date().getDate() ? Color.green :
+                                    i.isSelect ? Color.whiteFont : Color.blackFont,
+
+                            cursor: i.isDisabled ? 'not-allowed' : 'pointer',
+
+                            backgroundColor: i.isDisabled ? Color.whiteFont :
+                                i.isSelect ? Color.blackFont :
+                                    i.isHover ? Color.FlightTheme : Color.whiteFont,
+
+                            padding: '1px',
+                            borderRadius: '3px',
                         }}>{i.day}</div>
                 )}
             </div>
-        </div>
+        </div >
     )
 })
 

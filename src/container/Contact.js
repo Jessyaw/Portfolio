@@ -10,7 +10,7 @@ import { FaChevronRight } from "react-icons/fa";
 import { emailValidation, handleOnKeyAlpha } from '../Validation';
 import { getFirstLetter, getTime } from '../Common';
 
-export default class Contact extends Component {
+export default class Contact extends React.Component {
     constructor(props) {
         super(props)
         this.state = {

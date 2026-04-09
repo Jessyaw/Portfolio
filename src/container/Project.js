@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React from 'react'
 import { Color } from '../Colors'
 import { Constant } from '../Constant'
 import HTML from "../image/svg/HTML.svg"
@@ -18,7 +18,7 @@ import Figma from "../image/svg/Figma.svg"
 import Canva from "../image/svg/Canva.svg"
 import ReactJS from "../image/svg/React.svg"
 import CSharp from "../image/svg/CSharp.svg"
-import WithRouter from '../navigate/WithRouter'
+import WithRouter from '../context/WithRouter'
 import { BiLoader } from 'react-icons/bi'
 import oddbods from '../../src/image/png/Oddbods.png'
 // import oddbods from '../../src/image/svg/Oddbods.svg'
@@ -30,7 +30,7 @@ import LMS from "../image/svg/LMS.svg"
 
 
 
-class Project extends Component {
+class Project extends React.Component {
     constructor(props) {
         super(props)
         this.state = {

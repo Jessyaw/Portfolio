@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Color } from '../Colors'
 import { FaCaretUp } from 'react-icons/fa';
 import { FaCaretDown } from 'react-icons/fa';
@@ -12,7 +12,7 @@ import { TableSkeleton } from '../component/TableSkeleton';
 import { ApiUrl } from '../Api';
 
 
-export default class LibraryDashboard extends Component {
+export default class LibraryDashboard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {

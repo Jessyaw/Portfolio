@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import WithRouter from '../navigate/WithRouter'
+import React from 'react'
+import WithRouter from '../context/WithRouter'
 import { Color } from '../Colors'
 import { CanvaData } from '../CanvaData'
 import { BiLinkExternal } from 'react-icons/bi'
 import { BiLeftArrow } from 'react-icons/bi'
 
-class CanvaDesigns extends Component {
+class CanvaDesigns extends React.Component {
     constructor(props) {
         super(props)
         this.state = {

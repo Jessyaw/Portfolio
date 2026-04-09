@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { FaPlus } from 'react-icons/fa';
 import { Color } from '../Colors';
 import { AiFillEdit } from 'react-icons/ai';
@@ -13,12 +13,12 @@ import { TableSkeleton } from '../component/TableSkeleton';
 import { ApiUrl } from '../Api';
 
 
-export default class LibraryBooks extends Component {
+export default class LibraryBooks extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             bookDetails: [],
-
+            bookDetailsClone: [],
             row: [
                 { id: 1, field: 'title', header: 'Title' },
                 { id: 2, field: 'author', header: 'Author' },
@@ -46,8 +46,6 @@ export default class LibraryBooks extends Component {
             successMessage: '',
             failureMessage: '',
             isLoading: true,
-
-
         }
     }
 
@@ -70,7 +68,7 @@ export default class LibraryBooks extends Component {
             await fetch(`${ApiUrl.url}/Library/GetBookData`).then(res => res.json()).then(json => {
                 this.setState({
                     bookDetails: json.data,
-
+                    bookDetailsClone: json.data,
                 })
             })
         } catch (e) {
@@ -378,14 +376,14 @@ export default class LibraryBooks extends Component {
                                             j.field
                                                 ? j.header == 'Availability' ? i[j.field]
                                                     ? <FaCheck size={25} color={Color.green} />
-                                                    : <CgUnavailable size={25} color='#ff3b4b' />
+                                                    : <CgUnavailable size={25} color={Color.red} />
                                                     : i[j.field]
                                                         ? i[j.field]
                                                         : i[j.field]
                                                 : j.header === 'Action'
                                                 && <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                                                     <AiFillEdit size={25} color={Color.grey} onClick={() => this.updateBook(i)} />
-                                                    <AiFillDelete size={25} color='#ff3b4b' onClick={() => this.deleteBook(i)} />
+                                                    <AiFillDelete size={25} color={Color.red} onClick={() => this.deleteBook(i)} />
                                                 </div>
 
 

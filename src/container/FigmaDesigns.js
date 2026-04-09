@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import WithRouter from '../navigate/WithRouter'
+import React from 'react'
+import WithRouter from '../context/WithRouter'
 import { Color } from '../Colors'
 // import { ReactComponent as FlightUI } from '../../src/image/svg/FlightDesign.svg'
 // import { ReactComponent as FoodUI } from '../../src/image/png/FoodUI.png'
@@ -7,7 +7,7 @@ import { Color } from '../Colors'
 // import { ReactComponent as TODO } from "../image/svg/TODO.svg"
 
 
-class FigmaDesigns extends Component {
+class FigmaDesigns extends React.Component {
     constructor(props) {
         super(props)
         this.state = {

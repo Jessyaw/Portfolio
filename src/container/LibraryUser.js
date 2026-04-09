@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { FaPlus } from 'react-icons/fa';
 import { Color } from '../Colors';
 import { AiFillEdit } from 'react-icons/ai';
@@ -11,7 +11,7 @@ import { ApiUrl } from '../Api';
 
 
 
-export default class LibraryUser extends Component {
+export default class LibraryUser extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -276,7 +276,7 @@ export default class LibraryUser extends Component {
                                                     : j.header === 'Action'
                                                     && <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                                                         <AiFillEdit size={25} color={Color.grey} onClick={() => this.updateUser(i)} />
-                                                        <AiFillDelete size={25} color='#ff3b4b' onClick={() => this.deleteUser(i)} />
+                                                        <AiFillDelete size={25} color={Color.red} onClick={() => this.deleteUser(i)} />
                                                     </div>
                                             }</td>
                                         )}

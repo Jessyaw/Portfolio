@@ -1,11 +1,11 @@
-import { Component, createRef } from 'react'
+import React from 'react'
 import { db } from '../dexie/DB'
 import { Color } from '../Colors'
 import { BsSearch } from 'react-icons/bs'
 import { BiNotification } from 'react-icons/bi'
 import { MdEmail } from 'react-icons/md'
 import { BiLeftArrow } from 'react-icons/bi'
-import WithRouter from '../navigate/WithRouter'
+import WithRouter from '../context/WithRouter'
 import DropDownMenu from '../component/DropDownMenu'
 import { CgRemoveR } from 'react-icons/cg'
 import DeletePopup from '../component/DeletePopup'
@@ -15,7 +15,7 @@ import { decryption, encryption } from '../dexie/EncodeDecode'
 import { Days, LeftMenuList, Dates, Months, Years, Hours, Mins, Summary, TaskMenu } from '../ConstantData'
 
 
-class TaskManager extends Component {
+class TaskManager extends React.Component {
   constructor(props) {
     super(props)
     const today = new Date();
@@ -78,12 +78,12 @@ class TaskManager extends Component {
       screenWidth: window.innerWidth,
       showSidebar: true,
     }
-    this.dayMenuRef = createRef();
-    this.monthMenuRef = createRef();
-    this.yearMenuRef = createRef();
-    this.hoursMenuRef = createRef();
-    this.minMenuRef = createRef();
-    this.summaryRef = createRef();
+    this.dayMenuRef = React.createRef();
+    this.monthMenuRef = React.createRef();
+    this.yearMenuRef = React.createRef();
+    this.hoursMenuRef = React.createRef();
+    this.minMenuRef = React.createRef();
+    this.summaryRef = React.createRef();
   }
   componentDidMount() {
     this.fetchData();
@@ -384,7 +384,7 @@ class TaskManager extends Component {
       })
     })
   }
-  handleClickOnMenu = (item) => {
+  handleClickOnMenu = async (item) => {
     if (item.id == 1 || item.id == 2 || item.id == 3 || item.id == 4) {
       this.state.isTaskMenuOpen = true
     }
@@ -394,7 +394,9 @@ class TaskManager extends Component {
       })
     }
     else if (item.id == 5) {
-      this.props.navigate('/calender');
+      var data = await db.Tasks?.toArray();
+      let decode = await decryption(data);
+      this.props.navigate('/calendar', { taskData: decode });
     }
     else {
       this.state.isTaskMenuOpen = false

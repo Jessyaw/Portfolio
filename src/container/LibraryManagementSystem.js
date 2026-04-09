@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { LuLayoutDashboard } from 'react-icons/lu';
 import { BiSolidBookAlt } from 'react-icons/bi';
 import { BiBookAlt } from 'react-icons/bi';
@@ -9,16 +9,8 @@ import { HiShoppingCart } from 'react-icons/hi';
 import { TbMessageChatbotFilled } from 'react-icons/tb';
 import { TbMessageChatbot } from 'react-icons/tb';
 import { BiSolidDashboard } from 'react-icons/bi';
-import { FaPlus } from 'react-icons/fa';
 import { Color } from '../Colors';
-import { AiFillEdit } from 'react-icons/ai';
-import { AiFillDelete } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs'
-
-import Profile from '../../src/component/Profile'
-import { CgUnavailable } from 'react-icons/cg';
-import { FaCheck } from 'react-icons/fa';
-
 import LibraryBooks from './LibraryBooks';
 import LibraryUser from './LibraryUser';
 import BorrowOrReturn from './BorrowOrReturn';
@@ -26,8 +18,9 @@ import LibraryDashboard from './LibraryDashboard';
 import ChatBot from './ChatBot';
 import { PiHamburgerFill } from 'react-icons/pi';
 import { PiHamburgerLight } from 'react-icons/pi';
+import WithRouter from '../context/WithRouter';
 
-export default class LibraryManagementSystem extends Component {
+class LibraryManagementSystem extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -159,8 +152,6 @@ export default class LibraryManagementSystem extends Component {
                             {this.state.isOpenSideBar ? <PiHamburgerFill color={Color.darkPurple} size={25} /> : <PiHamburgerLight color={Color.darkPurple} size={25} />}
                         </div>
                     </div>}
-
-
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     {/* Side bar */}
                     {(this.state.screenWidth > 892 || this.state.isOpenSideBar) && <div >
@@ -211,3 +202,5 @@ export default class LibraryManagementSystem extends Component {
         )
     }
 }
+
+export default WithRouter(LibraryManagementSystem);

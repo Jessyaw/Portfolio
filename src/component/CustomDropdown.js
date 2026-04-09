@@ -1,10 +1,11 @@
 import { useEffect, useState, forwardRef } from 'react'
 
 const CustomDropdown = forwardRef((props, ref) => {
-    const [menuOption, setMenuOption] = useState([]);
+
     useEffect(() => {
-        setMenuOption(props.option);
     }, [props.option])
+
+
 
     const handleSelect = (i) => {
         if (props?.onSelect) {
@@ -14,9 +15,20 @@ const CustomDropdown = forwardRef((props, ref) => {
 
     return (
         <div>
-            <div className='gender-menu scroll' style={{ height: props.option.length > 5 ? '400px' : props.option.length > 3 ? '200px' : '140px', }}>
+            <div
+                className='gender-menu scroll'
+                style={{
+                    cursor: 'pointer',
+                    height: props.height ? props.height : props.option.length > 5 ? '400px' : props.option.length > 3 ? '200px' : '140px',
+                }}>
                 {props.option?.map(i =>
-                    <div className='gender-menuOption' onClick={() => handleSelect(i)}>{i.bookCategory || i.memberName || i.title}</div>
+                    <div
+                        key={i.id}
+                        className='gender-menuOption'
+                        onClick={() => handleSelect(i)}
+                    >
+                        {i.bookCategory || i.memberName || i.title || i.leadname || i.source || i.status || i.stage || i?.fullName || i?.priority || i?.team}
+                    </div>
                 )}
             </div>
         </div>

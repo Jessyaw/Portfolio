@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React from 'react'
 import { Color } from '../Colors';
 import CustomDropdown from '../component/CustomDropdown';
 import { handleOnKeyNumber } from '../Validation';
@@ -7,7 +7,7 @@ import { TableSkeleton } from '../component/TableSkeleton';
 import { ApiUrl } from '../Api';
 
 
-export default class BorrowOrReturn extends Component {
+export default class BorrowOrReturn extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -335,7 +335,8 @@ export default class BorrowOrReturn extends Component {
                                         option={this.state.userData}
                                         onSelect={(i) => this.handleSelectUser(i)}
                                     />
-                                </div>}
+                                </div>
+                            }
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', position: 'relative' }}>
                             <input value={this.state.book} onClick={this.handleBook} style={{ border: this.state.bookError ? '1px solid red' : '' }} className='input-booking' placeholder='Book Title' />

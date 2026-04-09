@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { RiSendPlaneFill } from 'react-icons/ri';
 import { Color } from '../Colors';
 import { ApiUrl } from '../Api';
 import { FaCaretDown } from 'react-icons/fa';
 
-export default class ChatBot extends Component {
+export default class ChatBot extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -72,7 +72,6 @@ export default class ChatBot extends Component {
                         messageContent = json.message;
                         return;
                     }
-                    console.log(json, 'reply')
                     let reply = JSON.parse(json.response);
                     try {
                         if (Array.isArray(reply)) {
@@ -107,7 +106,6 @@ export default class ChatBot extends Component {
                                 </div>
                             );
                         } else {
-                            console.log(data, 'fdsjfgdsf')
                             // Just plain text
                             messageContent = data.toString();
                         }

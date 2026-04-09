@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import WithRouter from '../navigate/WithRouter'
+import React from 'react'
+import WithRouter from '../context/WithRouter'
 import { Color } from '../Colors'
 import { BsSearch } from 'react-icons/bs'
 import { BiLeftArrow } from 'react-icons/bi'
@@ -21,7 +21,7 @@ import { decryption, encryption } from '../dexie/EncodeDecode'
 import AlertPopup from '../component/AlertPopup'
 import { Constant } from '../Constant'
 
-class TicketBooking extends Component {
+class TicketBooking extends React.Component {
     constructor(props) {
         super(props)
         const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -1323,7 +1323,7 @@ class TicketBooking extends Component {
                                                     top: '50%',
                                                     left: '16px',
                                                     transform: 'translateY(-50%)',
-                                                    pointerEvents: 'none', // Allows click to pass through to input
+                                                    pointerEvents: 'none',
                                                 }} />
                                                 <input
                                                     onChange={(e) => this.handleTopSearch(e)}

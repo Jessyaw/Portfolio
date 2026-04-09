@@ -52,4 +52,18 @@ export const Color = {
     chatBot: '#0ba84a',
     input: '#DAD3BE',
 
+
+
+    //crm
+    crmPrimary: '#02104e',
+    crmSecondary: '#c1c7c2',
+
+    //stages
+    prospect: '#656565',
+    proposal: '#05a1fb',
+    negotiation: '#F59E0B',
+    closedWon: '#10b943',
+    closedLost: '#f10606',
+    qualification: '#7a43fb',
+
 }

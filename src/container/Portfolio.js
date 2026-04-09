@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react'
+import React from 'react'
 import { Color } from '../Colors'
 import Home from './Home';
 import About from './About';
@@ -6,7 +6,7 @@ import Project from './Project';
 import Contact from './Contact';
 
 
-export default class Portfolio extends Component {
+export default class Portfolio extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -28,10 +28,10 @@ export default class Portfolio extends Component {
 
         }
         this.sections = {
-            Home: createRef(),
-            Profile: createRef(),
-            Projects: createRef(),
-            Contact: createRef(),
+            Home: React.createRef(),
+            Profile: React.createRef(),
+            Projects: React.createRef(),
+            Contact: React.createRef(),
         };
     }
     componentDidMount() {

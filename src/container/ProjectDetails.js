@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Color } from '../Colors'
 import { Constant } from '../Constant'
 import { BiCode, BiLeftArrow, BiLinkExternal, BiStar } from 'react-icons/bi';
 import Todo from '../../src/image/svg/TODO.svg'
-import WithRouter from '../navigate/WithRouter';
+import WithRouter from '../context/WithRouter';
 import { BiLoader } from 'react-icons/bi';
 
-class ProjectDetails extends Component {
+class ProjectDetails extends React.Component {
     constructor(props) {
         super(props)
         this.state = {

@@ -1,5 +1,5 @@
-import { Component } from 'react'
-import WithRouter from '../navigate/WithRouter'
+import React from 'react'
+import WithRouter from '../context/WithRouter'
 import { Color } from '../Colors'
 import { BiLeftArrow } from 'react-icons/bi'
 import { BiSolidPencil } from 'react-icons/bi'
@@ -8,7 +8,7 @@ import { BiCamera } from 'react-icons/bi'
 import { decryption, encryption } from '../dexie/EncodeDecode'
 
 
-class Settings extends Component {
+class Settings extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
