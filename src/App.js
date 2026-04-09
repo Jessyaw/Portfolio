@@ -2,7 +2,7 @@ import './App.css';
 import './css/Journal.css'
 import './css/Custom.css'
 import './css/MiniCRM.css'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import Logout from './container/Logout';
 import JournalsList from './container/JournalsList';
 import TaskManager from './container/TaskManager';
