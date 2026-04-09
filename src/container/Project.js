@@ -43,7 +43,7 @@ class Project extends React.Component {
             projectList: [
                 { id: 1, redirectTo: '/taskManager', isSelect: false, status: 'Open Link', src: ToDo, title: 'TO DO', icon: <BiLinkExternal />, des: Constant.todoDes, isHighlight: true },
                 { id: 2, redirectTo: '/ticketBooking', isSelect: false, status: 'Open Link', src: Ticket, title: 'Flight Ticket Booking', icon: <BiLinkExternal />, des: Constant.ticketDes, isHighlight: false },
-                { id: 3, redirectTo: '', isSelect: false, status: 'On Process', src: Crm, title: 'CRM', icon: <BiLoader />, des: Constant.onProcess, isHighlight: false },
+                { id: 3, redirectTo: '/sign-up', isSelect: false, status: 'Open Link', src: Crm, title: 'CRM', icon: <BiLoader />, des: Constant.onProcess, isHighlight: false },
                 { id: 4, redirectTo: '/libraryManagementSystem', isSelect: false, status: 'Open Link', src: LMS, title: 'Library Management System', icon: <BiLinkExternal />, des: Constant.lmsDes, isHighlight: false },
             ],
             figma: [
@@ -177,7 +177,7 @@ class Project extends React.Component {
                         { id: 4, key: "Improves customer relationships and efficiency" }
                     ],
                     src: Crm,
-                    status: 'On Process',
+                    status: 'Completed',
                 }
             ],
             lms = [
