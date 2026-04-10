@@ -2,6 +2,8 @@ import React from 'react'
 import WithRouter from '../context/WithRouter'
 import { Constant } from '../Constant';
 import { ApiUrl } from '../Api';
+import { ApiCall } from '../ApiCall';
+import WithToaster from '../context/WithToaster';
 
 class Verify extends React.Component {
     constructor(props) {
@@ -30,26 +32,24 @@ class Verify extends React.Component {
             isEmailVerified: '',
             EmailVerificationToken: token
         }
-        await fetch(`${ApiUrl.url}/CRM/VerifyToken`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'Application/Json'
-            },
-            body: JSON.Stringyfy(data)
-        }).then(res => res.json()).then(json => {
-            if (json.status == 'S') {
+
+        try {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/VerifyToken`, 'POST', data);
+
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
                 this.setState({
-                    SuccessMessage: json.message,
                     isVerified: true,
                     isSuccess: true
                 })
-            } else {
-                this.setState({
-                    FailureMessage: json.message,
-                })
             }
-        })
+            else {
+                this.props.toast.show('F', json.message);
+            }
 
+        } catch (e) {
+            this.props.toast.show('F', e.message);
+        }
 
     }
     handleLogin = () => {
@@ -81,4 +81,4 @@ class Verify extends React.Component {
     }
 }
 
-export default WithRouter(Verify);
+export default WithRouter(WithToaster(Verify));

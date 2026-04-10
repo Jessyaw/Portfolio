@@ -13,7 +13,7 @@ import { FaRegEye, FaRegEyeSlash, FaXTwitter } from "react-icons/fa6";
 import { ApiUrl } from '../Api';
 import Toaster from '../component/Toaster';
 import WithToaster from '../context/WithToaster';
-
+import { ValidateField } from '../Validation';
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -57,6 +57,7 @@ class SignIn extends React.Component {
         this.props.navigate('/dashboard');
     }
 
+
     handleGoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, provider);
@@ -66,6 +67,16 @@ class SignIn extends React.Component {
         }
         catch (error) {
         }
+    }
+
+    handleChange = (field, value) => {
+        this.setState((prevState) => ({
+            [field]: value,
+            errors: {
+                ...prevState.errors,
+                [field]: ValidateField(field, value)
+            }
+        }));
     }
     handleFName = (e) => {
 
@@ -83,69 +94,24 @@ class SignIn extends React.Component {
         }
     }
 
-    handleEmail = (e) => {
-
-        this.setState({ email: e?.target?.value })
-
-        if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(e?.target?.value || e)) {
-            this.setState({ emailError: '' })
-        }
-        else {
-            this.setState({ emailError: 'Enter valid email' })
-        }
-    }
-    handlePassword = (e) => {
-        this.setState({ password: e.target.value })
-        if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(e.target.value))) {
-            this.setState({ passwordError: 'Password must be at least 8 characters long, contain uppercase, lowercase, a number, and a special character."' })
-        }
-        else {
-            this.setState({ passwordError: '' })
-        }
-        this.handleEmail(this.state.email);
-    }
-
-    handleCheckbox = (e) => {
-        if (e.target.checked) {
-            this.setState({ checkError: '', isChecked: true })
-        }
-        else {
-            this.setState({ checkError: 'Accept the policies' })
-        }
-    }
 
     handleSignIn = () => {
-        let { isName, isEmail, isPassword } = false;
-        if (this.state.fName) {
-            this.setState({ fNameError: '' })
-            isName = true;
-        }
-        else {
-            this.setState({ fNameError: 'Enter the name', })
+        let { isEmail, isPassword } = this.state;
+        const fields = { isEmail, isPassword }
 
-        }
-        if (this.state.email) {
-            this.setState({ emailError: '' })
-            isEmail = true;
-        }
-        else {
+        let errors = {};
 
-            this.setState({ emailError: 'Enter a email', })
-        }
-        if (this.state.password) {
-            this.setState({ passwordError: '' })
-            isPassword = true;
-        }
-        else {
+        Object.keys(fields).forEach(field => {
+            const error = ValidateField(field, fields[field]);
+            if (error) errors[field] = error;
+        });
 
-            this.setState({ passwordError: 'Enter password' })
-        }
-
-        if (isEmail && isPassword) {
+        this.setState({ errors });
+        if (Object.keys(errors).length === 0) {
             let mailToVerify = {
                 fullName: '',
                 email: this.state.email,
-                password: '',
+                password: this.state.password,
                 confirmPassword: '',
                 roleID: '',
                 role: '',
@@ -156,82 +122,78 @@ class SignIn extends React.Component {
             this.setState({
                 verifying: true
             })
-
-        }
-        else {
-
-
         }
     }
-    handleCheckMailVerified = async (mailToVerify) => {
-        let data = {
-            fullName: '',
-            email: this.state.email,
-            password: this.state.password,
-            confirmPassword: '',
-            roleID: '',
-            role: '',
-            isEmailVerified: 0,
-            EmailVerificationToken: ''
-        }
-        await fetch(`${ApiUrl.url}/CRM/CheckEmailVerified`, {
-            headers: {
-                'Content-Type': 'Application/Json'
-            },
-            method: 'POST',
-            body: JSON.stringify(mailToVerify)
-        }).then(res => res.json()).then(json => {
-            if (json.status == 'S') {
-                this.setState({
-                    successMessage: json.message,
-                })
+    handleCheckMailVerified = async (data) => {
+        try {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/CheckEmailVerified`, 'POST', data);
+
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
                 this.handleLogin(data);
             }
             else {
-                this.setState({
-                    failureMessage: json.message,
-                })
-                this.handleSendMailToVerify(mailToVerify);
-
-                this.props.navigate('/email-sent');
+                this.props.toast.show('F', json.message);
+                this.handleSendMailToVerify(data);
             }
-        });
-    }
-    handleSendMailToVerify = async (mailToVerify) => {
 
-        await fetch(`${ApiUrl.url}/CRM/sendMailToLoginUser`, {
-            headers: {
-                'Content-Type': 'Application/Json'
-            },
-            method: 'POST',
-            body: JSON.stringify(mailToVerify)
-        }).then().then();
+        } catch (e) {
+            this.props.toast.show('F', e.message);
+        }
+    }
+    handleSendMailToVerify = async (data) => {
+        try {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/sendMailToLoginUser`, 'POST', data);
+
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                this.props.navigate('/email-sent')
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
+
+        } catch (e) {
+            this.props.toast.show('F', e.message);
+        }
     }
 
     handleLogin = async (data) => {
-        await fetch(`${ApiUrl.url}/CRM/LoginUser`, {
-            headers: {
-                'Content-Type': 'Application/Json'
-            },
-            method: 'POST',
-            body: JSON.stringify(data)
-        }).then(res => res.json()).then(json => {
-            if (json.status == 'S') {
-                this.setState({
-                    successMessage: json.message,
-                })
-                sessionStorage.setItem("UserID", json.data.ID);
-                sessionStorage.setItem("Name", json.data.Name);
-                sessionStorage.setItem("Email", json.data.Email);
-                sessionStorage.setItem("RoleID", json.data.RoleID);
+        try {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/LoginUser`, 'POST', data);
+
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                this.handleStoreUserData(json.data.ID);
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
+
+        } catch (e) {
+            this.props.toast.show('F', e.message);
+        }
+    }
+
+    handleStoreUserData = async (ID) => {
+        let data = {
+
+        }
+        try {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchUserData`, 'POST', data);
+
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                sessionStorage.setItem("data", JSON.stringify(json.data));
                 this.props.navigate('/crm');
             }
             else {
-                this.setState({
-                    failureMessage: json.message,
-                })
+                this.props.toast.show('F', json.message);
             }
-        });
+
+        } catch (e) {
+            this.props.toast.show('F', e.message);
+        }
     }
     redirectToSignUp = () => {
         this.props.navigate('/sign-up');
@@ -263,8 +225,8 @@ class SignIn extends React.Component {
                         </div>
                         <div className='inpt-container'>
                             <div className='inpt-container' style={{ gap: '7px' }}>
-                                <input className='inpt-login' placeholder='Work Email' onChange={this.handleEmail} value={this.state.email} />
-                                {this.state.emailError && <span className='field-error'>{this.state.emailError}</span>}
+                                <input className='inpt-login' placeholder='Email' onChange={this.handleChange('email', e.target.value)} value={this.state.email} />
+                                {this.state.error.email && <span className='field-error'>{this.state.error.email}</span>}
                             </div>
                             <div className='inpt-container' style={{ gap: '7px', }}>
                                 <div style={{ position: 'relative', width: '100%', }}>
@@ -272,24 +234,14 @@ class SignIn extends React.Component {
                                         <FaRegEye
                                             onClick={() => this.setState({ isPWVisible: false })}
                                             color={Color.blackFont}
-                                            style={{
-                                                position: 'absolute',
-                                                top: '50%',
-                                                right: '16px',
-                                                transform: 'translateY(-50%)',
-                                                //  pointerEvents: 'none',
-                                            }} />
+                                            className='eye-icon'
+                                        />
                                         :
                                         <FaRegEyeSlash
                                             onClick={() => this.setState({ isPWVisible: true })}
                                             color={Color.grey}
-                                            style={{
-                                                position: 'absolute',
-                                                top: '50%',
-                                                right: '16px',
-                                                transform: 'translateY(-50%)',
-                                                // pointerEvents: 'none',
-                                            }} />}
+                                            className='eye-icon'
+                                        />}
 
                                     <input
                                         type={this.state.isPWVisible ? 'text' : 'password'}
@@ -300,12 +252,12 @@ class SignIn extends React.Component {
                                         className='inpt-login'
                                         placeholder='Password'
                                         maxLength={25}
-                                        onChange={this.handlePassword}
+                                        onChange={this.handleChange('password', e.target.value)}
                                         value={this.state.password}
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
-                                {this.state.passwordError && <span className='field-error'>{this.state.passwordError}</span>}
+                                {this.state.error.password && <span className='field-error'>{this.state.error.password}</span>}
                             </div>
                             <div className='sm-header' style={{ fontSize: '0.9rem', color: Color.grey, cursor: 'pointer' }}>Forget password?</div>
                             <button className='btn-login' onClick={this.handleSignIn}>{this.state.verifying ? 'Email verifying...' : 'Here we go'}</button>

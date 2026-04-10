@@ -32,7 +32,6 @@ import AddLeadSources from './container/AddLeadSources';
 import AddDealStages from './container/AddDealStages';
 import CRMCalendar from './container/CRMCalendar';
 
-
 const App = () => {
   return (
     <HelmetProvider>
