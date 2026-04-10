@@ -51,7 +51,7 @@ class ProjectDetails extends React.Component {
             this.props.navigate('/libraryManagementSystem')
 
         }
-        else if (this.state.project == 'LMS') {
+        else if (this.state.project == 'CRM') {
 
             this.props.navigate('/sign-up')
         }

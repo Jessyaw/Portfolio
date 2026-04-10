@@ -40,7 +40,7 @@ const App = () => {
         <title>Jessy Angel</title>
         <link rel='canonical' href='https://jessyaw.github.io/Portfolio/'></link>
       </Helmet>
-      <Router basename="/Portfolio">
+      <Router>
         <Routes>
           <Route path='/' element={<Portfolio />} />
           <Route path='/libraryManagementSystem' element={<LibraryManagementSystem />} />
