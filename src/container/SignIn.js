@@ -1,19 +1,16 @@
 import React from 'react'
-import login from '../image/jpg/login.jpeg'
 import WithRouter from '../context/WithRouter'
 import { auth, provider, signInWithPopup, signOut } from '../firebase/FireBase'
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { BsApple, BsLinkedin } from 'react-icons/bs';
 import { BsMicrosoft } from 'react-icons/bs';
-import { GrAppleMusic } from 'react-icons/gr';
-import { IoMdEye } from "react-icons/io";
 import { Color } from '../Colors';
 import { FaRegEye, FaRegEyeSlash, FaXTwitter } from "react-icons/fa6";
 import { ApiUrl } from '../Api';
-import Toaster from '../component/Toaster';
 import WithToaster from '../context/WithToaster';
 import { ValidateField } from '../Validation';
+import { ApiCall } from '../ApiCall';
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -44,6 +41,7 @@ class SignIn extends React.Component {
             successMessage: '',
             failureMessage: '',
             verifying: false,
+            error: {},
         }
     }
 
@@ -225,7 +223,7 @@ class SignIn extends React.Component {
                         </div>
                         <div className='inpt-container'>
                             <div className='inpt-container' style={{ gap: '7px' }}>
-                                <input className='inpt-login' placeholder='Email' onChange={this.handleChange('email', e.target.value)} value={this.state.email} />
+                                <input className='inpt-login' placeholder='Email' onChange={(e) => this.handleChange('email', e.target.value)} value={this.state.email} />
                                 {this.state.error.email && <span className='field-error'>{this.state.error.email}</span>}
                             </div>
                             <div className='inpt-container' style={{ gap: '7px', }}>
@@ -252,7 +250,7 @@ class SignIn extends React.Component {
                                         className='inpt-login'
                                         placeholder='Password'
                                         maxLength={25}
-                                        onChange={this.handleChange('password', e.target.value)}
+                                        onChange={(e) => this.handleChange('password', e.target.value)}
                                         value={this.state.password}
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
