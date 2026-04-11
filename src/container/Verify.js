@@ -30,7 +30,8 @@ class Verify extends React.Component {
             roleID: '',
             role: '',
             isEmailVerified: '',
-            EmailVerificationToken: token
+            emailVerificationToken: token,
+            emailVerificationTokenExpiry: null,
         }
 
         try {

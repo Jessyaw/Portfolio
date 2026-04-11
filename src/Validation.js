@@ -51,7 +51,7 @@ export const emailValidation = (val) => {
     }
 }
 export const passwordValidation = (val) => {
-    let regEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    let regEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?&]{8,}$/
     if (regEx.test(val)) {
         return true;
     }

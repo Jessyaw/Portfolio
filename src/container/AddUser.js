@@ -194,7 +194,8 @@ class AddUser extends React.Component {
                 team: "",
                 isActive: true,
                 isEmailVerified: false,
-                EmailVerificationToken: ""
+                emailVerificationToken: "",
+                emailVerificationTokenExpiry: null,
             }
             this.AddUpdateUser(data);
         }
@@ -240,7 +241,8 @@ class AddUser extends React.Component {
             role: "",
             isActive: status,
             isEmailVerified: true,
-            EmailVerificationToken: ""
+            emailVerificationToken: "",
+            emailVerificationTokenExpiry: null,
         }
         try {
             const json = await ApiCall(`${ApiUrl.url}/CRM/ActiveDeactiveUser`, 'POST', data);

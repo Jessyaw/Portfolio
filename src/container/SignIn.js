@@ -1,6 +1,6 @@
 import React from 'react'
 import WithRouter from '../context/WithRouter'
-import { auth, provider, signInWithPopup, signOut } from '../firebase/FireBase'
+import { auth, provider, signInWithPopup } from '../firebase/FireBase'
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { BsApple, BsLinkedin } from 'react-icons/bs';
@@ -17,31 +17,20 @@ class SignIn extends React.Component {
         super(props)
         this.state = {
             user: null,
-            fName: '',
-            lName: '',
-            email: '',
-            password: '',
-            emailError: '',
-            fNameError: '',
-            lNameError: '',
-            passwordError: '',
-            isHide: true,
-            isChecked: false,
-            checkError: '',
-            isLogin: false,
-            isSignup: false,
+            email: "",
+            password: "",
             socialIcons: [
-                { id: 1, icon: <FcGoogle size={20} />, bgcolor: Color.whiteFont, isHover: false, hoverColor: Color.whiteFont },
-                { id: 2, icon: <FaFacebook size={20} />, bgcolor: Color.whiteFont, isHover: false, hoverColor: Color.whiteFont },
-                { id: 3, icon: <FaXTwitter size={20} />, bgcolor: Color.whiteFont, isHover: false, hoverColor: Color.whiteFont },
-                { id: 4, icon: <BsLinkedin size={20} />, bgcolor: Color.whiteFont, isHover: false, hoverColor: Color.whiteFont },
-                { id: 5, icon: <BsMicrosoft size={20} />, bgcolor: Color.whiteFont, isHover: false, hoverColor: Color.whiteFont },
-                { id: 6, icon: <BsApple size={20} />, bgcolor: Color.whiteFont, isHover: false, hoverColor: Color.whiteFont },
+                { id: 1, icon: <FcGoogle size={20} />, isHover: false, },
+                { id: 2, icon: <FaFacebook size={20} />, isHover: false, },
+                { id: 3, icon: <FaXTwitter size={20} />, isHover: false, },
+                { id: 4, icon: <BsLinkedin size={20} />, isHover: false, },
+                { id: 5, icon: <BsMicrosoft size={20} />, isHover: false, },
+                { id: 6, icon: <BsApple size={20} />, isHover: false, },
             ],
-            successMessage: '',
-            failureMessage: '',
+            successMessage: "",
+            failureMessage: "",
             verifying: false,
-            error: {},
+            errors: {},
         }
     }
 
@@ -49,7 +38,7 @@ class SignIn extends React.Component {
         document.body.style.backgroundColor = '#ffffff80';
     }
     componentWillUnmount() {
-        document.body.style.backgroundColor = '';
+        document.body.style.backgroundColor = "";
     }
     redirectToDashboard = () => {
         this.props.navigate('/dashboard');
@@ -76,26 +65,12 @@ class SignIn extends React.Component {
             }
         }));
     }
-    handleFName = (e) => {
 
-        if (/^[A-Za-z]*$/.test(e.target.value)) {
-            this.setState({ fName: e.target.value, fNameError: '' })
-        }
-    }
-    handleLName = (e) => {
-
-        if (/^[A-Za-z]*$/.test(e.target.value)) {
-            this.setState({ lName: e.target.value })
-        }
-        else {
-
-        }
-    }
 
 
     handleSignIn = () => {
-        let { isEmail, isPassword } = this.state;
-        const fields = { isEmail, isPassword }
+        let { email, password } = this.state;
+        const fields = { email, password }
 
         let errors = {};
 
@@ -107,14 +82,17 @@ class SignIn extends React.Component {
         this.setState({ errors });
         if (Object.keys(errors).length === 0) {
             let mailToVerify = {
-                fullName: '',
+                fullName: "",
                 email: this.state.email,
                 password: this.state.password,
-                confirmPassword: '',
-                roleID: '',
-                role: '',
-                isEmailVerified: 0,
-                EmailVerificationToken: ''
+                confirmPassword: "",
+                roleID: null,
+                role: "",
+                teamID: null,
+                team: "",
+                isActive: true,
+                isEmailVerified: false,
+                emailVerificationToken: ""
             }
             this.handleCheckMailVerified(mailToVerify);
             this.setState({
@@ -123,6 +101,7 @@ class SignIn extends React.Component {
         }
     }
     handleCheckMailVerified = async (data) => {
+        console.log('daatta')
         try {
             const json = await ApiCall(`${ApiUrl.url}/CRM/CheckEmailVerified`, 'POST', data);
 
@@ -145,7 +124,7 @@ class SignIn extends React.Component {
 
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
-                this.props.navigate('/email-sent')
+                this.props.navigate('/email-sent?type=login')
             }
             else {
                 this.props.toast.show('F', json.message);
@@ -215,7 +194,7 @@ class SignIn extends React.Component {
     render() {
         return (
             <div className='signin-bg'>
-                <div className='signin-card-container'>
+                <div className='signin-card-container tbl-scroll'>
                     <div className='signin-card'>
                         <div>MINI CRM</div>
                         <div>
@@ -224,7 +203,7 @@ class SignIn extends React.Component {
                         <div className='inpt-container'>
                             <div className='inpt-container' style={{ gap: '7px' }}>
                                 <input className='inpt-login' placeholder='Email' onChange={(e) => this.handleChange('email', e.target.value)} value={this.state.email} />
-                                {this.state.error.email && <span className='field-error'>{this.state.error.email}</span>}
+                                {this.state.errors.email && <span className='field-error'>{this.state.errors.email}</span>}
                             </div>
                             <div className='inpt-container' style={{ gap: '7px', }}>
                                 <div style={{ position: 'relative', width: '100%', }}>
@@ -255,7 +234,7 @@ class SignIn extends React.Component {
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
-                                {this.state.error.password && <span className='field-error'>{this.state.error.password}</span>}
+                                {this.state.errors.password && <span className='field-error'>{this.state.errors.password}</span>}
                             </div>
                             <div className='sm-header' style={{ fontSize: '0.9rem', color: Color.grey, cursor: 'pointer' }}>Forget password?</div>
                             <button className='btn-login' onClick={this.handleSignIn}>{this.state.verifying ? 'Email verifying...' : 'Here we go'}</button>
@@ -264,7 +243,7 @@ class SignIn extends React.Component {
                             <div className='nor-header'>Sign in with</div>
                             <div className='icon-conatainer'>
                                 {this.state.socialIcons.map(i =>
-                                    <div className='social-icons' style={{ backgroundColor: i.isHover ? i.hoverColor : i.bgcolor, boxShadow: i.isHover && 'none' }} onMouseOver={() => this.hoverIcon(i)} onMouseLeave={this.handleLeave}>{i.icon}</div>
+                                    <div className='social-icons' style={{ backgroundColor: i.isHover ? Color.whiteFont : Color.whiteFont, boxShadow: i.isHover && 'none' }} onMouseOver={() => this.hoverIcon(i)} onMouseLeave={this.handleLeave}>{i.icon}</div>
                                 )}
                             </div>
                         </div>

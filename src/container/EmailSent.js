@@ -4,11 +4,13 @@ import { Constant } from '../Constant'
 import { Color } from '../Colors';
 class EmailSent extends React.Component {
     render() {
+        const params = new URLSearchParams(this.props?.location?.search);
+        const type = params.get('type') || 'signup';
         return (
             <div className='center' style={{ height: '40rem' }}>
                 <div>
-                    <h1 style={{ color: Color.green }}>{Constant.accountCreated}</h1>
-                    <div style={{ color: Color.grey }} className='nor-header center'>{Constant.emailSent}</div>
+                    <div className='heading center' style={{ color: Color.green }}>{type === 'login' ? Constant.loggedIn : Constant.accountCreated}</div>
+                    < div style={{ color: Color.grey }} className='nor-header center'>{Constant.emailSent}</div>
                     <div style={{ color: Color.grey }} className='nor-header center'>{Constant.verify}</div>
                 </div>
             </div>

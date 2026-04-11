@@ -110,7 +110,8 @@ class SignUp extends React.Component {
                 teamID: null,
                 isActive: true,
                 isEmailVerified: false,
-                EmailVerificationToken: ""
+                emailVerificationToken: "",
+                emailVerificationTokenExpiry: null
             }
             this.handleCreateUser(data);
         }
@@ -121,7 +122,7 @@ class SignUp extends React.Component {
 
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
-                this.props.navigate('/email-sent')
+                this.props.navigate('/email-senttype=signup')
             }
             else {
                 this.props.toast.show('F', json.message);
@@ -147,20 +148,18 @@ class SignUp extends React.Component {
     render() {
         return (
             <div className='signin-bg'>
-                <div className='signin-card-container'>
+                <div className='signin-card-container tbl-scroll'>
                     <div className='signin-card' >
                         <div className='md-header'>Sign up</div>
                         <div className='sm-header'>Already have an account?<a onClick={() => this.props.navigate('/sign-in')}> Sign in</a></div>
                         <div className='inpt-container' style={{ gap: '16px' }}>
-                            <div className='input-container'>
-                                <div className='inpt-container' >
-                                    <input className='inpt-login' placeholder='Full Name' maxLength={50} onChange={(e) => this.handleChange("fullName", e.target.value)} value={this.state.fullName} />
-                                    {this.state.errors.fullName && <span className='field-error'>{this.state.errors.fullName}</span>}
-                                </div>
-                                <div className='inpt-container' >
-                                    <input className='inpt-login' placeholder='Work Email' maxLength={75} onChange={(e) => this.handleChange("email", e.target.value)} value={this.state.email} />
-                                    {this.state.errors.email && <span className='field-error'>{this.state.errors.email}</span>}
-                                </div>
+                            <div className='inpt-container' >
+                                <input className='inpt-login' placeholder='Full Name' maxLength={50} onChange={(e) => this.handleChange("fullName", e.target.value)} value={this.state.fullName} />
+                                {this.state.errors.fullName && <span className='field-error'>{this.state.errors.fullName}</span>}
+                            </div>
+                            <div className='inpt-container' >
+                                <input className='inpt-login' placeholder='Email' maxLength={75} onChange={(e) => this.handleChange("email", e.target.value)} value={this.state.email} />
+                                {this.state.errors.email && <span className='field-error'>{this.state.errors.email}</span>}
                             </div>
                             <div className='inpt-container' >
                                 <div style={{ position: 'relative', }}>

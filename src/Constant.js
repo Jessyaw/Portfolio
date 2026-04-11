@@ -42,6 +42,7 @@ export const Constant = {
     //email-sent 
 
     accountCreated: 'Account created successfully!!',
+    loggedIn: 'Logged in successfully!!',
     emailSent: 'A verification email has been sent to your email address',
     verify: 'Please check your inbox to verify email...',
 
