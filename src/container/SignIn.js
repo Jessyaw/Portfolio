@@ -92,7 +92,8 @@ class SignIn extends React.Component {
                 team: "",
                 isActive: true,
                 isEmailVerified: false,
-                emailVerificationToken: ""
+                emailVerificationToken: "",
+                emailVerificationTokenExpiry: null
             }
             this.handleCheckMailVerified(mailToVerify);
             this.setState({
@@ -111,7 +112,11 @@ class SignIn extends React.Component {
             }
             else {
                 this.props.toast.show('F', json.message);
-                this.handleSendMailToVerify(data);
+                if (json.message === "User is not exist!!") {
+                    this.props.navigate('/sign-up');
+                } else {
+                    this.handleSendMailToVerify(data);
+                }
             }
 
         } catch (e) {
@@ -128,6 +133,9 @@ class SignIn extends React.Component {
             }
             else {
                 this.props.toast.show('F', json.message);
+                this.setState({
+                    verifying: false
+                })
             }
 
         } catch (e) {

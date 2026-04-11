@@ -122,7 +122,7 @@ class SignUp extends React.Component {
 
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
-                this.props.navigate('/email-senttype=signup')
+                this.props.navigate('/email-sent?type=signup')
             }
             else {
                 this.props.toast.show('F', json.message);
