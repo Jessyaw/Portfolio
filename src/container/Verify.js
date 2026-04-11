@@ -9,27 +9,37 @@ class Verify extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            token: '',
+            token: "",
             isSuccess: false,
             isVerified: false,
-            SuccessMessage: '',
-            FailureMessage: '',
+            SuccessMessage: "",
+            FailureMessage: "",
         }
     }
     componentDidMount() {
         this.fetchToken();
     }
     fetchToken = async () => {
-        const params = new URLSearchParams(window.location.search);
+        const hash = window.location.hash;
+        const queryString = hash.includes('?') ? hash.split('?')[1] : '';
+        const params = new URLSearchParams(queryString);
         const token = params.get("token");
+
+        console.log(hash, queryString, params, token);
+
+        console.log("TOKEN:", token);
         var data = {
-            fullName: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            roleID: '',
-            role: '',
-            isEmailVerified: '',
+            id: 0,
+            fullName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            roleID: 0,
+            role: "",
+            team: "",
+            teamID: 0,
+            isActive: true,
+            isEmailVerified: false,
             emailVerificationToken: token,
             emailVerificationTokenExpiry: null,
         }
