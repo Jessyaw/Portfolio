@@ -61,7 +61,6 @@ class CRM extends React.Component {
 
     componentDidMount() {
         this.updateWindowDimensions();
-        this.fetchCalendarData();
         window.addEventListener('resize', this.updateWindowDimensions);
         window.addEventListener('mousedown', this.closeSideBar);
     }
@@ -69,18 +68,7 @@ class CRM extends React.Component {
         window.removeEventListener('resize', this.updateWindowDimensions);
         window.removeEventListener('mousedown', this.closeSideBar);
     }
-    fetchCalendarData = async () => {
-        try {
-            await fetch(`${ApiUrl.url}/CRM/fetchCalendarData`).then(res => res.json()).then(json => {
 
-            })
-        }
-        catch (e) {
-
-        }
-
-
-    }
     closeSideBar = (e) => {
         if (this.state.isOpenSideBar && this.sideBarRef.current && !this.sideBarRef.current.contains(e.target)) {
             this.setState({
@@ -108,16 +96,7 @@ class CRM extends React.Component {
     render() {
         return (
             <div>
-                {this.state.isDelete &&
-                    <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', zIndex: 10000 }}>
-                        <DeletePopup
-                            onClose={this.closeMenu}
-                            item={this.state.itemToBedelete}
-                            onDelete={(v, id) => { this.deleteUser(v, id) }}
-                            ID={this.state.deleteID}
-                            message={'Are you sure you want to Logout?'}
-                        />
-                    </div>}
+
                 {/* Header */}
                 <Header searchValue={(v) => { this.setState({ searchValue: v }) }} />
                 <CRMSidebar val={this.state.searchValue} />

@@ -48,30 +48,38 @@ class AddUser extends React.Component {
             teamID: null,
             isOpenTeamMenu: false,
             isTeam: false,
+            roleFilter: [],
         }
     }
     componentDidMount() {
-        this.fetchUser();
+        let i = JSON.parse(sessionStorage.getItem("data"))
+        let data = {
+            roleID: i.roleID,
+            userID: i.id,
+            teamID: i.teamID
+        }
+        this.setState({ roleFilter: data })
+        this.fetchUser(data);
         this.fetchRoles();
         this.fetchTeams();
     }
-    fetchUser = async () => {
+    fetchUser = async (data) => {
         try {
-            await fetch(`${ApiUrl.url}/CRM/FetchLeadUser`)
-                .then(res => res.json())
-                .then(json => {
-                    if (json.data) {
-                        this.setState({
-                            UserDetails: json.data,
-                            UserDetailsClone: json.data,
-                            isLoading: false,
-                        })
-                    }
-                });
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchLeadUser`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                this.setState({
+                    UserDetails: json.data,
+                    UserDetailsClone: json.data,
+                    isLoading: false,
+                })
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
+
         } catch (e) {
-            this.setState({
-                failureMessage: e.message
-            })
+            this.props.toast.show('F', e.message);
         }
         finally {
             this.setState({
@@ -207,7 +215,7 @@ class AddUser extends React.Component {
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
                 this.handleClear();
-                this.fetchUser();
+                this.fetchUser(this.state.roleFilter);
             }
             else {
                 this.props.toast.show('F', json.message);
@@ -223,7 +231,8 @@ class AddUser extends React.Component {
             email: '',
             password: '',
             confirmPassword: '',
-            role: ''
+            role: '',
+            team: '',
         })
     }
     handleToggle = async (id, val) => {
@@ -249,7 +258,7 @@ class AddUser extends React.Component {
 
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
-                this.fetchUser();
+                this.fetchUser(this.state.roleFilter);
             }
             else {
                 this.props.toast.show('F', json.message);
@@ -271,6 +280,9 @@ class AddUser extends React.Component {
             confirmPassword: i.confirmPassword,
             role: i.role,
             roleID: i.roleID,
+            team: i.team,
+            teamID: i.teamID,
+            isTeam: (i.roleID !== 1)
         })
     }
     render() {
@@ -405,7 +417,7 @@ class AddUser extends React.Component {
                                                     <CustomToggle
                                                         status={i[j.field] == 1 ? 'active' : 'inactive'}
                                                         onClick={(v) => this.handleToggle(i.id, v)}
-                                                    /> : i[j.field]
+                                                    /> : i[j.field] ? i[j.field] : "-"
                                                 )
                                                 :
                                                 (<div style={{ display: 'flex', justifyContent: 'space-evenly' }}>

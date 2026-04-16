@@ -58,12 +58,20 @@ class CRMContacts extends React.Component {
             sortField: ['leadname', 'email'],
             hoverField: null,
             screenWidth: window.innerWidth,
+            userID: null
 
         }
     }
 
     componentDidMount() {
-        this.fetchContact();
+        let i = JSON.parse(sessionStorage.getItem("data"))
+        let data = {
+            roleID: i.roleID,
+            userID: i.id,
+            teamID: i.teamID
+        }
+        this.setState({ userID: i.id })
+        this.fetchContact(data);
         this.fetchSource();
     }
     fetchSource = async () => {
@@ -91,27 +99,24 @@ class CRMContacts extends React.Component {
             contactDetails: data
         })
     }
-    fetchContact = async () => {
+    fetchContact = async (data) => {
         try {
-            await fetch(`${ApiUrl.url}/CRM/FetchContacts`)
-                .then(res => res.json())
-                .then(json => {
-                    if (json.data) {
-                        this.setState({
-                            contactDetails: json.data,
-                            contactDetailsClone: json.data,
-                            isLoading: false,
-                            isUpdate: false,
-                        })
-                    }
-                });
-        } catch (e) {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchContacts`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                this.setState({
+                    contactDetails: json.data,
+                    contactDetailsClone: json.data,
+                    isLoading: false,
+                    isUpdate: false,
+                })
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
 
-        }
-        finally {
-            this.setState({
-                isLoading: false,
-            })
+        } catch (e) {
+            this.props.toast.show('F', e.message);
         }
     }
     handleChange = (field, value) => {
@@ -172,7 +177,7 @@ class CRMContacts extends React.Component {
         let data =
         {
             id: this.state.updateID,
-            userID: this.state.userID || 1,
+            userID: this.state.userID || 0,
             leadname: this.state.name,
             email: this.state.email,
             mobile: this.state.mobile,

@@ -54,11 +54,19 @@ class Tasks extends React.Component {
             sortField: ['title', 'leadName'],
             hoverField: null,
             screenWidth: window.innerWidth,
+            roleFilter: [],
         }
     }
 
     componentDidMount() {
-        this.fetchTask();
+        let i = JSON.parse(sessionStorage.getItem("data"))
+        let data = {
+            roleID: i?.roleID,
+            userID: i?.id,
+            teamID: i?.teamID
+        }
+        this.setState({ roleFilter: data })
+        this.fetchTask(data);
     }
     handleSearch = () => {
         if (this.state.searchValue == '') return;
@@ -69,28 +77,31 @@ class Tasks extends React.Component {
             taskDetailsClone: data
         })
     }
-    fetchTask = async () => {
+    fetchTask = async (data) => {
         this.setState({ isLoading: true, })
         try {
-            await fetch(`${ApiUrl.url}/CRM/FetchTasks`).then(res => res.json()).then(json => {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchTasks`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
                 this.setState({
                     taskDetails: json.data,
                     taskDetailsClone: json.data,
-
+                    isLoading: false,
                 })
-            })
-        } catch (e) {
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
 
-        }
-        finally {
-            this.setState({ isLoading: false, })
+        } catch (e) {
+            this.props.toast.show('F', e.message);
         }
     }
 
 
 
     handleSave = async () => {
-        this.fetchTask();
+        this.fetchTask(this.state.roleFilter);
         this.setState({
             isAdd: false
         })
@@ -142,7 +153,7 @@ class Tasks extends React.Component {
 
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
-                this.fetchTask();
+                this.fetchTask(this.state.roleFilter);
                 this.setState({
                     isDelete: false,
                 })

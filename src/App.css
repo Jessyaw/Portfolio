@@ -151,7 +151,7 @@ body,* {
 }
 
 .calendar-container {
-  padding: 25px;
+  padding: 43px 25px;
   text-align: center;
   position: relative;
 }
@@ -177,7 +177,7 @@ body,* {
     cursor: default;
   }
   .calendar-container {
-    padding: 8px;
+    padding: 34px 8px;
     text-align: center;
     position: relative;
   }

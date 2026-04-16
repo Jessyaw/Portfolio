@@ -61,11 +61,19 @@ class Deals extends React.Component {
             sortField: ['title', 'contact'],
             hoverField: null,
             screenWidth: window.innerWidth,
+            teamID: null,
         }
     }
 
     componentDidMount() {
-        this.fetchDeals();
+        let i = JSON.parse(sessionStorage.getItem("data"))
+        let data = {
+            roleID: i.roleID,
+            userID: i.id,
+            teamID: i.teamID
+        }
+        this.setState({ teamID: i.id })
+        this.fetchDeals(data);
         this.fetchStage();
         this.fetchDealsStat();
     }
@@ -105,21 +113,24 @@ class Deals extends React.Component {
         }
     }
 
-    fetchDeals = async () => {
+    fetchDeals = async (data) => {
         this.setState({ isLoading: true, })
         try {
-            await fetch(`${ApiUrl.url}/CRM/FetchDeals`).then(res => res.json()).then(json => {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchDeals`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
                 this.setState({
                     dealDetails: json.data,
                     dealDetailsClone: json.data,
-                    isLoading: false
+                    isLoading: false,
                 })
-            })
-        } catch (e) {
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
 
-        }
-        finally {
-            this.setState({ isLoading: false, })
+        } catch (e) {
+            this.props.toast.show('F', e.message);
         }
     }
 
@@ -277,6 +288,7 @@ class Deals extends React.Component {
             stage: "",
             contact: "",
             closeDate: i.closeDate,
+            teamID: this.state.teamID
         }
         this.handleAddUpdateDeal(data);
     }
@@ -359,11 +371,11 @@ class Deals extends React.Component {
                         </div>
                     )}
                 </div>
-                <div className='inpt-container center' style={{ justifyContent: 'flex-start', flexDirection: 'row', gap: '7px', position: 'relative', }} >
+                <div className='inpt-container center' style={{ justifyContent: 'flex-start', flexDirection: 'row', gap: '7px', position: 'relative', width: 'fit-content' }} >
                     <FaFilter />
                     <input className='inpt-login' placeholder='Stage' onClick={this.OpenStageMenu} value={this.state.dealStage} />
                     {this.state.isOpenStage &&
-                        <div style={{ position: 'absolute', top: '52px', zIndex: 1000, width: '100%', }} onMouseLeave={this.OpenStageMenu}>
+                        <div style={{ position: 'absolute', top: '70px', zIndex: 1000, width: '100%', }} onMouseLeave={this.OpenStageMenu}>
                             <CustomDropdown
                                 height={'auto'}
                                 option={this.state.stageData}

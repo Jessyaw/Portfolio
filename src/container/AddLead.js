@@ -40,14 +40,17 @@ class AddLead extends React.Component {
             isLoading: true,
             updateID: null,
             userID: null,
+            teamID: null,
             errors: {},
             isView: false,
         }
     }
     componentDidMount() {
-        let userID = sessionStorage.getItem("UserID")
+        let i = JSON.parse(sessionStorage.getItem("data"))
+        console.log(i)
         this.setState({
-            userID
+            userID: i.id,
+            teamID: i.teamID
         })
         this.handleUpdate(this.props.update, this.props?.isUpdate, this.props?.isView);
         this.fetchSource();
@@ -184,7 +187,8 @@ class AddLead extends React.Component {
             let data =
             {
                 id: this.state.isUpdate ? this.state.updateID : 0,
-                userID: this.state.userID || 1,
+                userID: this.state.userID || 0,
+                teamID: this.state.teamID || 0,
                 leadname: this.state.name,
                 email: this.state.email,
                 mobile: this.state.mobile,

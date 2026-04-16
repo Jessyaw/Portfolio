@@ -10,6 +10,7 @@ import { CiSettings } from 'react-icons/ci'
 import { BiLogOut } from 'react-icons/bi'
 import Profile from '../component/Profile'
 import WithRouter from '../context/WithRouter';
+import DeletePopup from '../component/DeletePopup';
 
 
 class CRMSidebar extends React.Component {
@@ -52,10 +53,16 @@ class CRMSidebar extends React.Component {
                 { id: 9, menu: 'Logout', icon: <BiLogOut size={25} /> }
             ],
             activeMenu: null,
+            roleID: null,
+            name: null,
+            email: null,
+            isDelete: false,
         }
         this.sideBarRef = React.createRef();
     }
     componentDidMount() {
+        let i = JSON.parse(sessionStorage.getItem("data"))
+        this.setState({ roleID: i.roleID, name: i.name, email: i.email })
         if (this.props?.val) {
             this.setState({
                 searchValue: this.props?.val,
@@ -63,7 +70,6 @@ class CRMSidebar extends React.Component {
         }
     }
     selectMenu = (menu) => {
-        this.setState({ activeMenu: menu.id })
         if (menu.id === 9) {
             this.handleOpenSidebar();
             this.handleLogout();
@@ -85,12 +91,22 @@ class CRMSidebar extends React.Component {
 
     }
     handleLogout = () => {
-
+        this.setState({ isDelete: true })
+    }
+    closeMenu = () => {
+        this.setState({
+            isDelete: false
+        })
     }
     handleOpenSidebar = () => {
         this.setState((prev) => ({
             isOpenSideBar: !prev.isOpenSideBar
         }))
+    }
+    logoutUser = () => {
+        sessionStorage.removeItem("data");
+        this.setState({ isDelete: false })
+        this.props.navigate('/sign-in');
     }
     render() {
         const path = this.props.location.pathname;
@@ -104,8 +120,27 @@ class CRMSidebar extends React.Component {
             isSettingsOpen = false
         }
 
+        let menu = this.state.sideMenu;
+        if (this.state.roleID === 2) {
+            menu = menu?.filter(i => i.id !== 8);
+        }
+        if (this.state.roleID === 3) {
+            menu = menu?.filter(i => (i.id !== 7 && i.id !== 8));
+        }
+
+
         return (
             <div>
+                {this.state.isDelete &&
+                    <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', zIndex: 10000 }}>
+                        <DeletePopup
+                            onClose={this.closeMenu}
+                            item={this.state.itemToBedelete}
+                            onDelete={(v, id) => { this.logoutUser(v, id) }}
+                            ID={this.state.deleteID}
+                            message={'Are you sure you want to Logout?'}
+                        />
+                    </div>}
                 {this.state.screenWidth <= 892 &&
                     <div
                         onClick={() => this.handleOpenSidebar()}
@@ -144,12 +179,11 @@ class CRMSidebar extends React.Component {
                                     width: this.state.screenWidth < 892 ? '240px' : '',
                                 }}>
                                 <div className='scroll' style={{ flex: 1, "--scroll-color": Color.lightGrey }}>
-                                    {this.state.sideMenu?.map(i =>
+                                    {menu?.map(i =>
                                         <>
                                             <div key={i.id} className='crm-side-menu-items'
                                                 style={{
-                                                    backgroundColor: (path === i.path || (isSettingsOpen && i.id === 8) ||
-                                                        this.state.activeMenu === i.id) ? Color.crmPrimary : Color.whiteFont,
+                                                    backgroundColor: (path === i.path || (isSettingsOpen && i.id === 8)) ? Color.crmPrimary : Color.whiteFont,
                                                     color: (path === i.path || (isSettingsOpen && i.id === 8) ||
                                                         this.state.activeMenu === i.id) ? '#F1F3F9' : Color.bgDark,
                                                     borderBottomRightRadius: '12px',
@@ -181,7 +215,7 @@ class CRMSidebar extends React.Component {
                                     )}
                                 </div>
                                 <div style={{ padding: '10px' }}>
-                                    <Profile />
+                                    <Profile name={this.state.name} email={this.state.email} />
                                 </div>
                             </div>
 

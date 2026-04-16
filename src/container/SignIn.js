@@ -11,6 +11,7 @@ import { ApiUrl } from '../Api';
 import WithToaster from '../context/WithToaster';
 import { ValidateField } from '../Validation';
 import { ApiCall } from '../ApiCall';
+import logo from '../image/svg/CRM_LOGO.svg'
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -149,7 +150,7 @@ class SignIn extends React.Component {
 
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
-                this.handleStoreUserData(json.data.ID);
+                this.handleStoreUserData(json.data?.id);
             }
             else {
                 this.props.toast.show('F', json.message);
@@ -162,8 +163,21 @@ class SignIn extends React.Component {
 
     handleStoreUserData = async (ID) => {
         let data = {
-
+            id: ID,
+            fullName: "",
+            email: this.state.email,
+            password: this.state.password,
+            confirmPassword: "",
+            roleID: null,
+            role: "",
+            teamID: null,
+            team: "",
+            isActive: true,
+            isEmailVerified: false,
+            emailVerificationToken: "",
+            emailVerificationTokenExpiry: null
         }
+        console.log(data)
         try {
             const json = await ApiCall(`${ApiUrl.url}/CRM/FetchUserData`, 'POST', data);
 
@@ -203,12 +217,12 @@ class SignIn extends React.Component {
         return (
             <div className='signin-bg'>
                 <div className='signin-card-container tbl-scroll'>
-                    <div className='signin-card'>
-                        <div>MINI CRM</div>
-                        <div>
+                    <div className='signin-card' style={{ gap: '12px' }}>
+                        <div className='center' style={{ justifyContent: 'space-between' }}>
                             <div className='md-header'>Sign in</div>
+                            <img src={logo} height={'90px'} width='150px' />
                         </div>
-                        <div className='inpt-container'>
+                        <div className='inpt-container' style={{ gap: '16px' }}>
                             <div className='inpt-container' style={{ gap: '7px' }}>
                                 <input className='inpt-login' placeholder='Email' onChange={(e) => this.handleChange('email', e.target.value)} value={this.state.email} />
                                 {this.state.errors.email && <span className='field-error'>{this.state.errors.email}</span>}

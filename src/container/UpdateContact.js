@@ -55,9 +55,9 @@ class UpdateContact extends React.Component {
         }
     }
     componentDidMount() {
-        let userID = sessionStorage.getItem("UserID")
+        let i = JSON.parse(sessionStorage.getItem("data"))
         this.setState({
-            userID
+            userID: i.id
         })
         this.handleUpdate(this.props.data, this.props?.isUpdate, this.props?.isView);
         this.fetchSource();
@@ -162,7 +162,7 @@ class UpdateContact extends React.Component {
         let data =
         {
             id: this.state.updateID,
-            userID: this.state.userID || 1,
+            userID: this.state.userID || 0,
             leadname: this.state.name,
             email: this.state.email,
             mobile: this.state.mobile,

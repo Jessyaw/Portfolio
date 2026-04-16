@@ -10,6 +10,7 @@ import { formatDate } from '../Validation'
 import WithRouter from '../context/WithRouter';
 import WithToaster from '../context/WithToaster';
 import WithSearch from '../context/WithSearch';
+import { ApiCall } from '../ApiCall';
 
 class CRMDashboard extends React.Component {
     constructor(props) {
@@ -57,59 +58,84 @@ class CRMDashboard extends React.Component {
     }
 
     componentDidMount() {
+        let i = JSON.parse(sessionStorage.getItem("data"))
+        let data = {
+            roleID: i.roleID,
+            userID: i.id,
+            teamID: i.teamID
+        }
         if (this.props.isDelete) {
             this.setState({
                 isDelete: true,
             })
         }
         window.scrollTo(0, 0);
-        this.fetchStatData();
-        this.fetchRecentTasks();
-        this.fetchRecentDeals();
+        this.fetchStatData(data);
+        this.fetchRecentTasks(data);
+        this.fetchRecentDeals(data);
     }
 
-    fetchStatData = async () => {
+    fetchStatData = async (data) => {
+
         this.setState({ isLoading: true, })
         try {
-            await fetch(`${ApiUrl.url}/CRM/FetchCRMStatData`).then(res => res.json()).then(json => {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchCRMStatData`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
                 let stat = json.data[0];
-                this.setState(prevState => ({
-                    statCards: prevState.statCards?.map(i => ({
-                        ...i,
-                        count: stat[i.key] ?? 0
+                if (stat) {
+                    this.setState(prevState => ({
+                        statCards: prevState.statCards?.map(i => ({
+                            ...i,
+                            count: stat[i.key] || 0
+                        }))
                     }))
-                }))
-            })
-        } catch (e) {
+                }
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
 
-        } finally {
-            this.setState({ isLoading: false })
+        } catch (e) {
+            this.props.toast.show('F', e.message);
         }
     }
-    fetchRecentDeals = async () => {
-        try {
-            await fetch(`${ApiUrl.url}/CRM/FetchRecentDeals`).then(res => res.json()).then(json => {
-                this.setState({
-                    recentDeals: json.data
-                })
-            })
-        } catch (e) {
+    fetchRecentDeals = async (data) => {
 
-        } finally {
-            this.setState({ isLoading: false })
+        try {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchRecentDeals`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                this.setState({
+                    recentDeals: json.data,
+                    isLoading: false
+                })
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
+
+        } catch (e) {
+            this.props.toast.show('F', e.message);
         }
-    }
-    fetchRecentTasks = async () => {
-        try {
-            await fetch(`${ApiUrl.url}/CRM/FetchRecentTasks`).then(res => res.json()).then(json => {
-                this.setState({
-                    recentTasks: json.data
-                })
-            })
-        } catch (e) {
 
-        } finally {
-            this.setState({ isLoading: false })
+    }
+    fetchRecentTasks = async (data) => {
+        try {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchRecentTasks`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                this.setState({
+                    recentTasks: json.data,
+                    isLoading: false
+                })
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
+
+        } catch (e) {
+            this.props.toast.show('F', e.message);
         }
     }
 

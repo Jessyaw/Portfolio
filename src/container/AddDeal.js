@@ -35,9 +35,12 @@ class AddDeal extends React.Component {
                 { id: 4, field: 'stage', header: 'Stage', fontWeight: "", size: '' },
                 { id: 5, field: 'expectedCloseDate', header: 'Close date', fontWeight: "", size: '' },
             ],
+            teamID: null,
         }
     }
     componentDidMount() {
+        let i = JSON.parse(sessionStorage.getItem("data"))
+        this.setState({ teamID: i.teamID })
         this.fetchStage();
         if (this.props?.data) {
             let i = this.props.data;
@@ -147,6 +150,7 @@ class AddDeal extends React.Component {
                 stage: "",
                 contact: "",
                 closeDate: date.toISOString(),
+                teamID: this.state.teamID,
             }
             this.handleAddUpdateDeal(data);
         }

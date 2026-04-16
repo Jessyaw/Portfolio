@@ -2,6 +2,7 @@ import React from 'react'
 import { Color } from '../Colors'
 import { BsSearch } from 'react-icons/bs'
 import WithSearch from '../context/WithSearch'
+import logo from '../image/svg/CRM_LOGO.svg'
 
 class Header extends React.Component {
     constructor(props) {
@@ -27,7 +28,9 @@ class Header extends React.Component {
                     <div style={{ display: 'flex', position: 'fixed', right: 20, left: this.state.screenWidth <= 892 ? 70 : 230, backgroundColor: '', zIndex: 1000, }}>
                         <div style={{ display: 'flex', alignItems: 'center', margin: '7px 0px', width: this.state.screenWidth <= 892 ? '79%' : '100%', gap: '12px' }}>
                             <div className={`${this.state.screenWidth <= 892 ? 'small-heading' : 'heading'}`}
-                                onClick={this.openSideBar} style={{ fontSize: '34px', color: Color.darkPurple }}>CRM</div>
+                                onClick={this.openSideBar} style={{ fontSize: '34px', color: Color.darkPurple }}>
+                                <img src={logo} height={'70px'} width='160px' />
+                            </div>
                             <div style={{ width: '100%', }}>
                                 <div style={{ position: 'relative', }} >
                                     <BsSearch color={Color.darkPurple}

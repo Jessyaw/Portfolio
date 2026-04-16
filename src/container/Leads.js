@@ -43,11 +43,22 @@ class Leads extends React.Component {
             sortField: ['leadname', 'email'],
             hoverField: null,
             screenWidth: window.innerWidth,
+            userID: null,
+            roleFilter: [],
         }
     }
 
     componentDidMount() {
-        this.fetchLead();
+
+        let i = JSON.parse(sessionStorage.getItem("data"))
+        console.log(i)
+        let data = {
+            roleID: i?.roleID,
+            userID: i?.id,
+            teamID: i?.teamID
+        }
+        this.setState({ userID: i.id, roleFilter: data })
+        this.fetchLead(data);
     }
     handleSort = (field) => {
         if (!field) return;
@@ -59,39 +70,36 @@ class Leads extends React.Component {
             sortField = field;
             sortOrder = 'asc';
         }
-
         this.setState({ sortField, sortOrder });
     };
-    fetchLead = async () => {
-        try {
-            await fetch(`${ApiUrl.url}/CRM/FetchLead`)
-                .then(res => res.json())
-                .then(json => {
-                    if (json.data) {
-                        this.setState({
-                            LeadDetails: json.data,
-                            LeadDetailsClone: json.data,
-                            isLoading: false,
-                        })
-                    }
-                });
-        } catch (e) {
+    fetchLead = async (data) => {
 
-        }
-        finally {
-            this.setState({
-                isLoading: false,
-            })
+        try {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchLead`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                this.setState({
+                    LeadDetails: json.data,
+                    LeadDetailsClone: json.data,
+                    isLoading: false,
+                })
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
+
+        } catch (e) {
+            this.props.toast.show('F', e.message);
         }
     }
 
     handleAddClick = () => {
         this.setState({ isAdd: this.state.isAdd ? false : true, isUpdate: false })
-        this.fetchLead();
+        this.fetchLead(this.state.roleFilter);
     }
     handleSaveClick = () => {
         this.setState({ isAdd: false, isUpdate: false })
-        this.fetchLead();
+        this.fetchLead(this.state.roleFilter);
     }
     updateLead = (i) => {
         this.setState({
@@ -133,7 +141,7 @@ class Leads extends React.Component {
 
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
-                this.fetchLead();
+                this.fetchLead(this.state.roleFilter);
             }
             else {
                 this.props.toast.show('F', json.message);
@@ -149,7 +157,7 @@ class Leads extends React.Component {
         let data =
         {
             id: 0,
-            userID: this.state.userID || 1,
+            userID: this.state.userID || 0,
             leadname: i.leadname,
             email: i.email,
             mobile: i.mobile,
@@ -164,7 +172,7 @@ class Leads extends React.Component {
 
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
-                this.fetchLead();
+                this.fetchLead(this.state.roleFilter);
             }
             else {
                 this.props.toast.show('F', json.message);

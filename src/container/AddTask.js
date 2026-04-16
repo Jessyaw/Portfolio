@@ -51,11 +51,17 @@ class AddTask extends React.Component {
         }
     }
     componentDidMount() {
-        this.fetchContact();
+        let i = JSON.parse(sessionStorage.getItem("data"))
+        let data = {
+            roleID: i.roleID,
+            userID: i.id,
+            teamID: i.teamID
+        }
+        this.fetchContact(data);
         this.fetchPriority();
         this.fetchStatus();
-        this.fetchUser();
-        this.fetchDeal();
+        this.fetchUser(data);
+        this.fetchDeal(data);
         if ((this.props?.isUpdate || this.props?.isView) && this.props?.data) {
             this.handleUpdate(this.props?.isUpdate, this.props?.isView, this.props?.data)
         }
@@ -90,41 +96,41 @@ class AddTask extends React.Component {
             })
         }
     }
-    fetchContact = async () => {
+    fetchContact = async (data) => {
         try {
-            await fetch(`${ApiUrl.url}/CRM/FetchContacts`)
-                .then(res => res.json())
-                .then(json => {
-                    if (json.data) {
-                        this.setState({
-                            contactData: json.data,
-                            isLoading: false,
-                        })
-                    }
-                });
-        } catch (e) {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchContacts`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                this.setState({
+                    contactData: json.data,
+                    isLoading: false,
+                })
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
 
+        } catch (e) {
+            this.props.toast.show('F', e.message);
         }
-        finally {
-            this.setState({
-                isLoading: false,
-            })
-        }
+
     }
-    fetchDeal = async () => {
+    fetchDeal = async (data) => {
         try {
-            await fetch(`${ApiUrl.url}/CRM/FetchDeals`)
-                .then(res => res.json())
-                .then(json => {
-                    if (json.data) {
-                        this.setState({
-                            dealData: json.data,
-                            isLoading: false,
-                        })
-                    }
-                });
-        } catch (e) {
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchDeals`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                this.setState({
+                    dealData: json.data,
+                    isLoading: false,
+                })
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
 
+        } catch (e) {
+            this.props.toast.show('F', e.message);
         }
         finally {
             this.setState({
@@ -178,22 +184,22 @@ class AddTask extends React.Component {
             })
         }
     }
-    fetchUser = async () => {
+    fetchUser = async (data) => {
         try {
-            await fetch(`${ApiUrl.url}/CRM/FetchLeadUser`)
-                .then(res => res.json())
-                .then(json => {
-                    if (json.data) {
-                        this.setState({
-                            assignedToData: json.data,
-                            isLoading: false,
-                        })
-                    }
-                });
+            const json = await ApiCall(`${ApiUrl.url}/CRM/FetchLeadUser`, 'POST', data);
+            if (json.status === 'S') {
+                this.props.toast.show('S', json.message);
+                this.setState({
+                    assignedToData: json.data,
+                    isLoading: false,
+                })
+            }
+            else {
+                this.props.toast.show('F', json.message);
+            }
+
         } catch (e) {
-            this.setState({
-                failureMessage: e.message
-            })
+            this.props.toast.show('F', e.message);
         }
         finally {
             this.setState({

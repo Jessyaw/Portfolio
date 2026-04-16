@@ -25,7 +25,7 @@
 }
 
 .signin-card {
-  padding: 50px;
+  padding: 25px 50px;
   display: flex;
   gap: 20px;
   flex-direction: column;

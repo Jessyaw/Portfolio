@@ -223,29 +223,37 @@ class CRMREports extends React.Component {
         }
     }
     handleFilter = async (isDeals) => {
+        let i = JSON.parse(sessionStorage.getItem("data"))
         let data = {
-            id: 0,
-            isDeals: isDeals,
-            startDate: this.state.startDate,
-            endDate: this.state.endDate,
-            stageID: this.state.stageID,
-            statusID: this.state.statusID,
-            title: "",
-            leadName: "",
-            amount: 0,
-            stage: "",
-            closeDate: null,
-            dueDate: null,
-            taskStatus: "",
-            taskPriority: "",
-            totalDeals: 0,
-            totalTasks: 0,
-            totalRevenue: 0,
-            completed: 0,
-            pending: 0,
-            overDue: 0,
-            totalWon: 0,
-            totalLost: 0
+            crmFilters: {
+                roleID: i.roleID,
+                userID: i.id,
+                teamID: i.teamID
+            },
+            filterDealsOrTasks: {
+                id: 0,
+                isDeals: isDeals,
+                startDate: this.state.startDate,
+                endDate: this.state.endDate,
+                stageID: this.state.stageID,
+                statusID: this.state.statusID,
+                title: "",
+                leadName: "",
+                amount: 0,
+                stage: "",
+                closeDate: null,
+                dueDate: null,
+                taskStatus: "",
+                taskPriority: "",
+                totalDeals: 0,
+                totalTasks: 0,
+                totalRevenue: 0,
+                completed: 0,
+                pending: 0,
+                overDue: 0,
+                totalWon: 0,
+                totalLost: 0
+            }
         }
         try {
             const json = await ApiCall(`${ApiUrl.url}/CRM/FilterDealsOrTasks`, 'POST', data);
@@ -257,11 +265,11 @@ class CRMREports extends React.Component {
                 this.setState((prevState) => ({
                     dealStat: prevState.dealStat.map(i => ({
                         ...i,
-                        count: stat[i.key] ?? 0
+                        count: stat[i.key] || 0
                     })),
                     taskStat: prevState.taskStat.map(i => ({
                         ...i,
-                        count: stat[i.key] ?? 0
+                        count: stat[i.key] || 0
                     })),
                     dealReport: json.data,
                     taskReport: json.data,
