@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Portfolio/static/css/main.72acccec.css",
-    "main.js": "/Portfolio/static/js/main.e90ffa08.js",
+    "main.js": "/Portfolio/static/js/main.25504102.js",
     "static/js/453.e6b06965.chunk.js": "/Portfolio/static/js/453.e6b06965.chunk.js",
     "static/media/C23.png": "/Portfolio/static/media/C23.214cfc45bf7d2988fc1b.png",
     "static/media/C39.png": "/Portfolio/static/media/C39.944456f451de97785baa.png",
@@ -54,7 +54,7 @@
     "static/media/C5.png": "/Portfolio/static/media/C5.ee6de6e333ba4fef5f0d.png",
     "static/media/Developer.svg": "/Portfolio/static/media/Developer.30eb963e883a63f08421c128422f048e.svg",
     "static/media/SQL.svg": "/Portfolio/static/media/SQL.85efb0989bd7449012e10b0046041393.svg",
-    "static/media/CRM_LOGO.svg": "/Portfolio/static/media/CRM_LOGO.be6cbb5a16627a90d1436df25e6a888f.svg",
+    "static/media/CRM_LOGO.svg": "/Portfolio/static/media/CRM_LOGO.298374cc6b1ae3d1b235ea5e908af376.svg",
     "static/media/Canva.svg": "/Portfolio/static/media/Canva.6decd787058194ade343e385d727f815.svg",
     "static/media/React.svg": "/Portfolio/static/media/React.4e0c97009b885bfa75c5412262a46f5f.svg",
     "static/media/Java.svg": "/Portfolio/static/media/Java.a751bad6c81431ab4dd6fa6632a65540.svg",
@@ -66,11 +66,11 @@
     "static/media/HTML.svg": "/Portfolio/static/media/HTML.8664168d5bc90b1a24396f85aadbf623.svg",
     "static/media/Figma.svg": "/Portfolio/static/media/Figma.2c2c9d7ff067a3272fbcb7e4700d15a6.svg",
     "main.72acccec.css.map": "/Portfolio/static/css/main.72acccec.css.map",
-    "main.e90ffa08.js.map": "/Portfolio/static/js/main.e90ffa08.js.map",
+    "main.25504102.js.map": "/Portfolio/static/js/main.25504102.js.map",
     "453.e6b06965.chunk.js.map": "/Portfolio/static/js/453.e6b06965.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.72acccec.css",
-    "static/js/main.e90ffa08.js"
+    "static/js/main.25504102.js"
   ]
 }
