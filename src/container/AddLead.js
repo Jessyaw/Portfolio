@@ -187,8 +187,8 @@ class AddLead extends React.Component {
             let data =
             {
                 id: this.state.isUpdate ? this.state.updateID : 0,
-                userID: this.state.userID || 0,
-                teamID: this.state.teamID || 0,
+                userID: this.state.userID ? this.state.userID : null,
+                teamID: this.state.teamID ? this.state.teamID : null,
                 leadname: this.state.name,
                 email: this.state.email,
                 mobile: this.state.mobile,

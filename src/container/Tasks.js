@@ -103,7 +103,9 @@ class Tasks extends React.Component {
     handleSave = async () => {
         this.fetchTask(this.state.roleFilter);
         this.setState({
-            isAdd: false
+            isAdd: false,
+            isUpdate: false,
+            isView: false,
         })
 
     }

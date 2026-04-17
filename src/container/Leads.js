@@ -141,6 +141,7 @@ class Leads extends React.Component {
 
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
+                this.setState({ isDelete: false })
                 this.fetchLead(this.state.roleFilter);
             }
             else {

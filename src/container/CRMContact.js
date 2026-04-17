@@ -58,7 +58,8 @@ class CRMContacts extends React.Component {
             sortField: ['leadname', 'email'],
             hoverField: null,
             screenWidth: window.innerWidth,
-            userID: null
+            userID: null,
+            roleFilter: [],
 
         }
     }
@@ -70,7 +71,7 @@ class CRMContacts extends React.Component {
             userID: i.id,
             teamID: i.teamID
         }
-        this.setState({ userID: i.id })
+        this.setState({ userID: i.id, roleFilter: data })
         this.fetchContact(data);
         this.fetchSource();
     }
@@ -190,7 +191,7 @@ class CRMContacts extends React.Component {
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
                 this.handleClear();
-                this.fetchContact();
+                this.fetchContact(this.state.roleFilter);
                 this.setState({
                     isUpdate: false,
                 })
@@ -227,8 +228,8 @@ class CRMContacts extends React.Component {
             const json = await ApiCall(`${ApiUrl.url}/CRM/DeleteContact`, 'POST', deleteID);
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
-                this.fetchContact();
-
+                this.fetchContact(this.state.roleFilter);
+                this.setState({ isDelete: false })
             }
             else {
                 this.props.toast.show('F', json.message);
@@ -261,7 +262,7 @@ class CRMContacts extends React.Component {
         this.setState({
             isAddDeal: false
         })
-        this.fetchContact();
+        this.fetchContact(this.state.roleFilter);
     }
     closeContact = () => {
         this.setState({

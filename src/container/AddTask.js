@@ -404,6 +404,7 @@ class AddTask extends React.Component {
             dueDate: '',
             priority: '',
             status: '',
+            deal: '',
         })
     }
     render() {

@@ -150,7 +150,7 @@ class AddDeal extends React.Component {
                 stage: "",
                 contact: "",
                 closeDate: date.toISOString(),
-                teamID: this.state.teamID,
+                teamID: this.state.teamID ? this.state.teamID : null,
             }
             this.handleAddUpdateDeal(data);
         }
