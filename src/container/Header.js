@@ -27,8 +27,7 @@ class Header extends React.Component {
                 <div style={{ backgroundColor: Color.whiteFont, display: 'flex', height: '79px', position: 'fixed', left: 0, right: 0, zIndex: 1 }}>
                     <div style={{ display: 'flex', position: 'fixed', right: 20, left: this.state.screenWidth <= 892 ? 70 : 230, backgroundColor: '', zIndex: 1000, }}>
                         <div style={{ display: 'flex', alignItems: 'center', margin: '7px 0px', width: this.state.screenWidth <= 892 ? '79%' : '100%', gap: '12px' }}>
-                            <div className={`${this.state.screenWidth <= 892 ? 'small-heading' : 'heading'}`}
-                                onClick={this.openSideBar} style={{ fontSize: '34px', color: Color.darkPurple }}>
+                            <div>
                                 <img src={logo} height={'70px'} width='160px' />
                             </div>
                             <div style={{ width: '100%', }}>
