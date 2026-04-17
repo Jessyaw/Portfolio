@@ -62,6 +62,7 @@ class Deals extends React.Component {
             hoverField: null,
             screenWidth: window.innerWidth,
             teamID: null,
+            roleFilter: [],
         }
     }
 
@@ -72,7 +73,8 @@ class Deals extends React.Component {
             userID: i.id,
             teamID: i.teamID
         }
-        this.setState({ teamID: i.id })
+
+        this.setState({ teamID: i.id, roleFilter: data })
         this.fetchDeals(data);
         this.fetchStage();
         this.fetchDealsStat();
@@ -171,7 +173,7 @@ class Deals extends React.Component {
         this.setState({
             isUpdate: false,
         })
-        this.fetchDeals();
+        this.fetchDeals(this.state.roleFilter);
     }
     closeDeal = (i) => {
         this.setState({
@@ -198,7 +200,7 @@ class Deals extends React.Component {
                 this.setState({
                     isDelete: false
                 })
-                this.fetchDeals();
+                this.fetchDeals(this.state.roleFilter);
             }
             else {
                 this.props.toast.show('F', json.message);
@@ -298,7 +300,7 @@ class Deals extends React.Component {
 
             if (json.status === 'S') {
                 this.props.toast.show('S', json.message);
-                this.fetchDeals();
+                this.fetchDeals(this.state.roleFilter);
             }
             else {
                 this.props.toast.show('F', json.message);
